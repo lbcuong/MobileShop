@@ -1,0 +1,52 @@
+﻿@model MobileShop.Areas.Admin.Models.Review
+
+@{
+    ViewData["Title"] = "Create Review";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>User Management / Reviews / Create</h5>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-2">
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="UserRole" class="control-label"></label>
+                <input asp-for="UserRole" class="form-control" />
+                <span asp-validation-for="UserRole" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="ItemImageId" class="control-label"></label>
+                <select asp-for="ItemImageId" class="form-control" asp-items="ViewBag.ItemImageId"></select>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Comment" class="control-label"></label>
+                <input asp-for="Comment" class="form-control" />
+                <span asp-validation-for="Comment" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Rate" class="control-label"></label>
+                <input asp-for="Rate" class="form-control" />
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="CommentDate" class="control-label"></label>
+                <input asp-for="CommentDate" class="form-control" />
+                <span asp-validation-for="CommentDate" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group mb-2 d-flex justify-content-between">
+                <input type="submit" value="Create" class="btn btn-info w-50 text-white me-5" />
+                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

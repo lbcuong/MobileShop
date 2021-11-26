@@ -1,0 +1,165 @@
+﻿@model List<MobileShop.Models.CartItem>
+
+@{
+    ViewData["Title"] = "Cart Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="text-secondary">@ViewData["Title"]</h5>
+
+@if (Model.Count > 0)
+{
+    decimal subtotal = 0;
+
+    <div class="row">
+        <div class="col-8">
+            <table class="table lh-sm">
+                @foreach (var cartItem in Model)
+                {
+                    <tr class="row">
+                        <td class="d-flex justify-content-start col-7" style="font-size: 0.9rem;">
+                            <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Images)">
+                            <text>
+                                <p class="mb-2">
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Item.Name)
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Storage)
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.RAM) RAM
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.ItemColor.Name)
+                                </p>
+                                @if (cartItem.Item.Stock.Quantity < 10 && cartItem.Item.Stock.Quantity >= 1)
+                                {
+                                    <p class="text-danger mb-2">Only @Html.DisplayFor(modelItem => cartItem.Item.Stock.Quantity) item(s) in stock</p>
+                                }
+                                else if (cartItem.Item.Stock.Quantity == 0)
+                                {
+                                    <p class="text-danger mb-2">Out of stock</p>
+                                }
+                                else
+                                {
+                                    <p></p>
+                                }
+                            </text>
+
+                        </td>
+                        <td class="col-2">
+                            <div class="input-group">
+                                <input class="btn btn-secondary btn-sm minus" type='button' id="minus" data-min="0" value='–' />
+                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemImageId}")">
+                                    @for (var quantity = 0; quantity <= @cartItem.Item.Stock.Quantity; quantity++)
+                                    {
+                                        <option value="@quantity">@quantity</option>
+                                    }
+                                </select>
+                                <input class="btn btn-secondary btn-sm plus" type='button' id="plus" data-max="@cartItem.Item.Stock.Quantity" value='+' />
+                            </div>
+                        </td>
+                        <td class="d-flex flex-column justify-content-between text-end col-3">
+                            <span>@Html.DisplayFor(modelItem => cartItem.Item.Stock.Price) ₫</span>
+                            <span>
+                                <button class="btn text-secondary updatecartitem"
+                                        data-itemId="@cartItem.Item.ItemImageId">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+                                <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
+                                   asp-route-itemId="@cartItem.Item.ItemImageId" class="btn text-secondary">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </a>
+                            </span>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="col-4">
+            <table class="table table-borderless border-start lh-sm">
+                <tr>
+                    <td><b>Order Summary</b></td>
+                </tr>
+                @foreach (var cartItem in Model)
+                {
+                    var totalPrice = cartItem.Quantity * cartItem.Item.Stock.Price;
+                    subtotal += totalPrice;
+                    <tr>
+                        <td class="text-secondary" style="font-size: 0.9rem;">
+                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Item.Name) (@cartItem.Quantity item(s))
+                            <br />
+                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Storage)
+                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.RAM) RAM
+                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.ItemColor.Name)
+
+                        </td>
+                        <td>@(totalPrice.ToString("n0")) ₫</td>
+                    </tr>
+                }
+                <tr>
+                    <td class="text-secondary">Total</td>
+                    <td>@(subtotal.ToString("n0")) ₫</td>
+                </tr>
+
+                <tr class="border-top">
+                    <td colspan="2">
+                        <a asp-area="" asp-controller="CheckOut" asp-action="CheckOut" class="btn btn-info text-light">
+                            Confirm Cart
+                        </a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+          $(document).ready(function () {
+              $(".updatecartitem").click(function (event) {
+                  event.preventDefault();
+                  var itemId = $(this).attr("data-itemId");
+                  var quantity = $("#quantity-" + itemId).val();
+                  $.ajax({
+                      type: "POST",
+                      dataType: 'JSON',
+                      contentType: "application/x-www-form-urlencoded",
+                      url:"@Url.Action("UpdateCart", "Cart")",
+                      data: {
+                          itemId: itemId,
+                          Quantity:quantity
+                      },
+                      success: function (response) {
+                          window.location.href = response.redirectToUrl;
+                      }
+                  });
+              });
+
+              $(".plus").click(function () {
+                  if ($(this).prev().val() < $(this).data("max")) {
+                      $(this).prev().val(+$(this).prev().val() + 1);
+                  }
+              });
+
+              $(".minus").click(function () {
+                  if ($(this).next().val() > $(this).data("min")) {
+                      $(this).next().val(+$(this).next().val() - 1);
+                  }
+              });
+          });
+        </script>
+    }
+
+}
+else
+{
+    <div class="row">
+        <p class="text-danger col d-flex justify-content-center align-items-center">
+            <span>
+                Your cart is empty <i class="fa-solid fa-circle-xmark"></i>
+            </span>
+        </p>
+    </div>
+    <div class="row">
+        <a class="col text-decoration-none text-dark d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
+            <span>
+                Go Shopping <i class="fa-solid fa-cart-arrow-down"></i>
+            </span>
+        </a>
+    </div>
+
+}

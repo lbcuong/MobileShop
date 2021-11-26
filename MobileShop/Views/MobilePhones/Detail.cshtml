@@ -1,0 +1,635 @@
+﻿@model MobileShop.Areas.Admin.Models.ItemImages
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
+@{
+    ViewData["Title"] = "MobilePhoneDetail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var reviews = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Reviews;
+    var replies = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Replies;
+
+    List<int> ratingList = new List<int>();
+    foreach (var rating in reviews)
+    {
+        ratingList.Add(rating.Rate);
+    }
+
+    int[] ratingArray = ratingList.ToArray();
+}
+<div class="container product-option mt-3 mb-3">
+    <div class="card border-0">
+        <div class="row g-2">
+            <div class="col-md-4">
+                <div class="main-product-image d-flex justify-content-center align-items-center">
+                    <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.Images)">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-3">
+                    <h6 class="text-uppercase fw-bold">
+                        @Html.DisplayFor(model => model.Stock.MobilePhone.Item.Name)
+                        (
+                        @Html.DisplayFor(model => model.Stock.MobilePhone.Storage)
+                        /
+                        @Html.DisplayFor(model => model.Stock.MobilePhone.RAM) RAM
+                        )
+                        @Html.DisplayFor(model => model.Stock.ItemColor.Name)
+                    </h6>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+                        <p>Rating (*** Chức năng đánh giá ***)</p>
+                        <i class="fa-regular fa-heart mb-auto"></i>
+                    </div>
+                    <h5>@Html.DisplayFor(model => model.Stock.Price) ₫</h5>
+                    <div class="options border-top border-bottom mt-4 mb-3 py-2">
+                        <div class="row mb-2">
+                            <span class="fw-bold mb-1">Storage</span>
+                            <div class="col">
+                                <div class="btn-group m-auto">
+                                    <input type="radio" class="btn-check" id="storage" checked>
+                                    <label class="btn btn-sm me-1 py-2" for="storage">
+                                        @Html.DisplayFor(modelItem => Model.Stock.MobilePhone.Storage)
+                                        <i class="fa-solid fa-check"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <span class="fw-bold mb-1">RAM</span>
+                            <div class="col">
+                                <div class="btn-group m-auto">
+                                    <input type="radio" class="btn-check" id="ram" checked>
+                                    <label class="btn btn-sm me-1 py-2" for="ram">
+                                        @Html.DisplayFor(modelItem => Model.Stock.MobilePhone.RAM)
+                                        <i class="fa-solid fa-check"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <span class="fw-bold mb-1">Color</span>
+                            <div class="col">
+                                <div class="btn-group m-auto">
+                                    <input type="radio" class="btn-check" id="color" checked>
+                                    <label class="btn btn-sm me-1 py-2" for="color">
+                                        @Html.DisplayFor(modelItem => Model.Stock.ItemColor.Name)
+                                        <i class="fa-solid fa-check"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <span class="mb-2">Quantity</span>
+                        <div class="d-flex flex-row justify-content-center w-100">
+                            <div class="col input-group mb-3">
+                                <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="0" value='–' />
+                                <select class="text-center quantity-control w-25" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" id="@($"quantity-{@Model.ItemImageId}")">
+                                    @for (var quantity = 0; quantity <= Model.Stock.Quantity; quantity++)
+                                    {
+                                        if (quantity != 1)
+                                        {
+                                            <option value="@quantity">@quantity</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@quantity" selected>@quantity</option>
+                                        }
+                                    }
+                                </select>
+                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Stock.Quantity" value='+' />
+                                @if (Model.Stock.Quantity < 10 && Model.Stock.Quantity >= 1)
+                                {
+                                    <small class="text-danger m-auto ms-5">
+                                        Only @Html.DisplayFor(modelItem => Model.Stock.Quantity) item(s) in stock
+                                    </small>
+                                }
+                                else if (Model.Stock.Quantity == 0)
+                                {
+                                    <small class="text-danger m-auto ms-5">
+                                        Out of stock
+                                    </small>
+                                }
+                                else
+                                {
+                                    <small class="text-muted m-auto ms-5">In Stock</small>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.Stock.Quantity != 0)
+                    {
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <div class="options d-flex flex-row mt-3 gap-3">
+                                <button class="btn btn-info w-50">
+                                    Buy Now
+                                </button>
+                                <button class="btn btn-secondary w-50 addtocart" data-itemId="@Model.ItemImageId">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="options d-flex flex-row mt-3 gap-3">
+                                <a class="btn btn-info text-light w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                                    Buy Now
+                                </a>
+                                <a class="btn btn-secondary w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                                    Add to Cart
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="lh-sm">
+                    <h6 class="text-uppercase">Specifications</h6>
+                    <table class="table table-borderless table-detail">
+                        <tbody>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Screen)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Screen)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.OS)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.OS)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.MainCamera)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.MainCamera)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.SelfieCamera)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.SelfieCamera)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Chipset)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Chipset)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.RAM)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.RAM)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Storage)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Storage)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.SIM)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.SIM)</td>
+                            </tr>
+                            <tr>
+                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Pin)</th>
+                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Pin)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container product-review border-top mt-3 mb-3">
+    <div class="card border-0 pt-3">
+        <div class="row g-2 d-flex justify-content-center">
+            <div class="col-md-12 px-4">
+                <h5 class="text-left">
+                    Ratings & Reviews of
+                    @Html.DisplayFor(model => model.Stock.MobilePhone.Item.Name)
+                    (
+                    @Html.DisplayFor(model => model.Stock.MobilePhone.Storage)
+                    /
+                    @Html.DisplayFor(model => model.Stock.MobilePhone.RAM) RAM
+                    )
+                    @Html.DisplayFor(model => model.Stock.ItemColor.Name)
+                </h5>
+                <div class="row text-center">
+                    <div class="col-md-3 d-flex flex-column my-auto">
+                        <div>
+                            <h2 class="text-secondary"><text class="text-warning">@ViewBag.averageRating</text>/5</h2>
+                            <div class="average-rating mx-auto mb-1" id="average-rating" data-rate="@ViewBag.averageRating"></div>
+                        </div>
+                        <h6 class="text-muted">@ViewBag.CountReview Rating(s)</h6>
+                    </div>
+                    <div class="col-md-6 d-flex flex-column my-auto">
+                        <div class="d-flex justify-content-center">
+                            <table>
+                                <tr>
+                                    <td class="rating-label">
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                    </td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-5"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">@ViewBag.FiveStar</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                    </td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-4"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">@ViewBag.FourStar</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                    </td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-3"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">@ViewBag.ThreeStar</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                    </td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-2"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">@ViewBag.TwoStar</td>
+                                </tr>
+                                <tr>
+                                    <td class="rating-label">
+                                        <span class="fa-solid fa-star star-active"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                        <span class="fa-solid fa-star star-inactive"></span>
+                                    </td>
+                                    <td class="rating-bar">
+                                        <div class="bar-container">
+                                            <div class="bar-1"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">@ViewBag.OneStar</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <div class="col-md-3 d-flex justify-content-center my-auto" data-bs-toggle="modal" data-bs-target="#ModalReview">
+                            <button type="button" class="btn btn-secondary w-75 text-light">Write a Review</button>
+                        </div>
+
+                        <!-- Review Modal -->
+                        <form asp-area="" asp-controller="MobilePhones" asp-action="SendReview">
+                            <div class="modal fade" id="ModalReview" tabindex="-1" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content rounded-0">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-secondary">Your Review</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="card-body text-center">
+                                                <img src="~/lib/images/Other/review-png.png" height="100" width="100">
+                                                <div class="comment-box text-center">
+                                                    <h5 class="text-secondary">Thanks you for sharing your feeling!</h5>
+
+                                                    <div class="mx-auto mb-3" id="rateYo"></div>
+                                                    <input type="hidden" name="Rate" id="rating" />
+
+                                                    <div>
+                                                        <textarea class="form-control border-warning" name="Comment" placeholder="Write a review here!" rows="4"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <input type="submit" value="Send" class="btn btn-warning text-secondary px-5">
+                                            <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    }
+                    else
+                    {
+                        <div class="col-md-3 d-flex justify-content-center my-auto">
+                            <a class="btn btn-secondary w-75 text-light" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                                Write a Review
+                            </a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <hr>
+        @{ int commentbox = 1;}
+        @foreach (var review in reviews)
+        {
+            <div class="row g-2 d-flex justify-content-center border-bottom">
+                <div class="col-md-12 px-4">
+                    <div class="row">
+                        <div class="col">
+                            <div class="d-flex flex-start">
+                                <div class="mb-3">
+                                    <p class="mb-1">
+                                        @if (review.UserRole == "Admin")
+                                        {
+                                            <span class="text-secondary">
+                                                <i class="fa-solid fa-user text-primary"></i>
+                                                @Html.DisplayFor(model => review.UserName)
+                                            </span>
+                                        }
+                                        else if (review.UserRole == "Staff")
+                                        {
+                                            <span class="text-secondary">
+                                                <i class="fa-solid fa-user text-info"></i>
+                                                @Html.DisplayFor(model => review.UserName)
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-secondary">
+                                                <i class="fa-solid fa-user text-secondary"></i>
+                                                @Html.DisplayFor(model => review.UserName)
+                                            </span>
+                                        }
+                                        <span class="small text-secondary">
+                                            - @Html.ValueFor(model => review.CommentDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                                        </span>
+                                    </p>
+                                    <div class="rating" id="@review.ReviewId" data-rating="@review.ReviewId" data-rate="@review.Rate"></div>
+                                    <p class="small mb-0">
+                                        @Html.DisplayFor(model => review.Comment)
+                                    </p>
+                                    @if (SignInManager.IsSignedIn(User))
+                                    {
+                                        <a class="text-secondary small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
+                                        <div class="form-comment-box" id="commentbox-@commentbox">
+                                            <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
+                                                <div class="comment-box d-flex align-items-center">
+                                                    <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
+
+                                                    <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
+                                                    <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                                    <input type="hidden" name="ReviewId" value="@review.ReviewId" />
+                                                </div>
+                                            </form>
+                                        </div>
+                                        commentbox++;
+                                    }
+                                    else
+                                    {
+                                        <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">Reply</a>
+                                    }
+                                    <div class="border-start">
+                                        @foreach (var reply in review.Replies)
+                                        {
+                                            <div class="d-flex flex-start mt-3 ms-5">
+                                                <div>
+                                                    <div class="d-flex justify-content-between align-items-center">
+                                                        <p class="mb-1">
+                                                            @if (reply.UserRole == "Admin")
+                                                            {
+                                                                <span class="text-secondary">
+                                                                    <i class="fa-solid fa-user text-primary"></i>
+                                                                    @Html.DisplayFor(model => reply.UserName)
+                                                                </span>
+                                                            }
+                                                            else if (reply.UserRole == "Staff")
+                                                            {
+                                                                <span class="text-secondary">
+                                                                    <i class="fa-solid fa-user text-info"></i>
+                                                                    @Html.DisplayFor(model => reply.UserName)
+                                                                </span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="text-secondary">
+                                                                    <i class="fa-solid fa-user text-secondary"></i>
+                                                                    @Html.DisplayFor(model => reply.UserName)
+                                                                </span>
+                                                            }
+                                                            <span class="small text-secondary">
+                                                                - @Html.ValueFor(model => reply.ReplyDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    <p class="small mb-0">
+                                                        @Html.DisplayFor(model => reply.Comment)
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                    @if (review.Replies.Count != 0)
+                                    {
+                                        @if (SignInManager.IsSignedIn(User))
+                                        {
+                                            <a class="text-secondary ms-5 mt-1 small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
+                                            <div class="form-comment-box ms-5" id="commentbox-@commentbox">
+                                                <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
+                                                    <div class="comment-box d-flex align-items-center">
+                                                        <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
+
+                                                        <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
+                                                        <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                                        <input type="hidden" name="ReviewId" value="@review.ReviewId" />
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            commentbox++;
+                                        }
+                                        else
+                                        {
+                                            <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">Reply</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Send data to AddToCart() function
+            $(".addtocart").click(function (event) {
+                  event.preventDefault();
+                  var itemId = $(this).attr("data-itemId");
+                  var quantity = $("#quantity-" + itemId).val();
+                  $.ajax({
+                      type: "POST",
+                      dataType: 'JSON',
+                      contentType: "application/x-www-form-urlencoded",
+                      url:"@Url.Action("AddToCart", "Cart")",
+                      data: {
+                          itemId: itemId,
+                          Quantity:quantity
+                      },
+                      success: function (response) {
+                          alert(quantity + " Item(s) has been added to your cart!")
+                          window.location.href = response.redirectToUrl;
+
+                      }
+                  });
+              });
+
+            // Plus button
+            $("#plus").on('click', function () {
+                if ($(".quantity-control").val() < $(this).data("max")) {
+                    $(".quantity-control").val(Number($(".quantity-control").val()) + 1);
+                }
+            });
+
+            // Minus button
+            $("#minus").on('click', function () {
+                if ($(".quantity-control").val() > $(this).data("min")) {
+                    $(".quantity-control").val(Number($(".quantity-control").val()) - 1);
+                }
+            });
+
+            // Star Rating
+            $(function () {
+
+                $("#rateYo").rateYo({
+                    rating: 0,
+                    numStars: 5,
+                    maxValue: 5,
+                    fullStar: true,
+                    onChange: function (rating, rateYoInstance)
+                    {
+                        $('#rating').val(rating);
+                    }
+                });
+
+            });
+
+            $(".rating").each(function () {
+                var ratingId = parseInt($(this).attr("data-rating"));
+                var rating = $(this).attr("data-rate");
+
+                $('#' + ratingId).rateYo({
+                    rating: rating,
+                    readOnly: true,
+                    starWidth: "20px"
+                });
+            });
+
+            $(".average-rating").each(function () {
+                var rating = $(this).attr("data-rate");
+
+                $('#average-rating').rateYo({
+                    rating: rating,
+                    readOnly: true
+                });
+            });
+
+            $(".commentBox").each(function (e) {
+                $(this).keypress(function (e) {
+                    if (e.which === 13 && !e.shiftKey) {
+                        e.preventDefault();
+
+                        $(this).closest("form").submit();
+                    }
+                });
+            });
+
+            $(".comment-box-expand").click(function (e) {
+                e.preventDefault();
+                var rating = $(this).attr("data-expand");
+                $("#commentbox-" + rating).show();
+            });
+
+            initializeStatistics();
+        });
+
+        var ratings = JSON.parse('@Newtonsoft.Json.JsonConvert.SerializeObject(ratingArray)');
+        // console.log(ratings);
+        function initializeStatistics() {
+            if (ratings.length === 0) {
+                console.log("There are no ratings");
+                return;
+            }
+            // convert ratings to stars
+            var stars = {
+                1: [],
+                2: [],
+                3: [],
+                4: [],
+                5: []
+            };
+            // add the ratings to its respective star array
+            ratings.forEach(function (rate) {
+                var star = getStarFromScore(rate);
+                stars[star].push(rate)
+            })
+
+            // Find largest star in scope 1-5 star
+            var largestRate = 0;
+            for (var i = 1; i <= 5; i++) {
+                if (stars[i].length > largestRate) {
+                    largestRate = stars[i].length
+                }
+            }
+
+            // we know there will always be 5 stars / bars
+            for (var i = 1; i <= 5; i++) {
+                var bar = $(".bar-" + i);
+                var desc = $("#desc" + i);
+                var width = stars[i].length / largestRate;
+                bar.width((width * 100) + "%");
+                desc.html(stars[i].length)
+            }
+
+            function getStarFromScore(score) {
+                switch (true) {
+                    case (score == 1):
+                        return 1;
+                    case (score == 2):
+                        return 2;
+                    case (score == 3):
+                        return 3;
+                    case (score == 4):
+                        return 4;
+                    default:
+                        return 5;
+                }
+            }
+        }
+    </script>
+}

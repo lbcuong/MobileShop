@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mobile Shop</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="~/lib/jquery/jquery.rateyo.min.css">
+    <link rel="stylesheet" href="~/Main/css/main.css">
+</head>
+<body>
+    <header class="sticky-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom shadow-sm mb-3 bg-body rounded">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MobileShop</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="MobilePhones" asp-action="Index">Mobiles</a>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#SearchBox">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                    <partial name="_LoginPartial" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="modal fade" id="SearchBox" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">We will help you to find something!</h5>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form asp-area="" asp-controller="MobilePhones" asp-action="Index">
+                        <div class="input-group justify-content-center">
+                            <input class="search-field border-0 w-75" type="text" placeholder="  Filtering ..."
+                                   name="SearchString" />
+                            <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - MobileShop - <a asp-area="" asp-controller="Paypal" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/jquery/jquery.rateyo.min.js"></script>
+    <script type="text/javascript" src="~/Main/js/main.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

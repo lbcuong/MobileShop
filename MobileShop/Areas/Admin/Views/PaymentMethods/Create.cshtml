@@ -1,0 +1,43 @@
+﻿@model MobileShop.Areas.Admin.Models.PaymentMethod
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Payment Management / Payment Methods / Create</h5>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group mb-2">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" class="form-control" accept="lib/images/logo/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="UpdatedDate" class="control-label"></label>
+                <input asp-for="UpdatedDate" class="form-control" />
+                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group mb-2 d-flex justify-content-between">
+                <input type="submit" value="Create" class="btn btn-info w-50 text-white me-5" />
+                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

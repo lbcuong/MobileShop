@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.UserInRole>
+
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>User Management / Users</h5>
+</div>
+
+<div class="d-flex justify-content-between m-0 p-0 mb-2">
+    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+    {
+        <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New User</a>
+    }
+    <form asp-controller="UserManagers" asp-action="Index">
+        <div class="input-group">
+            <input class="search-field border-0" type="text" placeholder="  Filtering ..." name="SearchString" />
+            <button class="btn btn-info text-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive m-0 p-0">
+    <table class="table table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UserNameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Username)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UserNameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Role)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["EmailSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Email)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["EmailConfirmedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.EmailConfirmed)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PhoneNumberSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PhoneNumber)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PhoneNumberConfirmedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PhoneNumberConfirmed)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Name)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["GenderSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Gender)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["DOBSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.DOB)
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => @item.Username)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.EmailConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.PhoneNumberConfirmed)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => @item.Gender)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => item.DOB)
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+

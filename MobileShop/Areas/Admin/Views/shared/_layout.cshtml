@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Dashboard - @ViewData["Title"]</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/lib/fontawesome-free/css/all.css">
+    <link rel="stylesheet" href="~/Admin/css/Admin.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row header-bar sticky-top">
+            <div class="d-flex justify-content-start align-items-center">
+                <a class="nav-link text-light fs-4" style="width: 45rem;" aria-current="page" asp-area="Admin" asp-controller="Home" asp-action="Index">
+                    Mobile Shop
+                </a>
+                <a class="nav-link text-light fs-6">
+                    Welcome "@User.Identity.Name" to Dashboard!
+                </a>
+                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Shopping Page</a>
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
+                </form>
+            </div>
+        </div>
+        <div class="row g-0">
+            <div class="sidebar col-md-2 pt-1">
+                <ul class="nav flex-column">
+                    <li class="nav-item mt-2">
+                        <a class="nav-link text-light hover-underline-animation"
+                           asp-area="Admin" asp-controller="Home" asp-action="Index">
+                            <i class="fa-solid fa-house fs-5"></i>
+                            <span>Overview</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
+                           href="#collapseOrder" role="button" aria-expanded="false"
+                           aria-controls="collapseOrder">
+                            <i class="fa-solid fa-file fs-5"></i>
+                            Order Management
+                        </a>
+                        <div class="collapse" id="collapseOrder">
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Home" asp-action="">
+                                Import Orders
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Home" asp-action="">
+                                Sales Orders
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Stocks" asp-action="Index">
+                                Stock
+                            </a>
+                            <br />
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
+                           href="#collapsePayment" role="button" aria-expanded="false"
+                           aria-controls="collapsePayment">
+                            <i class="fa-solid fa-credit-card fs-5"></i>
+                            PaymentManagement
+                        </a>
+                        <div class="collapse" id="collapsePayment">
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="PaymentMethods" asp-action="Index">
+                                Payment Method
+                            </a>
+                            <br />
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
+                           href="#collapseProduct" role="button" aria-expanded="false"
+                           aria-controls="collapseProduct">
+                            <i class="fa-solid fa-list fs-5"></i>
+                            Item Management
+                        </a>
+                        <div class="collapse" id="collapseProduct">
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="ItemCategories" asp-action="Index">
+                                Item Categories
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="ItemGroups" asp-action="Index">
+                                Item Groups
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="ItemColors" asp-action="Index">
+                                Item Colors
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="ItemImages" asp-action="Index">
+                                Item Images
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Items" asp-action="Index">
+                                Items
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="MobilePhones" asp-action="Index">
+                                Mobile Phones
+                            </a>
+                            <br />
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
+                           href="#collapseUser" role="button" aria-expanded="false"
+                           aria-controls="collapseUser">
+                            <i class="fa-solid fa-user-group fs-5"></i>
+                            User Management
+                        </a>
+                        <div class="collapse" id="collapseUser">
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="RoleManagers" asp-action="Index">
+                                Roles
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="UserManagers" asp-action="Index">
+                                Users
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Reviews" asp-action="Index">
+                                Reviews
+                            </a>
+                            <br />
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="ReplyReviews" asp-action="Index">
+                                Reply Reviews
+                            </a>
+                            <br />
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="container-fluid">
+                <div class="content p-4">
+                    <div class="row">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/lib/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="~/lib/chart/dist/chart.js"></script>
+    <script type="text/javascript" src="~/Admin/js/Admin.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
+

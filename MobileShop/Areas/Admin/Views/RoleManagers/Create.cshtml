@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+@{
+    ViewData["Title"] = "Create Role";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>User Management / Roles / Create</h5>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Create">
+            <div class="form-group mb-2">
+                <label name="roleName" class="control-label">Role Name</label>
+                <input name="roleName" class="form-control" />
+            </div>
+            <br>
+            <div class="form-group d-flex justify-content-between">
+                <input type="submit" value="Create" class="btn btn-info w-50 text-white me-5" />
+                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>

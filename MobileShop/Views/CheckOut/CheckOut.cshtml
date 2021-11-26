@@ -1,0 +1,89 @@
+﻿@model MobileShop.Models.CheckOut
+
+@{
+    ViewData["Title"] = "Check Out";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h5 class="text-secondary">@ViewData["Title"]</h5>
+
+@{
+    decimal total = 0;
+    int totalItem = 0;
+}
+
+<div class="row product-option">
+    <div class="col-8">
+        <table class="table lh-sm">
+            <tr class="row lh-1">
+                <td style="font-size: 0.9rem;">
+                    <p>
+                        @Html.DisplayNameFor(model => model.Name): @Html.DisplayFor(model => model.Name)
+                    </p>
+                    <p>
+                        @Html.DisplayNameFor(model => model.PhoneNumber): @Html.DisplayFor(model => model.PhoneNumber)
+                    </p>
+                    <p>
+                        @Html.DisplayNameFor(model => model.Address): @Html.DisplayFor(model => model.Address)
+                    </p>
+                </td>
+            </tr>
+            @foreach (var cartItem in Model.CartItem)
+            {
+                var totalPrice = cartItem.Quantity * cartItem.Item.Stock.Price;
+                total += totalPrice;
+                totalItem += cartItem.Quantity;
+
+                <tr class="row">
+                    <td class="d-flex justify-content-start col-7" style="font-size: 0.9rem;">
+                        <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Images)">
+                        <text>
+                            <p class="mb-2">
+                                @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Item.Name)
+                                @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Storage)
+                                @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.RAM) RAM
+                                @Html.DisplayFor(modelItem => cartItem.Item.Stock.ItemColor.Name)
+                            </p>
+                        </text>
+                    </td>
+                    <td class="col-2">
+                        <p class="text-secondary mb-2" style="font-size: 0.9rem;" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemImageId}")">Qty: @cartItem.Quantity</p>
+                    </td>
+                    <td class="d-flex flex-column justify-content-between text-end col-3">
+                        <span>@Html.DisplayFor(modelItem => cartItem.Item.Stock.Price) ₫</span>
+                        <span>
+                            <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
+                               asp-route-itemId="@cartItem.Item.ItemImageId" class="btn text-secondary">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </a>
+                        </span>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-4 options">
+        <table class="table table-borderless border-start lh-1">
+            <tr style="white-space: nowrap; overflow: hidden;">
+                <td class="text-secondary" style="font-size: 0.9rem;">
+                    Total(@totalItem item(s))
+                </td>
+                <td>@(total.ToString("n0")) ₫</td>
+            </tr>
+            <tr class="border-top">
+                <td colspan="2">Payment Method: </td>
+            </tr>
+            @foreach (var payment in Model.PaymentMethod)
+            {
+                <tr>
+                    <td>
+                        <a asp-area="" asp-controller="CheckOut" asp-action="PaypalCheckOut">
+                            <img class="w-75" src="@("~/lib/images/logo/" + payment.Images)" alt="@payment.Name" asp-append-version="true" />
+                        </a>
+                    </td>
+                </tr>
+            }
+        </table>
+
+    </div>
+</div>

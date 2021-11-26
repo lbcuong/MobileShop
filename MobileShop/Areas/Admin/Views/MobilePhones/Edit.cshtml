@@ -1,0 +1,96 @@
+﻿@model MobileShop.Areas.Admin.Models.MobilePhone
+
+@{
+    ViewData["Title"] = "Edit Mobile Phones";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Item Management / Mobile Phones / Edit</h5>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="MobilePhoneId" />
+            <div class="form-group mb-2">
+                <label asp-for="ItemId" class="control-label"></label>
+                <select asp-for="ItemId" class="form-control" asp-items="ViewBag.ItemId"></select>
+                <span asp-validation-for="ItemId" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Screen" class="control-label"></label>
+                <input asp-for="Screen" class="form-control" />
+                <span asp-validation-for="Screen" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="MainCamera" class="control-label"></label>
+                <input asp-for="MainCamera" class="form-control" />
+                <span asp-validation-for="MainCamera" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="SelfieCamera" class="control-label"></label>
+                <input asp-for="SelfieCamera" class="form-control" />
+                <span asp-validation-for="SelfieCamera" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="OS" class="control-label"></label>
+                <input asp-for="OS" class="form-control" />
+                <span asp-validation-for="OS" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Chipset" class="control-label"></label>
+                <input asp-for="Chipset" class="form-control" />
+                <span asp-validation-for="Chipset" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="CPU" class="control-label"></label>
+                <input asp-for="CPU" class="form-control" />
+                <span asp-validation-for="CPU" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="GPU" class="control-label"></label>
+                <input asp-for="GPU" class="form-control" />
+                <span asp-validation-for="GPU" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="RAM" class="control-label"></label>
+                <input asp-for="RAM" class="form-control" />
+                <span asp-validation-for="RAM" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Storage" class="control-label"></label>
+                <input asp-for="Storage" class="form-control" />
+                <span asp-validation-for="Storage" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="SIM" class="control-label"></label>
+                <input asp-for="SIM" class="form-control" />
+                <span asp-validation-for="SIM" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Pin" class="control-label"></label>
+                <input asp-for="Pin" class="form-control" />
+                <span asp-validation-for="Pin" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="CreatedDate" class="control-label"></label>
+                <input asp-for="CreatedDate" class="form-control" />
+                <span asp-validation-for="CreatedDate" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="UpdatedDate" class="control-label"></label>
+                <input asp-for="UpdatedDate" class="form-control" />
+                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+            </div>
+            <br>
+            <div class="form-group d-flex justify-content-between">
+                <input type="submit" value="Save" class="btn btn-info w-50 text-white me-5" />
+                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
+            </div>
+        </form>
+    </div>
+</div>
+

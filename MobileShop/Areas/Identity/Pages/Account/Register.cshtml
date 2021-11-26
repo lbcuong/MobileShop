@@ -1,0 +1,41 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div class="form-LSR row justify-content-center">
+    <div class="p-5 w-50">
+        <div class="text-center">
+            <h2 class="mb-4">@ViewData["Title"]</h2>
+            <hr>
+            <h4 class="mb-2">Create a new account</h4>
+        </div>
+        <form class="px-5" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="h5 mb-2"></label>
+                <input asp-for="Input.Email" class="form-control py-2 w-100" placeholder="  Enter Email">
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="h5 mb-2"></label>
+                <input asp-for="Input.Password" class="form-control py-2 w-100" placeholder="  Enter Password">
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.ConfirmPassword" class="h5 mb-2"></label>
+                <input asp-for="Input.ConfirmPassword" class="form-control py-2 w-100" placeholder="  Confirm Password">
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <hr>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-info fs-5 w-50 mb-2 py-2">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

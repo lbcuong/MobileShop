@@ -1,0 +1,428 @@
+/*
+ * General
+ */
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.container .border-0, button {
+    border-radius: 0 !important;
+}
+
+h2, h4, h5, p {
+    color: rgb(50, 65, 70);
+}
+
+h3 {
+    margin-top: 2rem;
+    margin-left: 1rem;
+    color: rgb(50, 65, 70);
+    border-left: 3px solid rgb(50, 65, 70);
+    height: 100%;
+    padding-left: 1rem;
+}
+
+/*
+ * Header bar
+ */
+
+.header-bar {
+    background-color: rgb(18, 165, 214);
+}
+
+    .header-bar .nav-item span {
+        font-size: small;
+    }
+
+    .header-bar .nav-item i {
+        font-size: x-large;
+        top: 0.5rem;
+        position: relative;
+    }
+
+    .header-bar .nav-item .fa-brands {
+        font-size: xx-large;
+    }
+
+.category-bar {
+    background-color: rgb(50, 65, 70);
+}
+
+    .category-bar .nav-item i {
+        font-size: x-large;
+        position: relative;
+        top: 0.15rem;
+    }
+
+    .category-bar .nav-item a {
+        color: white;
+    }
+
+        .category-bar .nav-item a:hover {
+            color: rgb(18, 165, 214);
+        }
+
+/*
+ * Main Page
+ */
+
+.brand-card {
+    box-shadow: 0 0 0.1rem 0.1rem rgb(235, 235, 235);
+    transition: box-shadow .3s;
+    min-width: 19.5rem;
+    min-height: 7rem;
+    border-radius: 0 !important;
+}
+
+    .brand-card:hover {
+        box-shadow: 0 0 0.1rem 0.1rem rgb(18, 165, 214);
+    }
+
+.brand-img {
+    transition: width .3s;
+    position: absolute;
+    width: 7rem;
+    margin: auto;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+    .brand-img:hover {
+        width: 8rem;
+    }
+
+.white-div {
+    background-color: white;
+    box-shadow: 0 0 0.1rem 0.1rem rgb(235, 235, 235);
+    border-radius: 0 !important;
+}
+
+#carouselHotProducts .carousel-inner .carousel-item {
+    height: 14rem;
+}
+
+    #carouselHotProducts .carousel-inner .carousel-item img {
+        width: 10rem;
+        margin-top: 1rem;
+    }
+
+    #carouselHotProducts .carousel-inner .carousel-item p {
+        margin-top: -0.7rem;
+        font-size: small;
+        font-style: italic;
+    }
+
+#carouselHotProducts .carousel-control-prev {
+    width: 5rem;
+    height: 5rem;
+    top: 4.5rem;
+    left: -4rem;
+}
+
+.carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='%23aaa'><path d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/></svg>");
+}
+
+#carouselHotProducts .carousel-control-next {
+    width: 5rem;
+    height: 5rem;
+    top: 4.5rem;
+    right: -4rem;
+}
+
+.carousel-control-next-icon {
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='%23aaa'><path d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/></svg>");
+}
+
+#carouselHotProducts .carousel-indicators {
+    visibility: hidden;
+}
+
+#carouselHotProducts:hover .carousel-indicators {
+    visibility: visible;
+    bottom: -2.5rem;
+}
+
+#carouselHotProducts .carousel-indicators button {
+    background-color: rgb(18, 165, 214);
+}
+
+    #carouselHotProducts .carousel-indicators button.active {
+        background-color: rgb(50, 65, 70);
+    }
+
+/*
+ * Mobile Phone Page
+ */
+
+.card-filter {
+    border-radius: 0%; 
+    border-top: 0; 
+    border-right: 0; 
+    border-left: 0; 
+    border-bottom: 0.1rem solid rgb(220, 220, 220);
+}
+
+.form-font-size-filter label {
+    font-size: 14px;
+}
+
+.form-font-size-filter h6 {
+    color: rgb(50, 65, 70);
+}
+
+.filters p {
+    font-size: small;
+}
+
+.filters p button {
+    background-color: rgb(245, 245, 245);
+    color: rgb(50, 65, 70);
+}
+
+.modal-body input {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+/*
+ * Product detail Page
+ */
+.form-comment-box {
+    display: none;
+}
+
+.comment-box textarea {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.modal-body textarea {
+    resize: none;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important
+}
+
+.table-detail .fw-normal{
+    white-space: nowrap; 
+    overflow: hidden;
+}
+
+.product-option .main-product-image {
+    min-height: 23rem;
+}
+
+.product-option .img-thumbnail {
+    overflow: hidden;
+    border-radius: 0 !important;
+    border: 2px solid #eee;
+    cursor: pointer;
+    transition: all 0.5s;
+    width: 5rem;
+}
+
+    .product-option .img-thumbnail:hover {
+        border: 2px solid rgb(18, 165, 214)
+    }
+
+.product-option p {
+    font-size: small;
+}
+
+.product-option .options label {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-color: lightgray;
+    border-width: 0.1rem;
+}
+
+    .product-option .options label i {
+        visibility: hidden;
+        font-size: x-small;
+        position: absolute;
+        top: 1.7rem;
+        right: 0.1rem;
+        color: rgb(18, 165, 214);
+    }
+
+    .product-option .options label:hover {
+        border-color: rgb(18, 165, 214);
+    }
+
+.product-option input[type=radio]:checked + label {
+    border-color: rgb(18, 165, 214);
+}
+
+    .product-option input[type=radio]:checked + label i {
+        visibility: visible;
+    }
+
+.product-review .card {
+    border-radius: 0 !important;
+}
+
+.product-review .rating-label {
+    font-size: x-small;
+}
+
+.product-review .rating-bar {
+    width: 300px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.product-review .bar-container {
+    width: 100%;
+    background-color: #f1f1f1;
+    color: white;
+    border-radius: 0 !important;
+}
+
+.product-review .bar-5 {
+    height: 10px;
+    background-color: #FBC02D;
+}
+
+.product-review .bar-4 {
+    height: 10px;
+    background-color: #FBC02D;
+}
+
+.product-review .bar-3 {
+    height: 10px;
+    background-color: #FBC02D;
+}
+
+.product-review .bar-2 {
+    height: 10px;
+    background-color: #FBC02D;
+}
+
+.product-review .bar-1 {
+    height: 10px;
+    background-color: #FBC02D;
+}
+
+.product-review .star-active {
+    color: #FBC02D;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+    .product-review .star-active:hover {
+        color: #F9A825;
+        cursor: pointer
+    }
+
+.product-review .star-inactive {
+    color: #CFD8DC;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+/*
+ * Remove arrow from select tag
+ */
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+/*
+ * Form Login, Sign up, Recovery password and other
+ */
+
+.form-LSR .form-control, .form-LSR .input-group-text {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-color: rgb(50, 65, 70);
+}
+
+.form-font-size-filter input[type=checkbox], .form-LSR input[type=checkbox] {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.form-font-size-filter input[type=checkbox]:checked, .form-LSR input[type=checkbox]:checked {
+    border-color: rgb(18, 165, 214);
+    background-color: rgb(18, 165, 214);
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.product-option .options button, .form-LSR button {
+    color: white;
+}
+
+    .product-option .options button:hover, .form-LSR button:hover {
+        color: white;
+        background-color: rgb(18, 165, 214);
+        border-color: rgb(18, 165, 214);
+    }
+
+.form-LSR .text {
+    color: rgb(50, 65, 70);
+}
+
+.form-LSR .text:hover {
+    color: rgb(18, 165, 214);
+}
+
+.btn {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
+.form-LSR .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.form-LSR th, .form-LSR td, .form-LSR td a {
+    color: rgb(50, 65, 70);
+}
+
+.form-LSR img {
+    width: 5rem;
+}
+
+table .clickable-row tr {
+    cursor: pointer;
+}
+
+/*Account Manage Page*/
+.manage-nav .nav-link {
+    color: black;
+}
+
+.manage-nav .nav-link:hover {
+    color: rgb(18, 165, 214) !important;
+}
+
+/* Mobile: width < 740px */
+@media only screen and (max-width: 46.1875rem) {
+    .header-bar li a {
+        display: none;
+    }
+
+    .category-bar {
+        display: none;
+    }
+}
+
+/* Table:  740px >= width < 1024px */
+@media only screen and (min-width: 46.25rem) and (max-width: 63.9375rem) {
+}

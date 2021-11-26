@@ -1,0 +1,170 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.MobilePhone>
+
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
+@{
+    ViewData["Title"] = "Mobile Phones";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Item Management / Mobile Phones</h5>
+</div>
+
+<div class="d-flex justify-content-between m-0 p-0 mb-2">
+    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+    {
+        <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Mobile Phone</a>
+    }
+    <form asp-controller="MobilePhones" asp-action="Index">
+        <div class="input-group">
+            <input class="search-field border-0" type="text" placeholder="  Filtering ..." name="SearchString" />
+            <button class="btn btn-info text-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive m-0 p-0">
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="sticky-top">
+            <tr>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.ItemId)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["ScreenSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Screen)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["OSSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.OS)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["MainCameraSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.MainCamera)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["SelfieCameraSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.SelfieCamera)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["ChipsetSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Chipset)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CPUSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.CPU)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["GPUSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.GPU)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["RAMSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.RAM)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["StorageSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Storage)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["SIMSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.SIM)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PinSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Pin)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CreatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UpdatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.UpdatedDate)
+                    </a>
+                </th>
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                {
+                    <th>
+                        Options
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Screen)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MainCamera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SelfieCamera)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OS)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Chipset)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CPU)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GPU)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RAM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Storage)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.SIM)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Pin)
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                    {
+                        <td>
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.MobilePhoneId">Edit</a> |
+                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.MobilePhoneId">Delete</a>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

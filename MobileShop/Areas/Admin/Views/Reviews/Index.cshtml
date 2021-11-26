@@ -1,0 +1,111 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Review>
+
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
+@{
+    ViewData["Title"] = "Reviews";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>User Management / Reviews</h5>
+</div>
+
+<div class="d-flex justify-content-between m-0 p-0 mb-2">
+    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+    {
+        <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Review</a>
+    }
+    <form asp-controller="Reviews" asp-action="Index">
+        <div class="input-group">
+            <input class="search-field border-0" type="text" placeholder="  Filtering ..." name="SearchString" />
+            <button class="btn btn-info text-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </div>
+    </form>
+</div>
+
+<div class="table-responsive m-0 p-0">
+    <table class="table table-bordered table-hover table-sm">
+        <thead>
+            <tr>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UserNameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UserRoleSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.UserRole)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["ItemNameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.ItemImages)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CommentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Comment)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["RateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Rate)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CommentSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.CommentDate)
+                    </a>
+                </th>
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                {
+                    <th>
+                        Options
+                    </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserRole)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.Item.Name)
+                    (
+                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.RAM)
+                    /
+                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.Storage)
+                    )
+                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.ItemColor.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.Rate)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.CommentDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                {
+                    <td>
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ReviewId">Edit</a> |
+                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ReviewId">Delete</a>
+                    </td>
+                }
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
