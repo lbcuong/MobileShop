@@ -172,3 +172,9 @@ p {
     border-color: rgb(18, 165, 214);
     color: rgb(18, 165, 214);
 }
+
+.btn {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}

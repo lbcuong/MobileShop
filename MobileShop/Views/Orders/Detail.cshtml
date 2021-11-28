@@ -1,0 +1,86 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Order>
+
+@{
+    ViewData["Title"] = "Order Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int totalItem = 0;
+}
+
+<div class="col-md-12 mt-4">
+    <div class="d-flex justify-content-between">
+        @foreach (var order in Model)
+        {
+            <h5>Order: @Html.DisplayFor(model => order.OrderId)</h5>
+        }
+    </div>
+    <form class="form-LSR bg-white mt-1 py-3 px-2">
+
+        <table class="table table-borderless table-hover">
+            @foreach (var order in Model)
+            {
+                <thead class="border-top">
+                    <tr>
+                        <th colspan="4"></th>
+                    </tr>
+                </thead>
+                @foreach (var orderdetail in order.OrderDetail)
+                {
+                    <tbody>
+                        <tr style="font-size: 0.9rem;">
+                            <td class="col-md-2" style="width: 15rem;">
+                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderdetail.ItemImageId">
+                                    <img src="~/lib/images/@Html.DisplayFor(model => orderdetail.Item.Images)" class="img-fluid rounded-start">
+                                </a>
+                            </td>
+                            <td class="col-md-4">
+                                <p class="m-0">
+                                    @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Item.Name)
+                                    @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.RAM)
+                                    @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Storage)
+                                    @Html.DisplayFor(model => orderdetail.Item.Stock.ItemColor.Name)
+                                </p>
+                            </td>
+                            <td class="col-md-2">Qty: @Html.DisplayFor(model => orderdetail.Quantity)</td>
+                            <td class="col-md-4"> @Html.DisplayFor(model => orderdetail.Item.Stock.Price) ₫</td>
+                        </tr>
+                    </tbody>
+                    totalItem += orderdetail.Quantity;
+                }
+            }
+        </table>
+        <hr>
+        @foreach (var order in Model)
+        {
+            <div class="row g-2 d-flex justify-content-between mx-1">
+                <div class="col-md-5">
+                    <h6 class="mb-3">Receiver's information</h6>
+                    <p class="m-0">@Html.DisplayFor(model => order.Name)</p>
+                    <p class="m-0">@Html.DisplayFor(model => order.Address)</p>
+                    <p class="m-0">@Html.DisplayFor(model => order.PhoneNumber)</p>
+                </div>
+                <div class="col-md-1 border-end"></div>
+                <div class="col-md-5">
+                    <h6 class="mb-3">Summary</h6>
+                    <div class="row g-2 d-flex justify-content-between">
+                        <div class="col-md-6">
+                            <p class="m-0">Subtotal (@totalItem) item(s)</p>
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <p class="m-0">@order.Total.ToString("n0") ₫</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row g-2 d-flex justify-content-between">
+                        <div class="col-md-5">
+                            <p class="m-0">Total</p>
+                        </div>
+                        <div class="col-md-7 text-end">
+                            <p class="m-0 fs-5">@order.Total.ToString("n0") ₫</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </form>
+</div>

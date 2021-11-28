@@ -24,6 +24,9 @@
     }
     else if (SignInManager.IsSignedIn(User) && Context.User.IsInRole("Member"))
     {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">My Orders</a>
+        </li>
 
         var session = HttpContextAccessor.HttpContext.Session;
         string jsoncart = session.GetString(MobileShop.Controllers.CartController.CARTKEY);

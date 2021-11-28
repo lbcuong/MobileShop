@@ -21,5 +21,7 @@ namespace MobileShop.Areas.Admin.Models
         public int ItemImageId { get; set; }
         [ForeignKey("ItemImageId")]
         public ItemImages Item { get; set; }
+
+        public int Quantity { get; set; }
     }
 }

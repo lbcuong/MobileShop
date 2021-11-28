@@ -5,8 +5,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h5 class="text-secondary">@ViewData["Title"]</h5>
-
 @if (Model.Count > 0)
 {
     decimal subtotal = 0;
@@ -148,14 +146,14 @@
 else
 {
     <div class="row">
-        <p class="text-danger col d-flex justify-content-center align-items-center">
+        <p class="text-secondary col d-flex justify-content-center align-items-center">
             <span>
-                Your cart is empty <i class="fa-solid fa-circle-xmark"></i>
+                Your cart is empty <i class="fa-solid fa-circle-xmark text-danger"></i>
             </span>
         </p>
     </div>
-    <div class="row">
-        <a class="col text-decoration-none text-dark d-flex justify-content-center" asp-area="" asp-controller="Home" asp-action="Index">
+    <div class="row d-flex justify-content-center">
+        <a class="btn btn-info col-2 text-decoration-none text-light" asp-area="" asp-controller="Home" asp-action="Index">
             <span>
                 Go Shopping <i class="fa-solid fa-cart-arrow-down"></i>
             </span>

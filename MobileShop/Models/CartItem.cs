@@ -13,7 +13,7 @@ namespace MobileShop.Models
         public int Quantity { set; get; }
         public ItemImages Item { set; get; }
 
-        public decimal SubTotal => Item.Stock.Price * Item.Stock.Quantity;
+        public decimal SubTotal => Item.Stock.Price * Quantity;
 
     }
 }

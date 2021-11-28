@@ -1,0 +1,88 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Order>
+
+@{
+    ViewData["Title"] = "Manage Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="col-md-12 mt-4">
+    <div class="d-flex justify-content-between">
+        <h5>@ViewData["Title"]</h5>
+        <div class="d-flex justify-content-end align-items-center">
+            <span class="me-1">Show by:</span>
+            <form asp-area="" asp-controller="Orders" asp-action="Index" method="get">
+                <select class="select-box p-1" name="searchString" onChange="this.form.submit()">
+                    <option hidden></option>
+                    <option value="last-7-days">Last 7 days</option>
+                    <option value="last-30-days">Last 30 days</option>
+                    <option value="last-100-days">Last 100 days</option>
+                    <option value="">All</option>
+                </select>
+            </form>
+        </div>
+    </div>
+    <form class="form-LSR bg-white mt-1 py-3 px-2">
+
+        <table class="table table-borderless table-hover">
+            @foreach (var order in Model)
+            {
+                <thead class="border-top">
+                    <tr>
+                        <th>
+                            <a class="text-secondary text-decoration-none" asp-area="" asp-controller="Orders" asp-action="Detail" asp-route-id="@order.OrderId">
+                                Order: @Html.DisplayFor(model => order.OrderId)
+                            </a>
+                        </th>
+                        <th>
+                            <a class="text-secondary text-decoration-none fw-normal">
+                                Order date: @Html.ValueFor(model => order.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                            </a>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        @if (order.Status == "Delivering")
+                        {
+                            <th>
+                                <a class="border border-secondary rounded-pill bg-secondary text-decoration-none text-light fw-normal px-2 py-1">
+                                    @Html.ValueFor(model => order.Status)
+                                </a>
+                            </th>
+                        }
+                        else
+                        {
+                            <th>
+                                <a class="border border-sucess rounded-pill bg-success text-light text-decoration-none text-light fw-normal px-2 py-1">
+                                    @Html.ValueFor(model => order.Status)
+                                </a>
+                            </th>
+                        }
+                    </tr>
+                </thead>
+                @foreach (var orderdetail in order.OrderDetail)
+                {
+                    <tbody>
+                        <tr style="font-size: 0.9rem;">
+                            <td class="col-md-2" style="width: 15rem;">
+                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderdetail.ItemImageId">
+                                    <img src="~/lib/images/@Html.DisplayFor(model => orderdetail.Item.Images)" class="img-fluid rounded-start">
+                                </a>
+                            </td>
+                            <td class="col-md-4">
+                                <p class="m-0">
+                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.Item.Name)
+                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.RAM)
+                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.Storage)
+                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.ItemColor.Name)
+                                </p>
+                            </td>
+                            <td class="col-md-2">Qty: @Html.DisplayFor(modelItem => orderdetail.Quantity)</td>
+                            <td class="col-md-3"> @Html.DisplayFor(modelItem => orderdetail.Item.Stock.Price) ₫</td>
+                            <td class="col-md-1"></td>
+                        </tr>
+                    </tbody>
+                }
+            }
+        </table>
+    </form>
+</div>

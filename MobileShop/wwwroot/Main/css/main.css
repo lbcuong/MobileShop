@@ -399,6 +399,8 @@ select {
     width: 5rem;
 }
 
+
+
 table .clickable-row tr {
     cursor: pointer;
 }
@@ -425,4 +427,14 @@ table .clickable-row tr {
 
 /* Table:  740px >= width < 1024px */
 @media only screen and (min-width: 46.25rem) and (max-width: 63.9375rem) {
+}
+
+/*
+ * My Order page;
+*/
+.select-box {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    width: 10rem;
 }

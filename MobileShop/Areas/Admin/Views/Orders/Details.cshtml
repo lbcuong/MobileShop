@@ -1,0 +1,57 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Order>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Order Management / Orders/ Details</h5>
+</div>
+
+@foreach (var order in Model)
+{
+    <p class="text-secondary fs-6">Order: @Html.DisplayFor(model => order.OrderId)</p>
+    <p class="text-secondary fs-6">Order Date: @Html.ValueFor(model => order.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")</p>
+    <p class="text-secondary fs-6">Status: @Html.DisplayFor(model => order.Status)</p>
+}
+
+<div class="table-responsive m-0 p-0">
+    <table class="table table-bordered table-hover table-sm">
+        <thead class="sticky-top">
+            <tr>
+                <th>
+                    Item's Information
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                @foreach (var orderdetail in order.OrderDetail)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Item.Name)
+                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.RAM)
+                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Storage)
+                            @Html.DisplayFor(model => orderdetail.Item.Stock.ItemColor.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => orderdetail.Quantity)
+                        <td>
+                            @Html.DisplayFor(modelItem => orderdetail.Item.Stock.Price)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+    <a class="btn btn-secondary w-25 text-white" asp-action="Index">Back to List</a>
+</div>

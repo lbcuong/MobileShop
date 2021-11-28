@@ -78,11 +78,13 @@ namespace MobileShop.Controllers
                                                                  + " " + item.Item.Stock.ItemColor.Name,
                     Currency = "USD",
                     Price = Math.Round(item.Item.Stock.Price / USDCurrency, 2).ToString(),
-                    Quantity = item.Item.Stock.Quantity.ToString(),
+                    Quantity = item.Quantity.ToString(),
                     Sku = "sku",
                     Tax = "0"
                 });
             }
+
+
 
             var paypalOrderId = DateTime.Now.Ticks;
             var hostname = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}";
@@ -126,6 +128,8 @@ namespace MobileShop.Controllers
 
             try
             {
+
+
                 var response = await client.Execute(request);
                 var statusCode = response.StatusCode;
                 Payment result = response.Result<Payment>();
@@ -142,30 +146,6 @@ namespace MobileShop.Controllers
                     }
                 }
 
-                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                var orderTotal = Math.Round(GetCartItems().Sum(s => s.SubTotal), 2);
-
-                var order = new Areas.Admin.Models.Order
-                {
-                    UserName = currentUser.Name,
-                    Total = orderTotal,
-                    OrderDate = DateTime.Now
-                };
-
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-
-                foreach (var item in GetCartItems())
-                {
-                    var orderdetail = new OrderDetail
-                    {
-                        OrderId = order.OrderId,
-                        ItemImageId = item.Item.ItemImageId
-                    };
-                    _context.Add(orderdetail);
-                }
-                await _context.SaveChangesAsync();
-
                 return Redirect(paypalRedirectUrl);
             }
             catch (HttpException httpException)
@@ -176,13 +156,68 @@ namespace MobileShop.Controllers
                 //Process when Checkout with Paypal fails
                 return Redirect("/CheckOut/CheckoutFail");
             }
+
         }
 
         public IActionResult CheckoutFail()
         {
             return View();
         }
-        public IActionResult CheckoutSuccess()
+        public async Task<IActionResult> CheckoutSuccess()
+        {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            var orderTotal = Math.Round(GetCartItems().Sum(s => s.SubTotal), 2);
+
+            var order = new Areas.Admin.Models.Order
+            {
+                UserName = currentUser.UserName,
+                Total = orderTotal,
+                OrderDate = DateTime.Now,
+                Name = currentUser.Name,
+                PhoneNumber = currentUser.PhoneNumber,
+                Address = currentUser.Address,
+                Status = "Delivering"
+            };
+
+            _context.Add(order);
+            await _context.SaveChangesAsync();
+
+            foreach (var item in GetCartItems())
+            {
+                var orderdetail = new OrderDetail
+                {
+                    OrderId = order.OrderId,
+                    ItemImageId = item.Item.ItemImageId,
+                    Quantity = item.Quantity
+
+                };
+                _context.Add(orderdetail);
+            }
+            await _context.SaveChangesAsync();
+
+
+            foreach (var item in GetCartItems())
+            {
+                var quantity = new Stock
+                {
+                    StockId = item.Item.Stock.StockId,
+                    MobilePhoneId = item.Item.Stock.MobilePhoneId,
+                    ItemColorId = item.Item.Stock.ItemColorId,
+                    Quantity = item.Item.Stock.Quantity - item.Quantity,
+                    Price = item.Item.Stock.Price,
+                    CreatedDate = item.Item.Stock.CreatedDate,
+                    UpdatedDate = DateTime.Now
+                };
+                _context.Update(quantity);
+            }
+            await _context.SaveChangesAsync();
+
+            ClearCart();
+
+            return RedirectToAction(nameof(IndexCheckoutSuccess));
+        }
+
+        public IActionResult IndexCheckoutSuccess()
         {
             return View();
         }

@@ -39,7 +39,7 @@ namespace MobileShop.Controllers
 
         // Remove cart item from Cart in Session
         [Authorize(Roles = "Member")]
-        void ClearCart()
+        protected void ClearCart()
         {
             var session = HttpContext.Session;
             session.Remove(CARTKEY);
@@ -47,7 +47,7 @@ namespace MobileShop.Controllers
 
         // Store Cart with cart items to session
         [Authorize(Roles = "Member")]
-        void SaveCartSession(List<CartItem> ls)
+        protected void SaveCartSession(List<CartItem> ls)
         {
             var session = HttpContext.Session;
             string jsoncart = JsonConvert.SerializeObject(ls);
