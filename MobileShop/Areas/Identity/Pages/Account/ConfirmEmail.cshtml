@@ -4,14 +4,21 @@
     ViewData["Title"] = "Confirm email";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<form id="account" method="post">
-    <p>
-        Please check your email to confirm your email.
-    </p>
-    <p>
-        If you don't get Email Confirmation, please click the below link to resend email confirmation!
-    </p>
-    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-</form>
+<div class="form-LSR row justify-content-center">
+    <div class="border border-1 shadow p-5 w-50">
+        <form class="px-5" id="account" method="post">
+            <div class="text-center">
+                <h2 class="mb-4">Congratulation!</h2>
+                <hr>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <p class="text-center">
+                    Thank you for confirming your email!
+                </p>
+                <a class="btn btn-info text-decoration-none text-light w-50 mt-3" id="login" asp-page="./Login">
+                    Login
+                </a>
+            </div>
+        </form>
+    </div>
+</div>

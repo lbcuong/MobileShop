@@ -1,39 +1,42 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-        <div class="text-center">
-            <h1 class="display-4">Welcome</h1>
-            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container-fluid">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://searchengineland.com/figz/wp-content/seloads/2014/12/black-friday1-ss-1920.jpg" class="d-block w-100" height="300" alt="blackfriday">
+            </div>
+            <div class="carousel-item">
+                <img src="https://static9.depositphotos.com/1561229/1186/v/600/depositphotos_11868876-stock-illustration-design-phone.jpg" class="d-block w-100" height="300" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img src="https://www.maketecheasier.com/assets/uploads/2021/04/wallpaper-changer-apps-android-featured.jpg" class="d-block w-100" height="300" alt="...">
+            </div>
         </div>
-        <div class="text-center">
-            <h1 class="display-4">Welcome</h1>
-            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-        </div>
-        <div class="text-center">
-            <h1 class="display-4">Welcome</h1>
-            <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row row-cols-4 row-cols-md-4 g-4">
+        <div class="col">
+            <div class="card rounded-0 shadow">
+                <a asp-area="" asp-controller="MobilePhones" asp-action="Index">
+                    <img src="https://www.wallpapertip.com/wmimgs/0-5103_abstract-curves-iphone-wallpaper-idownloadblog-ieditwalls-mobile-phone.jpg" class="card-img-top" alt="mobilephone">
+                </a>
+                <div class="card-body">
+                    <h5 class="card-title">Mobile phones</h5>
+                    <a class="card-text text-decoration-none text-info" asp-area="" asp-controller="MobilePhones" asp-action="Index">See more</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

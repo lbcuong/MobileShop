@@ -32,6 +32,7 @@ namespace MobileShop.Controllers
         {
             ViewData["PriceAscSortParm"] = sortOrder == "PriceAsc" ? "PriceAsc" : "PriceAsc";
             ViewData["PriceDescSortParm"] = sortOrder == "PriceDesc" ? "PriceDesc" : "PriceDesc";
+            ViewData["NewDescSortParm"] = sortOrder == "NewDesc" ? "NewDesc" : "NewDesc";
             ViewData["CurrentSort"] = sortOrder;
 
             if (searchString != null)
@@ -45,7 +46,7 @@ namespace MobileShop.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            IQueryable<ItemImages> mobileShopContext = (from s in _context.ItemImages
+            IQueryable<ItemImages> mobileShopContext =  _context.ItemImages
                     .Include(i => i.Stock)
                         .ThenInclude(i => i.MobilePhone)
                             .ThenInclude(i => i.Item)
@@ -56,10 +57,8 @@ namespace MobileShop.Controllers
                                 .ThenInclude(i => i.ItemGroup)
                     .Include(i => i.Stock)
                         .ThenInclude(i => i.ItemColor)
-                                                        join m in _context.MobilePhone on s.Stock.MobilePhoneId equals m.MobilePhoneId
-                                                        join i in _context.Item on s.Stock.MobilePhone.ItemId equals i.ItemId
-                                                        where s.Stock.MobilePhone.Item.ItemCategoryId == 4
-                                                        select s);
+                    .Where(s => s.Stock.MobilePhone.Item.ItemCategoryId == 4);
+
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -84,6 +83,9 @@ namespace MobileShop.Controllers
                     break;
                 case "PriceAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.Stock.Price);
+                    break;
+                case "NewDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Stock.CreatedDate);
                     break;
             }
 

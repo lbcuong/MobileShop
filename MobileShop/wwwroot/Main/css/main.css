@@ -189,6 +189,11 @@ h3 {
     border-radius: 0 !important;
 }
 
+.sort-dropdown ul {
+    outline: none !important; 
+    box-shadow: none !important; 
+    border-radius: 0 !important;
+}
 /*
  * Product detail Page
  */

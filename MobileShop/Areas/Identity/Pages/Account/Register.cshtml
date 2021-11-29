@@ -1,11 +1,11 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registration Page";
 }
 
 <div class="form-LSR row justify-content-center">
-    <div class="p-5 w-50">
+    <div class="border border-1 shadow p-5 w-50">
         <div class="text-center">
             <h2 class="mb-4">@ViewData["Title"]</h2>
             <hr>
@@ -29,9 +29,17 @@
             </div>
             <hr>
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="row justify-content-center">
+            <div class="row justify-content-center mb-3">
                 <button type="submit" class="btn btn-info fs-5 w-50 mb-2 py-2">Register</button>
             </div>
+            <p>
+                <span>
+                    If you're still not confirm your email, Click the below link!
+                    <br />
+                    <a class="text-decoration-none" id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                </span>
+            </p>
+            
         </form>
     </div>
 </div>

@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using System;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using MobileShop.Areas.Identity.Services;
 
 namespace MobileShop
 {
@@ -41,6 +43,8 @@ namespace MobileShop
                 options.Cookie.Name = "MobileShopSession";             // Named Session which use at Browser (Cookie)
                 options.IdleTimeout = new TimeSpan(0, 20, 0);   // Session's time
             });
+
+            services.AddTransient<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
