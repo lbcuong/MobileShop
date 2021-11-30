@@ -67,14 +67,9 @@ namespace MobileShop.Controllers
         public async Task<IActionResult> AddToCart(int itemId, int quantity)
         {
 
-            var item = await _context.ItemImages
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.MobilePhone)
-                        .ThenInclude(i => i.Item)
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.ItemColor)
-                            .Where(s => s.ItemImageId == itemId)
-                            .FirstOrDefaultAsync();
+            var item = await _context.Item
+                       .Where(s => s.ItemId == itemId)
+                       .FirstOrDefaultAsync();
 
             if (item == null)
             {
@@ -82,15 +77,15 @@ namespace MobileShop.Controllers
             }
 
             var cart = GetCartItems();
-            var cartItem = cart.Find(i => i.Item.ItemImageId == itemId);
+            var cartItem = cart.Find(i => i.Item.ItemId == itemId);
             if (cartItem != null)
             {
                 // If item exist in cart, increase 1
                 cartItem.Quantity++;
 
-                if (cartItem.Quantity >= item.Stock.Quantity)
+                if (cartItem.Quantity >= item.Quantity)
                 {
-                    cartItem.Quantity = item.Stock.Quantity;
+                    cartItem.Quantity = item.Quantity;
                 }
             }
             else
@@ -111,7 +106,7 @@ namespace MobileShop.Controllers
         {
 
             var cart = GetCartItems();
-            var cartItem = cart.Find(p => p.Item.ItemImageId == itemId);
+            var cartItem = cart.Find(p => p.Item.ItemId == itemId);
             if (cartItem != null)
             {
                 cart.Remove(cartItem);
@@ -128,7 +123,7 @@ namespace MobileShop.Controllers
         public IActionResult UpdateCart(int itemId, int quantity)
         {
             var cart = GetCartItems();
-            var cartItem = cart.Find(i => i.Item.ItemImageId == itemId);
+            var cartItem = cart.Find(i => i.Item.ItemId == itemId);
             if (cartItem != null)
             {
                 // If item exist, increase

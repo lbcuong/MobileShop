@@ -18,9 +18,9 @@ namespace MobileShop.Areas.Admin.Models
         public Order Order { get; set; }
 
         [Display(Name = "Item")]
-        public int ItemImageId { get; set; }
-        [ForeignKey("ItemImageId")]
-        public ItemImages Item { get; set; }
+        public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
+        public Item Item { get; set; }
 
         public int Quantity { get; set; }
     }

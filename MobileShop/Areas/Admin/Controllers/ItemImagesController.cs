@@ -42,21 +42,16 @@ namespace MobileShop.Areas.Admin.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var mobileShopContext = from m in _context.ItemImages
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.MobilePhone)
-                        .ThenInclude(i => i.Item)
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.ItemColor)
+            var mobileShopContext = from m in _context.ItemImage
+                        .Include(i => i.Item)
                                     select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.Images.Contains(searchString)
-                                                              || s.Stock.MobilePhone.Item.Name.Contains(searchString)
-                                                              || s.Stock.MobilePhone.RAM.Contains(searchString)
-                                                              || s.Stock.MobilePhone.GPU.Contains(searchString)
-                                                              || s.Stock.ItemColor.Name.Contains(searchString));
+                                                              || s.Item.Name.Contains(searchString)
+                                                              || s.CreatedDate.ToString().Contains(searchString)
+                                                              || s.UpdatedDate.ToString().Contains(searchString));
             }
 
             switch (sortOrder)
@@ -68,10 +63,10 @@ namespace MobileShop.Areas.Admin.Controllers
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Images);
                     break;
                 case "NameAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.Stock.MobilePhone.Item.Name);
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Item.Name);
                     break;
                 case "NameDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Stock.MobilePhone.Item.Name);
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Item.Name);
                     break;
                 case "CreatedDateAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.CreatedDate);
@@ -94,15 +89,15 @@ namespace MobileShop.Areas.Admin.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
-            var MobilePhoneInfo = _context.Stock
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["StockId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View();
         }
 
@@ -112,37 +107,37 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ItemImageId,StockId,ImageFile,CreatedDate,UpdatedDate")] ItemImages itemImages)
+        public async Task<IActionResult> Create([Bind("ItemImageId,ItemId,ImageFile,CreatedDate,UpdatedDate")] ItemImage itemImage)
         {
             string uniqueFileName = null;
 
             if (ModelState.IsValid)
             {
                 string RootPath = _hostEnvironment.WebRootPath;
-                uniqueFileName = itemImages.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                string Extension = Path.GetExtension(itemImages.ImageFile.FileName);
-                itemImages.Images = uniqueFileName += Extension;
+                uniqueFileName = itemImage.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
+                string Extension = Path.GetExtension(itemImage.ImageFile.FileName);
+                itemImage.Images = uniqueFileName += Extension;
                 string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
                 using (var fileStream = new FileStream(ImagePath, FileMode.Create))
                 {
-                    await itemImages.ImageFile.CopyToAsync(fileStream);
+                    await itemImage.ImageFile.CopyToAsync(fileStream);
                 }
 
-                _context.Add(itemImages);
+                _context.Add(itemImage);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            var MobilePhoneInfo = _context.Stock
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["StockId"] = new SelectList(MobilePhoneInfo, "Value", "Text", itemImages.StockId);
-            return View(itemImages);
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
+            return View(itemImage);
         }
 
         // GET: Admin/ItemImages/Edit/5
@@ -154,20 +149,21 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var itemImages = await _context.ItemImages.FindAsync(id);
+            var itemImages = await _context.ItemImage.FindAsync(id);
             if (itemImages == null)
             {
                 return NotFound();
             }
-            var MobilePhoneInfo = _context.Stock
+
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["StockId"] = new SelectList(MobilePhoneInfo, "Value", "Text", itemImages.StockId);
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(itemImages);
         }
 
@@ -177,10 +173,10 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,StockId,ImageFile,CreatedDate,UpdatedDate")] ItemImages itemImages)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,ItemId,ImageFile,CreatedDate,UpdatedDate")] ItemImage itemImage)
         {
 
-            if (id != itemImages.ItemImageId)
+            if (id != itemImage.ItemImageId)
             {
                 return NotFound();
             }
@@ -192,28 +188,28 @@ namespace MobileShop.Areas.Admin.Controllers
                 {
                     string uniqueFileName = null;
                     string RootPath = _hostEnvironment.WebRootPath;
-                    uniqueFileName = itemImages.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                    string Extension = Path.GetExtension(itemImages.ImageFile.FileName);
-                    itemImages.Images = uniqueFileName += Extension;
+                    uniqueFileName = itemImage.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
+                    string Extension = Path.GetExtension(itemImage.ImageFile.FileName);
+                    itemImage.Images = uniqueFileName += Extension;
 
-                    if (itemImages.Images != null)
+                    if (itemImage.Images != null)
                     {
-                        if (itemImages.ImageFile != null)
+                        if (itemImage.ImageFile != null)
                         {
                             string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
                             using (var fileStream = new FileStream(ImagePath, FileMode.Create))
                             {
-                                await itemImages.ImageFile.CopyToAsync(fileStream);
+                                await itemImage.ImageFile.CopyToAsync(fileStream);
                             }
                         }
                     }
 
-                    _context.Update(itemImages);
+                    _context.Update(itemImage);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ItemImagesExists(itemImages.ItemImageId))
+                    if (!ItemImagesExists(itemImage.ItemImageId))
                     {
                         return NotFound();
                     }
@@ -224,16 +220,16 @@ namespace MobileShop.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var MobilePhoneInfo = _context.Stock
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["StockId"] = new SelectList(MobilePhoneInfo, "Value", "Text", itemImages.StockId);
-            return View(itemImages);
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
+            return View(itemImage);
         }
 
         // GET: Admin/ItemImages/Delete/5
@@ -245,13 +241,9 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var itemImages = await _context.ItemImages
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.MobilePhone)
-                        .ThenInclude(i => i.Item)
-                .Include(i => i.Stock)
-                    .ThenInclude(i => i.ItemColor)
-                .FirstOrDefaultAsync(m => m.ItemImageId == id);
+            var itemImages = await _context.ItemImage
+                        .Include(i => i.Item)
+                        .FirstOrDefaultAsync(m => m.ItemImageId == id);
             if (itemImages == null)
             {
                 return NotFound();
@@ -266,15 +258,15 @@ namespace MobileShop.Areas.Admin.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var itemImages = await _context.ItemImages.FindAsync(id);
-            _context.ItemImages.Remove(itemImages);
+            var itemImages = await _context.ItemImage.FindAsync(id);
+            _context.ItemImage.Remove(itemImages);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool ItemImagesExists(int id)
         {
-            return _context.ItemImages.Any(e => e.ItemImageId == id);
+            return _context.ItemImage.Any(e => e.ItemImageId == id);
         }
     }
 }

@@ -73,11 +73,9 @@ namespace MobileShop.Controllers
             {
                 itemList.Items.Add(new PayPal.v1.Payments.Item()
                 {
-                    Name = item.Item.Stock.MobilePhone.Item.Name + " " + item.Item.Stock.MobilePhone.Storage
-                                                                 + " " + item.Item.Stock.MobilePhone.RAM
-                                                                 + " " + item.Item.Stock.ItemColor.Name,
+                    Name = item.Item.Name,
                     Currency = "USD",
-                    Price = Math.Round(item.Item.Stock.Price / USDCurrency, 2).ToString(),
+                    Price = Math.Round(item.Item.Price / USDCurrency, 2).ToString(),
                     Quantity = item.Quantity.ToString(),
                     Sku = "sku",
                     Tax = "0"
@@ -187,7 +185,7 @@ namespace MobileShop.Controllers
                 var orderdetail = new OrderDetail
                 {
                     OrderId = order.OrderId,
-                    ItemImageId = item.Item.ItemImageId,
+                    ItemId = item.Item.ItemId,
                     Quantity = item.Quantity
 
                 };
@@ -198,15 +196,17 @@ namespace MobileShop.Controllers
 
             foreach (var item in GetCartItems())
             {
-                var quantity = new Stock
+                var quantity = new Areas.Admin.Models.Item
                 {
-                    StockId = item.Item.Stock.StockId,
-                    MobilePhoneId = item.Item.Stock.MobilePhoneId,
-                    ItemColorId = item.Item.Stock.ItemColorId,
-                    Quantity = item.Item.Stock.Quantity - item.Quantity,
-                    Price = item.Item.Stock.Price,
-                    CreatedDate = item.Item.Stock.CreatedDate,
-                    UpdatedDate = DateTime.Now
+                    ItemId = item.Item.ItemId,
+                    ItemCategoryId = item.Item.ItemCategoryId,
+                    ItemGroupId = item.Item.ItemGroupId,
+                    Name = item.Item.Name,
+                    CreatedDate = item.Item.CreatedDate,
+                    UpdatedDate = DateTime.Now,
+                    Detail = item.Item.Detail,
+                    Price = item.Item.Price,
+                    Quantity = item.Item.Quantity - item.Quantity
                 };
                 _context.Update(quantity);
             }

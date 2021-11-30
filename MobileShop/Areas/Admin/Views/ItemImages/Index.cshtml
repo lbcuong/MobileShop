@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MobileShop.Areas.Admin.Models.ItemImages>
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.ItemImage>
 
 @using Microsoft.AspNetCore.Identity
 @using MobileShop.Areas.Identity.Data
@@ -33,7 +33,7 @@
             <tr>
                 <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                        @Html.DisplayNameFor(model => model.StockId)
+                        @Html.DisplayNameFor(model => model.ItemId)
                     </a>
                 </th>
                 <th>
@@ -64,13 +64,7 @@
             {
                 <tr>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.Item.Name)
-                        (
-                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.RAM)
-                        /
-                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.Storage)
-                        )
-                        @Html.DisplayFor(modelItem => item.Stock.ItemColor.Name)
+                        @Html.DisplayFor(modelItem => item.Item.Name)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Images)

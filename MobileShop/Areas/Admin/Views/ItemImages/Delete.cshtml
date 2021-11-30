@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.ItemImages
+﻿@model MobileShop.Areas.Admin.Models.ItemImage
 
 @{
     ViewData["Title"] = "Delete Images";
@@ -13,16 +13,10 @@
     <div class="col-md-10">
         <dl class="row p-2">
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.StockId)
+                @Html.DisplayNameFor(model => model.ItemId)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Stock.MobilePhone.Item.Name)
-                (
-                @Html.DisplayFor(model => model.Stock.MobilePhone.RAM)
-                /
-                @Html.DisplayFor(model => model.Stock.MobilePhone.Storage)
-                )
-                @Html.DisplayFor(model => model.Stock.ItemColor.Name)
+                @Html.DisplayFor(model => model.Item.Name)
             </dd>
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Images)

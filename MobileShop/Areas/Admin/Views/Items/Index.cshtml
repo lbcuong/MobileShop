@@ -47,6 +47,16 @@
                     </a>
                 </th>
                 <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.Price) ₫
+                    </a>
+                </th>
+                <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CreatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                         @Html.DisplayNameFor(model => model.CreatedDate)
                     </a>
@@ -67,30 +77,37 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ItemCategory.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ItemGroup.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                    </td>
-                    <td>
-                        @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                    </td>
-                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                    {
-                        <td>
-                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
-                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
-                        </td>
-                    }
-                </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemCategory.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemGroup.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                <td>
+                    @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                {
+            <td>
+                <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
+                <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
+                <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+            </td>
+                }
+            </tr>
             }
         </tbody>
     </table>

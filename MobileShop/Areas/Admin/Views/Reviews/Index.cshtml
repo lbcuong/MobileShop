@@ -43,7 +43,7 @@
                 </th>
                 <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["ItemNameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                        @Html.DisplayNameFor(model => model.ItemImages)
+                        @Html.DisplayNameFor(model => model.ItemId)
                     </a>
                 </th>
                 <th>
@@ -80,13 +80,7 @@
                     @Html.DisplayFor(modelItem => item.UserRole)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.Item.Name)
-                    (
-                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.RAM)
-                    /
-                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.MobilePhone.Storage)
-                    )
-                    @Html.DisplayFor(modelItem => item.ItemImages.Stock.ItemColor.Name)
+                    @Html.DisplayFor(modelItem => item.Item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Comment)

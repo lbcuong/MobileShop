@@ -48,13 +48,6 @@ namespace MobileShop.Areas.Admin.Controllers
             var mobileShopContext = from m in _context.Order
                 .Include(s => s.OrderDetail)
                     .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.ItemColor)
-                .Include(s => s.OrderDetail)
-                    .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.MobilePhone)
-                                .ThenInclude(s => s.Item)
                 .OrderByDescending(o => o.OrderDate)
                                     select m;
 
@@ -134,13 +127,6 @@ namespace MobileShop.Areas.Admin.Controllers
             var order = _context.Order
                 .Include(s => s.OrderDetail)
                     .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.ItemColor)
-                .Include(s => s.OrderDetail)
-                    .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.MobilePhone)
-                                .ThenInclude(s => s.Item)
                 .Where(u => u.OrderId == id);
 
             if (order == null)

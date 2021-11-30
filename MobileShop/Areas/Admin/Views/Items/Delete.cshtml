@@ -8,52 +8,46 @@
 <div class="border-bottom m-0 p-0 mb-2">
     <h5>Item Management / Items / Delete</h5>
 </div>
-
-<div class="row">
-    <div class="col-md-10">
-        <dl class="row p-2">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ItemCategoryId)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ItemCategory.Name)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ItemGroupId)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ItemGroup.Name)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.CreatedDate)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.UpdatedDate)
-            </dd>
-        </dl>
-
-        <form asp-action="Delete">
-            <dl class="row p-2">
-                <dt class="col-sm-4">
-                    <input type="hidden" asp-for="ItemId" />
-                    <input type="submit" value="Delete" class="btn btn-info w-100 text-white" />
-                </dt>
-                <dd class="col-sm-4">
-                    <a class="btn btn-secondary w-100 text-white" asp-action="Index">Back to List</a>
-                </dd>
-            </dl>
-        </form>
-    </div>
+<div class="editor-form row">
+    <table class="col-md-12">
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.ItemCategoryId)</td>
+            <td>@Html.DisplayFor(model => model.ItemCategory.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.ItemGroupId)</td>
+            <td>@Html.DisplayFor(model => model.ItemGroup.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.Name)</td>
+            <td>@Html.DisplayFor(model => model.Name)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Quantity)</td>
+            <td>@Html.DisplayNameFor(model => model.Quantity)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Price)</td>
+            <td>@Html.DisplayNameFor(model => model.Price)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.CreatedDate)</td>
+            <td>@Html.DisplayFor(model => model.CreatedDate)</td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayNameFor(model => model.UpdatedDate)</td>
+            <td>@Html.DisplayFor(model => model.UpdatedDate)</td>
+        </tr>
+    </table>
 </div>
+<form asp-action="Delete">
+    <dl class="row">
+        <dt class="col-sm-4">
+            <input type="hidden" asp-for="ItemId" />
+            <input type="submit" value="Delete" class="btn btn-info w-100 text-white" />
+        </dt>
+        <dd class="col-sm-4">
+            <a class="btn btn-secondary w-100 text-white" asp-action="Index">Back to List</a>
+        </dd>
+    </dl>
+</form>

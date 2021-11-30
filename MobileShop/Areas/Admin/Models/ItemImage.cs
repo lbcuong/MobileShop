@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace MobileShop.Areas.Admin.Models
 {
-    public class ItemImages
+    public class ItemImage
     {
         [Key]
         public int ItemImageId { get; set; }
 
         [Display(Name = "Item")]
-        public int StockId { get; set; }
-        [ForeignKey("StockId")]
-        public Stock Stock { get; set; }
+        public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
+        public Item Item { get; set; }
 
         public string Images { get; set; }
 

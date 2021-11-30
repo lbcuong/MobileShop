@@ -18,13 +18,7 @@
             <dd class="col-sm-8">
                 @Html.DisplayFor(model => model.Review.UserName)
                 /
-                @Html.DisplayFor(model => model.Review.ItemImages.Stock.MobilePhone.Item.Name)
-                (
-                @Html.DisplayFor(model => model.Review.ItemImages.Stock.MobilePhone.RAM)
-                /
-                @Html.DisplayFor(model => model.Review.ItemImages.Stock.MobilePhone.Storage)
-                )
-                @Html.DisplayFor(model => model.Review.ItemImages.Stock.ItemColor.Name)
+                @Html.DisplayFor(model => model.Review.Item.Name)
             </dd>
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.UserName)

@@ -20,9 +20,9 @@ namespace MobileShop.Areas.Admin.Models
         public string UserRole { get; set; }
 
         [Display(Name = "Item")]
-        public int ItemImageId { get; set; }
-        [ForeignKey("ItemImageId")]
-        public ItemImages ItemImages { get; set; }
+        public int ItemId { get; set; }
+        [ForeignKey("ItemId")]
+        public Item Item { get; set; }
 
         public string Comment { get; set; }
 

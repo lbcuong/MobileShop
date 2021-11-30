@@ -130,13 +130,6 @@ h2, h4, h5 {
     color: rgb(18, 165, 214);
 }
 
-p {
-    border-left: 3px solid rgb(18, 165, 214);
-    color: rgb(18, 165, 214);
-    padding-left: 1rem;
-    font-size: large;
-}
-
 .create-function {
     outline: none !important;
     box-shadow: none !important;
@@ -177,4 +170,29 @@ p {
     outline: none !important;
     box-shadow: none !important;
     border-radius: 0 !important;
+}
+
+.editor-form p {
+    font-size: 1.5rem;
+    color: lightslategray;
+}
+
+.editor-form table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 1rem;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.editor-form tr {
+    border: none;
+}
+
+.editor-form tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.editor-form td {
+    padding: 0.5rem 0.5rem 0.5rem 0.5rem;
 }

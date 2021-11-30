@@ -1,4 +1,4 @@
-﻿@model PaginatedList<MobileShop.Areas.Admin.Models.ItemImages>
+﻿@model PaginatedList<MobileShop.Areas.Admin.Models.Item>
 
 @{
     ViewData["Title"] = "Mobile Phones";
@@ -74,26 +74,23 @@
                 <div class="card card-filter mb-3">
                     <div class="row g-2">
                         <div class="col-md-4 mb-2" style="width: 15rem;">
-                            <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@item.ItemImageId">
-                                <img src="~/lib/images/@Html.DisplayFor(modelItem => item.Images)" class="img-fluid rounded-start">
+                            <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@item.ItemId">
+                                <img src="~/lib/images/@Html.DisplayFor(modelItem => item.ItemImage)" class="img-fluid rounded-start">
                             </a>
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <a class="text-decoration-none text-dark" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@item.ItemImageId">
+                                <a class="text-decoration-none text-dark" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@item.ItemId">
                                     <p class="card-title">
-                                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.Item.Name)
-                                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.RAM)
-                                        @Html.DisplayFor(modelItem => item.Stock.MobilePhone.Storage)
-                                        @Html.DisplayFor(modelItem => item.Stock.ItemColor.Name)
+                                        @Html.DisplayFor(modelItem => item.Name)
                                     </p>
-                                    <p class="card-text m-0 p-0 text-secondary" style="font-size: 0.8rem;">Color: @Html.DisplayFor(modelItem => item.Stock.ItemColor.Name)</p>
-                                    <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Stock.Price) ₫</p>
-                                    @if (item.Stock.Quantity < 10 && item.Stock.Quantity >= 1)
+                                    <p class="card-text m-0 p-0 text-secondary" style="font-size: 0.8rem;">Color: @Html.DisplayFor(modelItem => item.Name)</p>
+                                    <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                    @if (item.Quantity < 10 && item.Quantity >= 1)
                                     {
-                                        <p class="card-text text-danger m-0 p-0 fs-6">Only @Html.DisplayFor(modelItem => item.Stock.Quantity) item(s) in stock</p>
+                                        <p class="card-text text-danger m-0 p-0 fs-6">Only @Html.DisplayFor(modelItem => item.Quantity) item(s) in stock</p>
                                     }
-                                    else if (item.Stock.Quantity == 0)
+                                    else if (item.Quantity == 0)
                                     {
                                         <p class="card-text text-danger m-0 p-0 fs-6">Out of stock</p>
                                     }

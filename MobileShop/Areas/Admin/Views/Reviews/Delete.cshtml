@@ -25,16 +25,10 @@
                 @Html.DisplayFor(model => model.UserRole)
             </dd>
             <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ItemImageId)
+                @Html.DisplayNameFor(model => model.ItemId)
             </dt>
             <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.ItemImages.Stock.MobilePhone.Item.Name)
-                (
-                @Html.DisplayFor(model => model.ItemImages.Stock.MobilePhone.RAM)
-                /
-                @Html.DisplayFor(model => model.ItemImages.Stock.MobilePhone.Storage)
-                )
-                @Html.DisplayFor(model => model.ItemImages.Stock.ItemColor.Name)
+                @Html.DisplayFor(model => model.Item.Name)
             </dd>
             <dt class="col-sm-4">
                 @Html.DisplayNameFor(model => model.Comment)

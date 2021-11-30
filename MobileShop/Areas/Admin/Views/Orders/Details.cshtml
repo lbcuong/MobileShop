@@ -38,15 +38,12 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Item.Name)
-                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.RAM)
-                            @Html.DisplayFor(model => orderdetail.Item.Stock.MobilePhone.Storage)
-                            @Html.DisplayFor(model => orderdetail.Item.Stock.ItemColor.Name)
+                            @Html.DisplayFor(model => orderdetail.Item.Name)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => orderdetail.Quantity)
                         <td>
-                            @Html.DisplayFor(modelItem => orderdetail.Item.Stock.Price)
+                            @Html.DisplayFor(modelItem => orderdetail.Item.Price)
                         </td>
                     </tr>
                 }

@@ -1,0 +1,28 @@
+﻿@model MobileShop.Areas.Admin.Models.Item
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Item Management / Items / Details</h5>
+</div>
+
+<div class="row editor-form">
+    <div class="col-md-12">
+        <dl class="row">
+            <dd class="col-sm-12">
+                @Html.Raw(Model.Detail)
+            </dd>
+        </dl>
+        <dl class="row">
+            <dd class="col-sm-4">
+                <a class="btn btn-info w-100 text-white" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a>
+            </dd>
+            <dd class="col-sm-4">
+                <a class="btn btn-secondary w-100 text-white" asp-action="Index">Back to List</a>
+            </dd>
+        </dl>
+    </div>
+</div>

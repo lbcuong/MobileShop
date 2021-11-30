@@ -40,20 +40,14 @@ namespace MobileShop.Areas.Admin.Controllers
 
             var mobileShopContext = from m in _context.ReplyReview
                                     .Include(r => r.Review)
-                                        .ThenInclude(r => r.ItemImages)
-                                            .ThenInclude(r => r.Stock)
-                                                .ThenInclude(r => r.MobilePhone)
-                                                    .ThenInclude(r => r.Item)
+                                        .ThenInclude(r => r.Item)
                                     select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.Review.UserName.Contains(searchString)
                                                               || s.UserRole.Contains(searchString)
-                                                              || s.Review.ItemImages.Stock.MobilePhone.Item.Name.Contains(searchString)
-                                                              || s.Review.ItemImages.Stock.MobilePhone.RAM.Contains(searchString)
-                                                              || s.Review.ItemImages.Stock.MobilePhone.Storage.Contains(searchString)
-                                                              || s.Review.ItemImages.Stock.ItemColor.Name.Contains(searchString)
+                                                              || s.Review.Item.Name.Contains(searchString)
                                                               || s.UserName.Contains(searchString)
                                                               || s.Comment.Contains(searchString)
                                                               || s.ReplyDate.ToString().Contains(searchString));
@@ -99,15 +93,15 @@ namespace MobileShop.Areas.Admin.Controllers
         // GET: Admin/ReplyReviews/Create
         public IActionResult Create()
         {
-            var MobilePhoneInfo = _context.Review
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.UserName + " / " + s.ItemImages.Stock.MobilePhone.Item.Name + " (" + s.ItemImages.Stock.MobilePhone.RAM + "/ " + s.ItemImages.Stock.MobilePhone.Storage + ")" + " " + s.ItemImages.Stock.ItemColor.Name,
-                    Value = s.ReviewId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ReviewId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View();
         }
 
@@ -125,15 +119,15 @@ namespace MobileShop.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var MobilePhoneInfo = _context.Review
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.UserName + " / " + s.ItemImages.Stock.MobilePhone.Item.Name + " (" + s.ItemImages.Stock.MobilePhone.RAM + "/ " + s.ItemImages.Stock.MobilePhone.Storage + ")" + " " + s.ItemImages.Stock.ItemColor.Name,
-                    Value = s.ReviewId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ReviewId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(replyReview);
         }
 
@@ -150,15 +144,15 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var MobilePhoneInfo = _context.Review
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.UserName + " / " + s.ItemImages.Stock.MobilePhone.Item.Name + " (" + s.ItemImages.Stock.MobilePhone.RAM + "/ " + s.ItemImages.Stock.MobilePhone.Storage + ")" + " " + s.ItemImages.Stock.ItemColor.Name,
-                    Value = s.ReviewId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ReviewId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(replyReview);
         }
 
@@ -194,15 +188,16 @@ namespace MobileShop.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var MobilePhoneInfo = _context.Review
+
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.UserName + " / " + s.ItemImages.Stock.MobilePhone.Item.Name + " (" + s.ItemImages.Stock.MobilePhone.RAM + "/ " + s.ItemImages.Stock.MobilePhone.Storage + ")" + " " + s.ItemImages.Stock.ItemColor.Name,
-                    Value = s.ReviewId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ReviewId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(replyReview);
         }
 
@@ -216,10 +211,7 @@ namespace MobileShop.Areas.Admin.Controllers
 
             var replyReview = await _context.ReplyReview
                 .Include(r => r.Review)
-                    .ThenInclude(r => r.ItemImages)
-                        .ThenInclude(r => r.Stock)
-                            .ThenInclude(r => r.MobilePhone)
-                                .ThenInclude(r => r.Item)
+                    .ThenInclude(r => r.Item)
                 .FirstOrDefaultAsync(m => m.ReplyReviewId == id);
             if (replyReview == null)
             {

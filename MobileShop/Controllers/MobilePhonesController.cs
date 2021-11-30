@@ -46,51 +46,32 @@ namespace MobileShop.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            IQueryable<ItemImages> mobileShopContext =  _context.ItemImages
-                    .Include(i => i.Stock)
-                        .ThenInclude(i => i.MobilePhone)
-                            .ThenInclude(i => i.Item)
-                                .ThenInclude(i => i.ItemCategory)
-                    .Include(i => i.Stock)
-                        .ThenInclude(i => i.MobilePhone)
-                            .ThenInclude(i => i.Item)
-                                .ThenInclude(i => i.ItemGroup)
-                    .Include(i => i.Stock)
-                        .ThenInclude(i => i.ItemColor)
-                    .Where(s => s.Stock.MobilePhone.Item.ItemCategoryId == 4);
+            IQueryable<Item> mobileShopContext =  _context.Item
+                    .Include(i => i.ItemCategory)
+                    .Include(i => i.ItemGroup)
+                    .Where(s => s.ItemCategoryId == 4);
 
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                mobileShopContext = mobileShopContext.Where(s => s.Stock.MobilePhone.Item.Name.Contains(searchString)
-                                                              || s.Stock.MobilePhone.Screen.Contains(searchString)
-                                                              || s.Stock.MobilePhone.OS.Contains(searchString)
-                                                              || s.Stock.MobilePhone.MainCamera.Contains(searchString)
-                                                              || s.Stock.MobilePhone.SelfieCamera.Contains(searchString)
-                                                              || s.Stock.MobilePhone.Chipset.Contains(searchString)
-                                                              || s.Stock.MobilePhone.CPU.Contains(searchString)
-                                                              || s.Stock.MobilePhone.GPU.Contains(searchString)
-                                                              || s.Stock.MobilePhone.RAM.Contains(searchString)
-                                                              || s.Stock.MobilePhone.Storage.Contains(searchString)
-                                                              || s.Stock.MobilePhone.SIM.Contains(searchString)
-                                                              || s.Stock.MobilePhone.Pin.Contains(searchString));
+                mobileShopContext = mobileShopContext.Where(s => s.Name.Contains(searchString));
             }
 
             switch (sortOrder)
             {
                 case "PriceDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Stock.Price);
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Price);
                     break;
                 case "PriceAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.Stock.Price);
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Price);
                     break;
                 case "NewDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Stock.CreatedDate);
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.CreatedDate);
                     break;
             }
 
-            int pageSize = 15;
-            return View(await PaginatedList<ItemImages>.CreateAsync(mobileShopContext.AsNoTracking(), pageNumber ?? 1, pageSize));
+            int pageSize = 10;
+            return View(await PaginatedList<Item>.CreateAsync(mobileShopContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> Detail(int? id)
@@ -100,31 +81,23 @@ namespace MobileShop.Controllers
                 return NotFound();
             }
 
-            var mobilePhoneDetail = await _context.ItemImages
-                .Include(i => i.Stock)
-                        .ThenInclude(i => i.MobilePhone)
-                            .ThenInclude(i => i.Item)
-                                .ThenInclude(i => i.ItemCategory)
-                    .Include(i => i.Stock)
-                        .ThenInclude(i => i.MobilePhone)
-                            .ThenInclude(i => i.Item)
-                                .ThenInclude(i => i.ItemGroup)
-                    .Include(i => i.Stock)
-                        .ThenInclude(i => i.ItemColor)
-                .FirstOrDefaultAsync(m => m.ItemImageId == id);
+            var mobilePhoneDetail = await _context.Item
+                                .Include(i => i.ItemCategory)
+                                .Include(i => i.ItemGroup)
+                                .FirstOrDefaultAsync(m => m.ItemId == id);
 
             if (mobilePhoneDetail == null)
             {
                 return NotFound();
             }
 
-            var reviews = _context.Review.Include(i => i.Replies).Where(d => d.ItemImageId.Equals(id.Value)).ToList();
+            var reviews = _context.Review.Include(i => i.Replies).Where(d => d.ItemId.Equals(id.Value)).ToList();
             ViewBag.Reviews = reviews;
             var countReview = reviews.Count;
             ViewBag.CountReview = countReview;
             if (countReview != 0)
             {
-                var averageRating = _context.Review.Where(d => d.ItemImageId.Equals(id.Value)).Average(a => a.Rate);
+                var averageRating = _context.Review.Where(d => d.ItemId.Equals(id.Value)).Average(a => a.Rate);
                 averageRating = Math.Round(averageRating, 1);
                 ViewBag.averageRating = averageRating;
             }
@@ -134,22 +107,22 @@ namespace MobileShop.Controllers
                 ViewBag.averageRating = averageRating;
             }
 
-            var fiveStar = _context.Review.Where(d => d.ItemImageId.Equals(id.Value) && d.Rate == 5);
+            var fiveStar = _context.Review.Where(d => d.ItemId.Equals(id.Value) && d.Rate == 5);
             ViewBag.FiveStar = fiveStar.Count();
-            var fourStar = _context.Review.Where(d => d.ItemImageId.Equals(id.Value) && d.Rate == 4);
+            var fourStar = _context.Review.Where(d => d.ItemId.Equals(id.Value) && d.Rate == 4);
             ViewBag.FourStar = fourStar.Count();
-            var threeStar = _context.Review.Where(d => d.ItemImageId.Equals(id.Value) && d.Rate == 3);
+            var threeStar = _context.Review.Where(d => d.ItemId.Equals(id.Value) && d.Rate == 3);
             ViewBag.ThreeStar = threeStar.Count();
-            var twoStar = _context.Review.Where(d => d.ItemImageId.Equals(id.Value) && d.Rate == 2);
+            var twoStar = _context.Review.Where(d => d.ItemId.Equals(id.Value) && d.Rate == 2);
             ViewBag.TwoStar = twoStar.Count();
-            var oneStar = _context.Review.Where(d => d.ItemImageId.Equals(id.Value) && d.Rate == 1);
+            var oneStar = _context.Review.Where(d => d.ItemId.Equals(id.Value) && d.Rate == 1);
             ViewBag.OneStar = oneStar.Count();
 
             return View(mobilePhoneDetail);
         }
 
         [HttpPost]
-        public async Task<IActionResult> SendReview(int itemImageId, string comment, int rate)
+        public async Task<IActionResult> SendReview(int itemId, string comment, int rate)
         {
             if (ModelState.IsValid)
             {
@@ -158,7 +131,7 @@ namespace MobileShop.Controllers
                 {
                     UserName = currentUser.UserName,
                     UserRole = string.Join(",", _userManager.GetRolesAsync(currentUser).Result.ToArray()),
-                    ItemImageId = itemImageId,
+                    ItemId = itemId,
                     Comment = comment,
                     Rate = rate,
                     CommentDate = DateTime.Now
@@ -167,11 +140,11 @@ namespace MobileShop.Controllers
                 _context.Add(Review);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Detail", "MobilePhones", new { id = itemImageId });
+            return RedirectToAction("Detail", "MobilePhones", new { id = itemId });
         }
 
         [HttpPost]
-        public async Task<IActionResult> Reply(int itemImageId, int reviewId, string comment)
+        public async Task<IActionResult> Reply(int itemId, int reviewId, string comment)
         {
             if (ModelState.IsValid)
             {
@@ -188,7 +161,7 @@ namespace MobileShop.Controllers
                 _context.Add(reply);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction("Detail", "MobilePhones", new { id = itemImageId });
+            return RedirectToAction("Detail", "MobilePhones", new { id = itemId });
         }
 
 

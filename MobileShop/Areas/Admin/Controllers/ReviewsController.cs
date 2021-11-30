@@ -40,20 +40,14 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var mobileShopContext = from m in _context.Review
-                            .Include(r => r.ItemImages)
-                               .ThenInclude(i => i.Stock)
-                                   .ThenInclude(i => i.MobilePhone)
-                                       .ThenInclude(i => i.Item)
-                            .Include(r => r.ItemImages)
-                               .ThenInclude(i => i.Stock)
-                                   .ThenInclude(i => i.ItemColor)
+                            .Include(r => r.Item)
                                     select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.UserName.Contains(searchString)
                                                               || s.UserRole.Contains(searchString)
-                                                              || s.ItemImages.Stock.MobilePhone.Item.Name.Contains(searchString)
+                                                              || s.Item.Name.Contains(searchString)
                                                               || s.Comment.Contains(searchString)
                                                               || s.Rate.ToString().Contains(searchString)
                                                               || s.CommentDate.ToString().Contains(searchString));
@@ -74,10 +68,10 @@ namespace MobileShop.Areas.Admin.Controllers
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.UserRole);
                     break;
                 case "ItemNameAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.ItemImages.Stock.MobilePhone.Item.Name);
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Item.Name);
                     break;
                 case "ItemNameDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.ItemImages.Stock.MobilePhone.Item.Name);
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Item.Name);
                     break;
                 case "CommentAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.Comment);
@@ -105,15 +99,15 @@ namespace MobileShop.Areas.Admin.Controllers
         // GET: Admin/Reviews/Create
         public IActionResult Create()
         {
-            var MobilePhoneInfo = _context.Stock
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ItemImageId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
 
             return View();
         }
@@ -123,7 +117,7 @@ namespace MobileShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ReviewId,UserName,UserRole,ItemImageId,Comment,Rate,CommentDate")] Review review)
+        public async Task<IActionResult> Create([Bind("ReviewId,UserName,UserRole,ItemId,Comment,Rate,CommentDate")] Review review)
         {
             if (ModelState.IsValid)
             {
@@ -132,15 +126,15 @@ namespace MobileShop.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var MobilePhoneInfo = _context.Stock
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ItemImageId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
 
             return View(review);
         }
@@ -155,20 +149,20 @@ namespace MobileShop.Areas.Admin.Controllers
 
             var review = await _context.Review.FindAsync(id);
 
-            var MobilePhoneInfo = _context.Stock
-                .Select(s => new
-                {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
-                })
-                .ToList();
-
             if (review == null)
             {
                 return NotFound();
             }
 
-            ViewData["ItemImageId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            var item = _context.Item
+                .Select(s => new
+                {
+                    Text = s.Name,
+                    Value = s.ItemId
+                })
+                .ToList();
+
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(review);
         }
 
@@ -177,7 +171,7 @@ namespace MobileShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ReviewId,UserName,UserRole,ItemImageId,Comment,Rate,CommentDate")] Review review)
+        public async Task<IActionResult> Edit(int id, [Bind("ReviewId,UserName,UserRole,ItemId,Comment,Rate,CommentDate")] Review review)
         {
             if (id != review.ReviewId)
             {
@@ -204,15 +198,16 @@ namespace MobileShop.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            var MobilePhoneInfo = _context.Stock
+
+            var item = _context.Item
                 .Select(s => new
                 {
-                    Text = s.MobilePhone.Item.Name + " (" + s.MobilePhone.RAM + "/ " + s.MobilePhone.Storage + ")" + " " + s.ItemColor.Name,
-                    Value = s.StockId
+                    Text = s.Name,
+                    Value = s.ItemId
                 })
                 .ToList();
 
-            ViewData["ItemImageId"] = new SelectList(MobilePhoneInfo, "Value", "Text");
+            ViewData["ItemId"] = new SelectList(item, "Value", "Text");
             return View(review);
         }
 
@@ -225,13 +220,7 @@ namespace MobileShop.Areas.Admin.Controllers
             }
 
             var review = await _context.Review
-                .Include(r => r.ItemImages)
-                    .ThenInclude(i => i.Stock)
-                        .ThenInclude(i => i.MobilePhone)
-                            .ThenInclude(i => i.Item)
-                    .Include(r => r.ItemImages)
-                       .ThenInclude(i => i.Stock)
-                           .ThenInclude(i => i.ItemColor)
+                .Include(r => r.Item)
                 .FirstOrDefaultAsync(m => m.ReviewId == id);
             if (review == null)
             {

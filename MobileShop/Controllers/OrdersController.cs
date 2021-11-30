@@ -38,13 +38,6 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
             var order = _context.Order
                 .Include(s => s.OrderDetail)
                     .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.ItemColor)
-                .Include(s => s.OrderDetail)
-                    .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.MobilePhone)
-                                .ThenInclude(s => s.Item)
                 .Where(u => u.UserName == currentUser.UserName)
                 .OrderByDescending(o => o.OrderDate);
 
@@ -85,13 +78,6 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
             var order = _context.Order
                 .Include(s => s.OrderDetail)
                     .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.ItemColor)
-                .Include(s => s.OrderDetail)
-                    .ThenInclude(s => s.Item)
-                        .ThenInclude(s => s.Stock)
-                            .ThenInclude(s => s.MobilePhone)
-                                .ThenInclude(s => s.Item)
                 .Where(u => u.UserName == currentUser.UserName && u.OrderId == id);
 
             if (order == null)

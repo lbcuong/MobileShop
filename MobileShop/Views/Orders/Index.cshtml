@@ -64,20 +64,17 @@
                     <tbody>
                         <tr style="font-size: 0.9rem;">
                             <td class="col-md-2" style="width: 15rem;">
-                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderdetail.ItemImageId">
-                                    <img src="~/lib/images/@Html.DisplayFor(model => orderdetail.Item.Images)" class="img-fluid rounded-start">
+                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderdetail.ItemId">
+                                    <img src="~/lib/images/@Html.DisplayFor(model => orderdetail.Item.ItemImage)" class="img-fluid rounded-start">
                                 </a>
                             </td>
                             <td class="col-md-4">
                                 <p class="m-0">
-                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.Item.Name)
-                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.RAM)
-                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.MobilePhone.Storage)
-                                    @Html.DisplayFor(modelItem => orderdetail.Item.Stock.ItemColor.Name)
+                                    @Html.DisplayFor(modelItem => orderdetail.Item.Name)
                                 </p>
                             </td>
                             <td class="col-md-2">Qty: @Html.DisplayFor(modelItem => orderdetail.Quantity)</td>
-                            <td class="col-md-3"> @Html.DisplayFor(modelItem => orderdetail.Item.Stock.Price) ₫</td>
+                            <td class="col-md-3"> @Html.DisplayFor(modelItem => orderdetail.Item.Price) ₫</td>
                             <td class="col-md-1"></td>
                         </tr>
                     </tbody>

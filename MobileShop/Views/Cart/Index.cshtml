@@ -16,19 +16,16 @@
                 {
                     <tr class="row">
                         <td class="d-flex justify-content-start col-7" style="font-size: 0.9rem;">
-                            <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Images)">
+                            <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.ItemImage)">
                             <text>
                                 <p class="mb-2">
-                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Item.Name)
-                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Storage)
-                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.RAM) RAM
-                                    @Html.DisplayFor(modelItem => cartItem.Item.Stock.ItemColor.Name)
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Name)
                                 </p>
-                                @if (cartItem.Item.Stock.Quantity < 10 && cartItem.Item.Stock.Quantity >= 1)
+                                @if (cartItem.Item.Quantity < 10 && cartItem.Item.Quantity >= 1)
                                 {
-                                    <p class="text-danger mb-2">Only @Html.DisplayFor(modelItem => cartItem.Item.Stock.Quantity) item(s) in stock</p>
+                                    <p class="text-danger mb-2">Only @Html.DisplayFor(modelItem => cartItem.Item.Quantity) item(s) in stock</p>
                                 }
-                                else if (cartItem.Item.Stock.Quantity == 0)
+                                else if (cartItem.Item.Quantity == 0)
                                 {
                                     <p class="text-danger mb-2">Out of stock</p>
                                 }
@@ -42,24 +39,24 @@
                         <td class="col-2">
                             <div class="input-group">
                                 <input class="btn btn-secondary btn-sm minus" type='button' id="minus" data-min="0" value='–' />
-                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemImageId}")">
-                                    @for (var quantity = 0; quantity <= @cartItem.Item.Stock.Quantity; quantity++)
+                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
+                                    @for (var quantity = 0; quantity <= @cartItem.Item.Quantity; quantity++)
                                     {
                                         <option value="@quantity">@quantity</option>
                                     }
                                 </select>
-                                <input class="btn btn-secondary btn-sm plus" type='button' id="plus" data-max="@cartItem.Item.Stock.Quantity" value='+' />
+                                <input class="btn btn-secondary btn-sm plus" type='button' id="plus" data-max="@cartItem.Item.Quantity" value='+' />
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
-                            <span>@Html.DisplayFor(modelItem => cartItem.Item.Stock.Price) ₫</span>
+                            <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
                             <span>
                                 <button class="btn text-secondary updatecartitem"
-                                        data-itemId="@cartItem.Item.ItemImageId">
+                                        data-itemId="@cartItem.Item.ItemId">
                                     <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
                                 <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
-                                   asp-route-itemId="@cartItem.Item.ItemImageId" class="btn text-secondary">
+                                   asp-route-itemId="@cartItem.Item.ItemId" class="btn text-secondary">
                                     <i class="fa-solid fa-trash-can"></i>
                                 </a>
                             </span>
@@ -75,16 +72,13 @@
                 </tr>
                 @foreach (var cartItem in Model)
                 {
-                    var totalPrice = cartItem.Quantity * cartItem.Item.Stock.Price;
+                    var totalPrice = cartItem.Quantity * cartItem.Item.Price;
                     subtotal += totalPrice;
                     <tr>
                         <td class="text-secondary" style="font-size: 0.9rem;">
-                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Item.Name) (@cartItem.Quantity item(s))
+                            @Html.DisplayFor(modelItem => cartItem.Item.Name)
                             <br />
-                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.Storage)
-                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.MobilePhone.RAM) RAM
-                            @Html.DisplayFor(modelItem => cartItem.Item.Stock.ItemColor.Name)
-
+                            @cartItem.Quantity item(s)
                         </td>
                         <td>@(totalPrice.ToString("n0")) ₫</td>
                     </tr>

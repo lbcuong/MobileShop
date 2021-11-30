@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileShop.Data;
 
 namespace MobileShop.Migrations
 {
     [DbContext(typeof(MobileShopContext))]
-    partial class MobileShopContextModelSnapshot : ModelSnapshot
+    [Migration("20211130091357_UpdateItemAdjust")]
+    partial class UpdateItemAdjust
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -164,9 +166,6 @@ namespace MobileShop.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Detail")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ItemCategoryId")
                         .HasColumnType("int");
 
@@ -175,14 +174,8 @@ namespace MobileShop.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(15,0)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -219,6 +212,29 @@ namespace MobileShop.Migrations
                     b.ToTable("ItemCategory");
                 });
 
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemColor", b =>
+                {
+                    b.Property<int>("ItemColorId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ItemColorId");
+
+                    b.ToTable("Color");
+                });
+
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemGroup", b =>
                 {
                     b.Property<int>("ItemGroupId")
@@ -242,7 +258,7 @@ namespace MobileShop.Migrations
                     b.ToTable("ItemGroup");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemImage", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemImages", b =>
                 {
                     b.Property<int>("ItemImageId")
                         .ValueGeneratedOnAdd()
@@ -255,7 +271,7 @@ namespace MobileShop.Migrations
                     b.Property<string>("Images")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("StockId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("UpdatedDate")
@@ -263,9 +279,65 @@ namespace MobileShop.Migrations
 
                     b.HasKey("ItemImageId");
 
+                    b.HasIndex("StockId");
+
+                    b.ToTable("ItemImages");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.MobilePhone", b =>
+                {
+                    b.Property<int>("MobilePhoneId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CPU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Chipset")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("GPU")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MainCamera")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OS")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Pin")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RAM")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SIM")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Screen")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SelfieCamera")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Storage")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("MobilePhoneId");
+
                     b.HasIndex("ItemId");
 
-                    b.ToTable("ItemImage");
+                    b.ToTable("MobilePhone");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Order", b =>
@@ -312,7 +384,7 @@ namespace MobileShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("ItemImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("OrderId")
@@ -323,7 +395,7 @@ namespace MobileShop.Migrations
 
                     b.HasKey("OrderDetailId");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemImageId");
 
                     b.HasIndex("OrderId");
 
@@ -397,7 +469,7 @@ namespace MobileShop.Migrations
                     b.Property<DateTime>("CommentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("ItemId")
+                    b.Property<int>("ItemImageId")
                         .HasColumnType("int");
 
                     b.Property<int>("Rate")
@@ -411,9 +483,43 @@ namespace MobileShop.Migrations
 
                     b.HasKey("ReviewId");
 
-                    b.HasIndex("ItemId");
+                    b.HasIndex("ItemImageId");
 
                     b.ToTable("Review");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Stock", b =>
+                {
+                    b.Property<int>("StockId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ItemColorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MobilePhoneId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(15,0)");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("StockId");
+
+                    b.HasIndex("ItemColorId");
+
+                    b.HasIndex("MobilePhoneId");
+
+                    b.ToTable("Stock");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Identity.Data.MobileShopUser", b =>
@@ -563,10 +669,21 @@ namespace MobileShop.Migrations
                     b.Navigation("ItemGroup");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemImage", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.ItemImages", b =>
+                {
+                    b.HasOne("MobileShop.Areas.Admin.Models.Stock", "Stock")
+                        .WithMany("ItemImages")
+                        .HasForeignKey("StockId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Stock");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.MobilePhone", b =>
                 {
                     b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
-                        .WithMany("ItemImage")
+                        .WithMany("MobilePhone")
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -576,9 +693,9 @@ namespace MobileShop.Migrations
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.OrderDetail", b =>
                 {
-                    b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
+                    b.HasOne("MobileShop.Areas.Admin.Models.ItemImages", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ItemImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -606,18 +723,42 @@ namespace MobileShop.Migrations
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Review", b =>
                 {
-                    b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
+                    b.HasOne("MobileShop.Areas.Admin.Models.ItemImages", "ItemImages")
                         .WithMany()
-                        .HasForeignKey("ItemId")
+                        .HasForeignKey("ItemImageId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Item");
+                    b.Navigation("ItemImages");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Stock", b =>
+                {
+                    b.HasOne("MobileShop.Areas.Admin.Models.ItemColor", "ItemColor")
+                        .WithMany()
+                        .HasForeignKey("ItemColorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobileShop.Areas.Admin.Models.MobilePhone", "MobilePhone")
+                        .WithMany("Stock")
+                        .HasForeignKey("MobilePhoneId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ItemColor");
+
+                    b.Navigation("MobilePhone");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Item", b =>
                 {
-                    b.Navigation("ItemImage");
+                    b.Navigation("MobilePhone");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.MobilePhone", b =>
+                {
+                    b.Navigation("Stock");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Order", b =>
@@ -628,6 +769,11 @@ namespace MobileShop.Migrations
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Review", b =>
                 {
                     b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Stock", b =>
+                {
+                    b.Navigation("ItemImages");
                 });
 #pragma warning restore 612, 618
         }

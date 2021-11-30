@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.ItemImages
+﻿@model MobileShop.Areas.Admin.Models.Item
 @using Microsoft.AspNetCore.Identity
 @using MobileShop.Areas.Identity.Data
 
@@ -25,67 +25,22 @@
         <div class="row g-2">
             <div class="col-md-4">
                 <div class="main-product-image d-flex justify-content-center align-items-center">
-                    <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.Images)">
+                    <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.ItemImage)">
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="p-3">
                     <h6 class="text-uppercase fw-bold">
-                        @Html.DisplayFor(model => model.Stock.MobilePhone.Item.Name)
-                        (
-                        @Html.DisplayFor(model => model.Stock.MobilePhone.Storage)
-                        /
-                        @Html.DisplayFor(model => model.Stock.MobilePhone.RAM) RAM
-                        )
-                        @Html.DisplayFor(model => model.Stock.ItemColor.Name)
+                        @Html.DisplayFor(model => model.Name)
                     </h6>
-                    <h5>@Html.DisplayFor(model => model.Stock.Price) ₫</h5>
-                    <div class="options border-top border-bottom mt-4 mb-3 py-2">
-                        <div class="row mb-2">
-                            <span class="fw-bold mb-1">Storage</span>
-                            <div class="col">
-                                <div class="btn-group m-auto">
-                                    <input type="radio" class="btn-check" id="storage" checked>
-                                    <label class="btn btn-sm me-1 py-2" for="storage">
-                                        @Html.DisplayFor(modelItem => Model.Stock.MobilePhone.Storage)
-                                        <i class="fa-solid fa-check"></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <span class="fw-bold mb-1">RAM</span>
-                            <div class="col">
-                                <div class="btn-group m-auto">
-                                    <input type="radio" class="btn-check" id="ram" checked>
-                                    <label class="btn btn-sm me-1 py-2" for="ram">
-                                        @Html.DisplayFor(modelItem => Model.Stock.MobilePhone.RAM)
-                                        <i class="fa-solid fa-check"></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <span class="fw-bold mb-1">Color</span>
-                            <div class="col">
-                                <div class="btn-group m-auto">
-                                    <input type="radio" class="btn-check" id="color" checked>
-                                    <label class="btn btn-sm me-1 py-2" for="color">
-                                        @Html.DisplayFor(modelItem => Model.Stock.ItemColor.Name)
-                                        <i class="fa-solid fa-check"></i>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
+                    <h5>@Html.DisplayFor(model => model.Price) ₫</h5>
                     <div class="row">
                         <span class="mb-2">Quantity</span>
                         <div class="d-flex flex-row justify-content-center w-100">
                             <div class="col input-group mb-3">
                                 <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="0" value='–' />
-                                <select class="text-center quantity-control w-25" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" id="@($"quantity-{@Model.ItemImageId}")">
-                                    @for (var quantity = 0; quantity <= Model.Stock.Quantity; quantity++)
+                                <select class="text-center quantity-control w-25" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" id="@($"quantity-{@Model.ItemId}")">
+                                    @for (var quantity = 0; quantity <= Model.Quantity; quantity++)
                                     {
                                         if (quantity != 1)
                                         {
@@ -97,14 +52,14 @@
                                         }
                                     }
                                 </select>
-                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Stock.Quantity" value='+' />
-                                @if (Model.Stock.Quantity < 10 && Model.Stock.Quantity >= 1)
+                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Quantity" value='+' />
+                                @if (Model.Quantity < 10 && Model.Quantity >= 1)
                                 {
                                     <small class="text-danger m-auto ms-5">
-                                        Only @Html.DisplayFor(modelItem => Model.Stock.Quantity) item(s) in stock
+                                        Only @Html.DisplayFor(modelItem => Model.Quantity) item(s) in stock
                                     </small>
                                 }
-                                else if (Model.Stock.Quantity == 0)
+                                else if (Model.Quantity == 0)
                                 {
                                     <small class="text-danger m-auto ms-5">
                                         Out of stock
@@ -118,7 +73,7 @@
                         </div>
                     </div>
 
-                    @if (Model.Stock.Quantity != 0)
+                    @if (Model.Quantity != 0)
                     {
                         @if (SignInManager.IsSignedIn(User))
                         {
@@ -126,7 +81,7 @@
                                 <button class="btn btn-info w-50">
                                     Buy Now
                                 </button>
-                                <button class="btn btn-secondary w-50 addtocart" data-itemId="@Model.ItemImageId">
+                                <button class="btn btn-secondary w-50 addtocart" data-itemId="@Model.ItemId">
                                     Add to Cart
                                 </button>
                             </div>
@@ -134,60 +89,15 @@
                         else
                         {
                             <div class="options d-flex flex-row mt-3 gap-3">
-                                <a class="btn btn-info text-light w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                                <a class="btn btn-info text-light w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
                                     Buy Now
                                 </a>
-                                <a class="btn btn-secondary w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                                <a class="btn btn-secondary w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
                                     Add to Cart
                                 </a>
                             </div>
                         }
                     }
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="lh-sm">
-                    <h6 class="text-uppercase">Specifications</h6>
-                    <table class="table table-borderless table-detail">
-                        <tbody>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Screen)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Screen)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.OS)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.OS)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.MainCamera)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.MainCamera)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.SelfieCamera)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.SelfieCamera)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Chipset)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Chipset)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.RAM)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.RAM)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Storage)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Storage)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.SIM)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.SIM)</td>
-                            </tr>
-                            <tr>
-                                <th class="fw-normal">@Html.DisplayNameFor(model => model.Stock.MobilePhone.Pin)</th>
-                                <td>@Html.DisplayFor(model => model.Stock.MobilePhone.Pin)</td>
-                            </tr>
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -198,14 +108,7 @@
         <div class="row g-2 d-flex justify-content-center">
             <div class="col-md-12 px-4">
                 <h5 class="text-left">
-                    Ratings & Reviews of
-                    @Html.DisplayFor(model => model.Stock.MobilePhone.Item.Name)
-                    (
-                    @Html.DisplayFor(model => model.Stock.MobilePhone.Storage)
-                    /
-                    @Html.DisplayFor(model => model.Stock.MobilePhone.RAM) RAM
-                    )
-                    @Html.DisplayFor(model => model.Stock.ItemColor.Name)
+                    Ratings & Reviews of @Html.DisplayFor(model => model.Name)
                 </h5>
                 <div class="row text-center">
                     <div class="col-md-3 d-flex flex-column my-auto">
@@ -329,7 +232,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" value="Send" class="btn btn-warning text-secondary px-5">
-                                            <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                            <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
                                         </div>
                                     </div>
                                 </div>
@@ -339,7 +242,7 @@
                     else
                     {
                         <div class="col-md-3 d-flex justify-content-center my-auto">
-                            <a class="btn btn-secondary w-75 text-light" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">
+                            <a class="btn btn-secondary w-75 text-light" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
                                 Write a Review
                             </a>
                         </div>
@@ -396,7 +299,7 @@
                                                     <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
                                                     <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
-                                                    <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                                    <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
                                                     <input type="hidden" name="ReviewId" value="@review.ReviewId" />
                                                 </div>
                                             </form>
@@ -405,7 +308,7 @@
                                     }
                                     else
                                     {
-                                        <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">Reply</a>
+                                        <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
                                     }
                                     <div class="border-start">
                                         @foreach (var reply in review.Replies)
@@ -458,7 +361,7 @@
                                                         <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
                                                         <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
-                                                        <input type="hidden" name="ItemImageId" value="@Model.ItemImageId" />
+                                                        <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
                                                         <input type="hidden" name="ReviewId" value="@review.ReviewId" />
                                                     </div>
                                                 </form>
@@ -467,7 +370,7 @@
                                         }
                                         else
                                         {
-                                            <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemImageId})">Reply</a>
+                                            <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
                                         }
                                     }
                                 </div>

@@ -11,9 +11,9 @@ namespace MobileShop.Models
     public class CartItem
     {
         public int Quantity { set; get; }
-        public ItemImages Item { set; get; }
+        public Item Item { set; get; }
 
-        public decimal SubTotal => Item.Stock.Price * Quantity;
+        public decimal SubTotal => Item.Price * Quantity;
 
     }
 }

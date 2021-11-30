@@ -28,6 +28,8 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewData["CategorySortParm"] = sortOrder == "CategoryAsc" ? "CategoryDesc" : "CategoryAsc";
             ViewData["GroupSortParm"] = sortOrder == "GroupAsc" ? "GroupDesc" : "GroupAsc";
             ViewData["NameSortParm"] = sortOrder == "NameAsc" ? "NameDesc" : "NameAsc";
+            ViewData["PriceSortParm"] = sortOrder == "PriceAsc" ? "PriceDesc" : "PriceAsc";
+            ViewData["QuantitySortParm"] = sortOrder == "QuantityAsc" ? "QuantityDesc" : "QuantityAsc";
             ViewData["CreatedDateSortParm"] = sortOrder == "CreatedDateAsc" ? "CreatedDateDesc" : "CreatedDateAsc";
             ViewData["UpdatedDateSortParm"] = sortOrder == "UpdatedDateAsc" ? "UpdatedDateDesc" : "UpdatedDateAsc";
 
@@ -47,7 +49,11 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 mobileShopContext = mobileShopContext.Where(s => s.ItemCategory.Name.Contains(searchString)
                                                               || s.ItemGroup.Name.Contains(searchString)
-                                                              || s.Name.Contains(searchString));
+                                                              || s.Name.Contains(searchString)
+                                                              || s.Quantity.ToString().Contains(searchString)
+                                                              || s.Price.ToString().Contains(searchString)
+                                                              || s.CreatedDate.ToString().Contains(searchString)
+                                                              || s.UpdatedDate.ToString().Contains(searchString));
             }
 
             switch (sortOrder)
@@ -70,6 +76,18 @@ namespace MobileShop.Areas.Admin.Controllers
                 case "NameDesc":
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Name);
                     break;
+                case "PriceAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Price);
+                    break;
+                case "PriceDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Price);
+                    break;
+                case "QuantityAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Quantity);
+                    break;
+                case "QuantityDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Quantity);
+                    break;
                 case "CreatedDateAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.CreatedDate);
                     break;
@@ -87,6 +105,26 @@ namespace MobileShop.Areas.Admin.Controllers
             return View(await mobileShopContext.ToListAsync());
         }
 
+        // GET: Admin/items1/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var items = await _context.Item
+                .Include(i => i.ItemCategory)
+                .Include(i => i.ItemGroup)
+                .FirstOrDefaultAsync(m => m.ItemId == id);
+            if (items == null)
+            {
+                return NotFound();
+            }
+
+            return View(items);
+        }
+
         // GET: Admin/Items/Create
         [Authorize(Roles = "Admin")]
         public IActionResult Create()
@@ -102,7 +140,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate")] Item item)
+        public async Task<IActionResult> Create([Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity")] Item item)
         {
             if (ModelState.IsValid)
             {
@@ -140,7 +178,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity")] Item item)
         {
             if (id != item.ItemId)
             {

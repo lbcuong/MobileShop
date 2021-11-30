@@ -30,6 +30,21 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
+                <label asp-for="Detail" class="control-label"></label>
+                <textarea id="detail" asp-for="Detail" class="form-control"></textarea>
+                <span asp-validation-for="Detail" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-2">
                 <label asp-for="CreatedDate" class="control-label"></label>
                 <input asp-for="CreatedDate" class="form-control" />
                 <span asp-validation-for="CreatedDate" class="text-danger"></span>
@@ -48,3 +63,19 @@
     </div>
 </div>
 
+@section Scripts {
+    <script>
+        ClassicEditor
+            .create(document.querySelector('#detail'), {
+                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+
+                ckfinder: { uploadUrl: '/lib/images/News/' }
+            })
+            .then(editor => {
+                window.editor = editor;
+            })
+            .catch(err => {
+                console.error(err.stack);
+            });
+    </script>
+}
