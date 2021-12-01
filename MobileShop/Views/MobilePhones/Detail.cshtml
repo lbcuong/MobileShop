@@ -11,6 +11,7 @@
 
     var reviews = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Reviews;
     var replies = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Replies;
+    var images = (IEnumerable<MobileShop.Areas.Admin.Models.ItemImage>)ViewBag.Images;
 
     List<int> ratingList = new List<int>();
     foreach (var rating in reviews)
@@ -22,10 +23,17 @@
 }
 <div class="container product-option mt-3 mb-3">
     <div class="card border-0">
-        <div class="row g-2">
-            <div class="col-md-4">
-                <div class="main-product-image d-flex justify-content-center align-items-center">
-                    <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.ItemImage)">
+        <div class="row g-2 border-bottom">
+            <div class="col-md-5 border-end">
+                <div class="main-item-image d-flex justify-content-center align-items-center border border-2 shadow-sm">
+                    <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.Image)" id="main-item-image">
+                </div>
+                <div class="d-flex justify-content-center align-items-center my-2">
+                    @foreach (var image in images)
+                    {
+                        <img onclick="changeImage(this)" class="img-thumbnail mx-1"
+                             src="~/lib/images/@Html.DisplayFor(model => image.Images)">
+                    }
                 </div>
             </div>
             <div class="col-md-4">
@@ -103,7 +111,7 @@
         </div>
     </div>
 </div>
-<div class="container product-review border-top mt-3 mb-3">
+<div class="container product-review mt-3 mb-3">
     <div class="card border-0 pt-3">
         <div class="row g-2 d-flex justify-content-center">
             <div class="col-md-12 px-4">
@@ -232,7 +240,7 @@
                                         </div>
                                         <div class="modal-footer">
                                             <input type="submit" value="Send" class="btn btn-warning text-secondary px-5">
-                                            <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
+                                            <input type="hidden" name="ItemId" value="@Model.ItemId" />
                                         </div>
                                     </div>
                                 </div>
@@ -250,7 +258,13 @@
                 </div>
             </div>
         </div>
-        <hr>
+        <hr />
+        <div class="row g-2 d-flex justify-content-center border-bottom editor-form">
+            <div class="col-md-12 px-4">
+                @Html.Raw(Model.Detail)
+            </div>
+        </div>
+        <hr />
         @{ int commentbox = 1;}
         @foreach (var review in reviews)
         {
@@ -286,8 +300,8 @@
                                             - @Html.ValueFor(model => review.CommentDate, "{0:MMMM dd, yyyy H:mm:ss}")
                                         </span>
                                     </p>
-                                    <div class="rating" id="@review.ReviewId" data-rating="@review.ReviewId" data-rate="@review.Rate"></div>
-                                    <p class="small mb-0">
+                                    <div class="rating mb-2" id="@review.ReviewId" data-rating="@review.ReviewId" data-rate="@review.Rate"></div>
+                                    <p class="small mb-0 ms-2">
                                         @Html.DisplayFor(model => review.Comment)
                                     </p>
                                     @if (SignInManager.IsSignedIn(User))
@@ -299,7 +313,7 @@
                                                     <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
                                                     <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
-                                                    <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
+                                                    <input type="hidden" name="ItemId" value="@Model.ItemId" />
                                                     <input type="hidden" name="ReviewId" value="@review.ReviewId" />
                                                 </div>
                                             </form>
@@ -310,7 +324,7 @@
                                     {
                                         <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
                                     }
-                                    <div class="border-start">
+                                    <div class="border-start border-4">
                                         @foreach (var reply in review.Replies)
                                         {
                                             <div class="d-flex flex-start mt-3 ms-5">
@@ -361,7 +375,7 @@
                                                         <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
                                                         <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
-                                                        <input type="hidden" name="ItemImageId" value="@Model.ItemId" />
+                                                        <input type="hidden" name="ItemId" value="@Model.ItemId" />
                                                         <input type="hidden" name="ReviewId" value="@review.ReviewId" />
                                                     </div>
                                                 </form>
@@ -401,7 +415,6 @@
                           Quantity:quantity
                       },
                       success: function (response) {
-                          alert(quantity + " Item(s) has been added to your cart!")
                           window.location.href = response.redirectToUrl;
 
                       }
@@ -529,6 +542,12 @@
                         return 5;
                 }
             }
+        }
+
+        function changeImage(element) {
+
+            var main_item_image = document.getElementById('main-item-image');
+            main_item_image.src = element.src;
         }
     </script>
 }

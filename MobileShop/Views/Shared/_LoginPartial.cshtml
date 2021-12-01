@@ -18,39 +18,59 @@
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                <button type="submit" class="nav-link btn btn-link text-secondary">Logout</button>
             </form>
         </li>
     }
     else if (SignInManager.IsSignedIn(User) && Context.User.IsInRole("Member"))
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="Index">My Orders</a>
-        </li>
-
         var session = HttpContextAccessor.HttpContext.Session;
         string jsoncart = session.GetString(MobileShop.Controllers.CartController.CARTKEY);
         if (jsoncart != null)
         {
             var cart = JsonConvert.DeserializeObject<List<CartItem>>(jsoncart);
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart(@cart.Count)</a>
-            </li>
+            if (@cart.Count != 0)
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                        <i class="fa-solid fa-cart-shopping fs-5 text-secondary"></i>
+                        <span class="cart-effect border border-warning rounded-circle px-1 bg-warning text-dark">@cart.Count</span>
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                        <i class="fa-solid fa-cart-arrow-down fs-5 text-secondary"></i>
+                    </a>
+                </li>
+            }
         }
         else
         {
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">Cart(0)</a>
+                <a class="nav-link text-dark" asp-area="" asp-controller="Cart" asp-action="Index">
+                    <i class="fa-solid fa-cart-arrow-down fs-5 text-secondary"></i>
+                </a>
             </li>
         }
+        <li class="nav-item">
+            <div class="dropdown">
+                <a class="btn" role="button" id="header-bar" data-bs-toggle="dropdown" aria-expanded="false">
+                    Hello @User.Identity.Name!
+                </a>
 
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-        </li>
-        <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-            </form>
+                <ul class="dropdown-menu shadow-sm p-3 rounded-0" style="margin-left: 0.95rem; margin-top: 1rem;" aria-labelledby="header-bar">
+                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">Account Settings</a></li>
+                    <li><a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">My Orders</a></li>
+                    <li>
+                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="dropdown-item btn btn-link text-dark">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
         </li>
     }
     else

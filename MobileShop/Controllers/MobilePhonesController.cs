@@ -90,6 +90,8 @@ namespace MobileShop.Controllers
             {
                 return NotFound();
             }
+            var images = _context.ItemImage.Include(i => i.Item).Where(d => d.ItemId.Equals(id.Value)).ToList();
+            ViewBag.Images = images;
 
             var reviews = _context.Review.Include(i => i.Replies).Where(d => d.ItemId.Equals(id.Value)).ToList();
             ViewBag.Reviews = reviews;

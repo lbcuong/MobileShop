@@ -157,14 +157,15 @@ namespace MobileShop.Migrations
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Item", b =>
                 {
                     b.Property<int>("ItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Detail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Images")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ItemCategoryId")
@@ -322,8 +323,6 @@ namespace MobileShop.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderDetailId");
-
-                    b.HasIndex("ItemId");
 
                     b.HasIndex("OrderId");
 
@@ -558,6 +557,12 @@ namespace MobileShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MobileShop.Areas.Admin.Models.OrderDetail", null)
+                        .WithMany("Item")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ItemCategory");
 
                     b.Navigation("ItemGroup");
@@ -576,19 +581,11 @@ namespace MobileShop.Migrations
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.OrderDetail", b =>
                 {
-                    b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
-                        .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("MobileShop.Areas.Admin.Models.Order", "Order")
                         .WithMany("OrderDetail")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Item");
 
                     b.Navigation("Order");
                 });
@@ -623,6 +620,11 @@ namespace MobileShop.Migrations
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Order", b =>
                 {
                     b.Navigation("OrderDetail");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.OrderDetail", b =>
+                {
+                    b.Navigation("Item");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Review", b =>

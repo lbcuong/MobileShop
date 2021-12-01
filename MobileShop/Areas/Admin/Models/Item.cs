@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,6 +8,7 @@ namespace MobileShop.Areas.Admin.Models
 {
     public class Item
     {
+        [Key]
         public int ItemId { get; set; }
 
         [Display(Name = "Category")]
@@ -26,6 +28,13 @@ namespace MobileShop.Areas.Admin.Models
         public int Quantity { get; set; }
 
         public string Detail { get; set; }
+
+        public string Image { get; set; }
+
+        [Required]
+        [NotMapped]
+        [Display(Name = "Images")]
+        public IFormFile ImageFile { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "decimal(15, 0)")]

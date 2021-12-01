@@ -206,7 +206,8 @@ namespace MobileShop.Controllers
                     UpdatedDate = DateTime.Now,
                     Detail = item.Item.Detail,
                     Price = item.Item.Price,
-                    Quantity = item.Item.Quantity - item.Quantity
+                    Quantity = item.Item.Quantity - item.Quantity,
+                    Image = item.Item.Image
                 };
                 _context.Update(quantity);
             }

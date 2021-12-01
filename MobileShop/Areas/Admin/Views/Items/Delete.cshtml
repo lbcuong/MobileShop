@@ -31,6 +31,10 @@
             <td>@Html.DisplayNameFor(model => model.Price)</td>
         </tr>
         <tr>
+            <td>@Html.DisplayNameFor(model => model.Image)</td>
+            <td><img class="w-25" src="@("~/lib/images/"+Model.Image)" asp-append-version="true" /></td>
+        </tr>
+        <tr>
             <td>@Html.DisplayNameFor(model => model.CreatedDate)</td>
             <td>@Html.DisplayFor(model => model.CreatedDate)</td>
         </tr>

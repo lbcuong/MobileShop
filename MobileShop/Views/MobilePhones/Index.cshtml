@@ -17,12 +17,12 @@
                 </button>
             </p>
         </div>
-        <div class="col-md-3 d-flex justify-content-end mb-2 sort-dropdown">
-            <div class="btn-group dropstart">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="SortMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                    Sort by:
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="SortMenu">
+        <div class="col-md-3 d-flex justify-content-end mb-2">
+            <div class="btn-group shadow-sm">
+                    <button class="btn border border-2 p-2 rounded-0" type="button" id="SortMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort by
+                    </button>
+                <ul class="dropdown-menu shadow-sm p-3 rounded-0" aria-labelledby="SortMenu">
                     <li>
                         <a class="dropdown-item" asp-controller="MobilePhones" asp-action="Index" asp-route-sortOrder="@ViewData["PriceAscSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                             Price low to high
@@ -35,7 +35,7 @@
                     </li>
                     <li>
                         <a class="dropdown-item" asp-controller="MobilePhones" asp-action="Index" asp-route-sortOrder="@ViewData["NewDescSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                            New
+                            Latest
                         </a>
                     </li>
                 </ul>
@@ -53,13 +53,13 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="searchString" name="searchString" value="xiaomi"/>
+                                <input class="form-check-input" type="checkbox" id="searchString" name="searchString" value="xiaomi" />
                                 <label class="form-check-label">Xiaomi</label>
                             </div>
                         </div>
                         <div class="d-flex justify-content-between">
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="searchString" name="searchString" value="apple"/>
+                                <input class="form-check-input" type="checkbox" id="searchString" name="searchString" value="apple" />
                                 <label class="form-check-label">Apple Iphone</label>
                             </div>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="row g-2">
                         <div class="col-md-4 mb-2" style="width: 15rem;">
                             <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@item.ItemId">
-                                <img src="~/lib/images/@Html.DisplayFor(modelItem => item.ItemImage)" class="img-fluid rounded-start">
+                                <img src="~/lib/images/@Html.DisplayFor(modelItem => item.Image)" class="img-fluid rounded-start">
                             </a>
                         </div>
                         <div class="col-md-8">

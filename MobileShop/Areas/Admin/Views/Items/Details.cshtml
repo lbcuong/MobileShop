@@ -17,6 +17,13 @@
             </dd>
         </dl>
         <dl class="row">
+            <dd class="col-sm-12">
+                <p><b>Images</b></p>
+                <img class="shadow" style="width: 30rem; padding-bottom: 2rem; padding-top: 2rem;"
+                     src="@("~/lib/images/"+Model.Image)" asp-append-version="true" />
+            </dd>
+        </dl>
+        <dl class="row">
             <dd class="col-sm-4">
                 <a class="btn btn-info w-100 text-white" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a>
             </dd>

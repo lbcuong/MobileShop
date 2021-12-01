@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,9 +19,12 @@ namespace MobileShop.Areas.Admin.Controllers
     {
         private readonly MobileShopContext _context;
 
-        public ItemsController(MobileShopContext context)
+        private readonly IWebHostEnvironment _hostEnvironment;
+
+        public ItemsController(MobileShopContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
+            _hostEnvironment = hostEnvironment;
         }
 
         // GET: Admin/Items
@@ -140,10 +145,20 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity")] Item item)
+        public async Task<IActionResult> Create([Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity,ImageFile")] Item item)
         {
+            string uniqueFileName = null;
             if (ModelState.IsValid)
             {
+                string RootPath = _hostEnvironment.WebRootPath;
+                uniqueFileName = item.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
+                string Extension = Path.GetExtension(item.ImageFile.FileName);
+                item.Image = uniqueFileName += Extension;
+                string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
+                using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+                {
+                    await item.ImageFile.CopyToAsync(fileStream);
+                }
                 _context.Add(item);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -178,7 +193,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity")] Item item)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity,ImageFile")] Item item)
         {
             if (id != item.ItemId)
             {
@@ -189,6 +204,24 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
+                    string uniqueFileName = null;
+                    string RootPath = _hostEnvironment.WebRootPath;
+                    uniqueFileName = item.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
+                    string Extension = Path.GetExtension(item.ImageFile.FileName);
+                    item.Image = uniqueFileName += Extension;
+
+                    if (item.Image != null)
+                    {
+                        if (item.ImageFile != null)
+                        {
+                            string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
+                            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+                            {
+                                await item.ImageFile.CopyToAsync(fileStream);
+                            }
+                        }
+                    }
+
                     _context.Update(item);
                     await _context.SaveChangesAsync();
                 }
