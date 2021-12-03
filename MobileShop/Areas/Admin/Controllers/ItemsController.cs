@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +49,9 @@ namespace MobileShop.Areas.Admin.Controllers
             var mobileShopContext = from m in _context.Item
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
-                select m;
+                                    select m;
+
+            var sum = _context.Item.Sum(s => s.Price);
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -121,6 +124,7 @@ namespace MobileShop.Areas.Admin.Controllers
             var items = await _context.Item
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
+                .Include(i => i.ItemImage)
                 .FirstOrDefaultAsync(m => m.ItemId == id);
             if (items == null)
             {
@@ -145,22 +149,42 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity,ImageFile")] Item item)
+        public async Task<IActionResult> Create(Item item)
         {
-            string uniqueFileName = null;
             if (ModelState.IsValid)
             {
-                string RootPath = _hostEnvironment.WebRootPath;
-                uniqueFileName = item.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                string Extension = Path.GetExtension(item.ImageFile.FileName);
-                item.Image = uniqueFileName += Extension;
-                string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
-                using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+                string folderPath = "/lib/images/";
+                string mainImageFile = await UploadImage(folderPath, item.MainImage);
+
+                Item newItem = new Item
                 {
-                    await item.ImageFile.CopyToAsync(fileStream);
-                }
-                _context.Add(item);
+                    ItemCategoryId = item.ItemCategoryId,
+                    ItemGroupId = item.ItemGroupId,
+                    Name = item.Name,
+                    Quantity = item.Quantity,
+                    Detail = item.Detail,
+                    Image = mainImageFile,
+                    Price = item.Price,
+                    CreatedDate = DateTime.Now
+                };
+                _context.Add(newItem);
                 await _context.SaveChangesAsync();
+
+                if (item.SecondaryImages != null)
+                {
+                    foreach (IFormFile image in item.SecondaryImages)
+                    {
+                        string itemImages = await UploadImage(folderPath, image);
+
+                        ItemImage newItemImage = new ItemImage
+                        {
+                            ItemId = newItem.ItemId,
+                            Images = itemImages
+                        };
+                        _context.Add(newItemImage);
+                    }
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategory, "ItemCategoryId", "Name", item.ItemCategoryId);
@@ -193,7 +217,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,ItemCategoryId,ItemGroupId,Name,CreatedDate,UpdatedDate,Detail,Price,Quantity,ImageFile")] Item item)
+        public async Task<IActionResult> Edit(int id, Item item)
         {
             if (id != item.ItemId)
             {
@@ -206,18 +230,18 @@ namespace MobileShop.Areas.Admin.Controllers
                 {
                     string uniqueFileName = null;
                     string RootPath = _hostEnvironment.WebRootPath;
-                    uniqueFileName = item.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                    string Extension = Path.GetExtension(item.ImageFile.FileName);
+                    uniqueFileName = item.MainImage.FileName + "_" + Guid.NewGuid().ToString();
+                    string Extension = Path.GetExtension(item.MainImage.FileName);
                     item.Image = uniqueFileName += Extension;
 
                     if (item.Image != null)
                     {
-                        if (item.ImageFile != null)
+                        if (item.MainImage != null)
                         {
                             string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
                             using (var fileStream = new FileStream(ImagePath, FileMode.Create))
                             {
-                                await item.ImageFile.CopyToAsync(fileStream);
+                                await item.MainImage.CopyToAsync(fileStream);
                             }
                         }
                     }
@@ -274,6 +298,21 @@ namespace MobileShop.Areas.Admin.Controllers
             _context.Item.Remove(item);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<string> UploadImage(string folderPath, IFormFile image)
+        {
+            string RootPath = _hostEnvironment.WebRootPath;
+            string uniqueFileName = image.FileName + "_" + Guid.NewGuid().ToString();
+            string Extension = Path.GetExtension(image.FileName);
+            uniqueFileName = uniqueFileName += Extension;
+            string ImagePath = Path.Combine(RootPath + folderPath, uniqueFileName);
+            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return uniqueFileName;
         }
 
         private bool ItemExists(int id)

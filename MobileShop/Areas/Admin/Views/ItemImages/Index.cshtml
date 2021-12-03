@@ -41,16 +41,6 @@
                         @Html.DisplayNameFor(model => model.Images)
                     </a>
                 </th>
-                <th>
-                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CreatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                        @Html.DisplayNameFor(model => model.CreatedDate)
-                    </a>
-                </th>
-                <th>
-                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["UpdatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                        @Html.DisplayNameFor(model => model.UpdatedDate)
-                    </a>
-                </th>
                 @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                 {
                     <th>
@@ -68,12 +58,6 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Images)
-                    </td>
-                    <td>
-                        @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                    </td>
-                    <td>
-                        @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
                     </td>
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {

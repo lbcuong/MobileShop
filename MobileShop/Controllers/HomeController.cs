@@ -25,6 +25,30 @@ namespace MobileShop.Controllers
 
         public IActionResult Index()
         {
+            var banners = _context.Banner.OrderByDescending(o => o.CreatedDate).Take(10).ToList();
+            ViewBag.Banners = banners;
+
+            var bestSalesMobiles = (from m in _context.Item
+                                        let totalQuantity = (from i in _context.OrderDetail
+                                        where i.ItemId == m.ItemId
+                                        select i.Quantity).Sum()
+                                    where totalQuantity > 0
+                                    orderby totalQuantity descending
+                                    select m).Take(10).ToList();
+            ViewBag.BestSalesMobiles = bestSalesMobiles;
+
+            var subbestSalesMobiles1 = bestSalesMobiles.Take(5).ToList();
+            ViewBag.SubbestSalesMobiles1 = subbestSalesMobiles1;
+
+            var subbestSalesMobiles2 = bestSalesMobiles.Skip(5).Take(5).ToList();
+            ViewBag.SubbestSalesMobiles2 = subbestSalesMobiles2;
+
+            var subbestSalesMobiles3 = bestSalesMobiles.Skip(10).Take(5).ToList();
+            ViewBag.SubbestSalesMobiles3 = subbestSalesMobiles3;
+
+            var subbestSalesMobiles4 = bestSalesMobiles.Skip(15).Take(5).ToList();
+            ViewBag.SubbestSalesMobiles4 = subbestSalesMobiles4;
+
             return View();
         }
 

@@ -12,6 +12,7 @@ namespace MobileShop.Areas.Admin.Models
         [Key]
         public int OrderId { get; set; }
 
+        [StringLength(256)]
         [Required]
         public string UserName { get; set; }
 

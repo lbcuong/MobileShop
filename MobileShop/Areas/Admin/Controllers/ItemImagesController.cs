@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,9 +50,7 @@ namespace MobileShop.Areas.Admin.Controllers
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.Images.Contains(searchString)
-                                                              || s.Item.Name.Contains(searchString)
-                                                              || s.CreatedDate.ToString().Contains(searchString)
-                                                              || s.UpdatedDate.ToString().Contains(searchString));
+                                                              || s.Item.Name.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -67,18 +66,6 @@ namespace MobileShop.Areas.Admin.Controllers
                     break;
                 case "NameDesc":
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Item.Name);
-                    break;
-                case "CreatedDateAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.CreatedDate);
-                    break;
-                case "CreatedDateDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.CreatedDate);
-                    break;
-                case "UpdatedDateAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.UpdatedDate);
-                    break;
-                case "UpdatedDateDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.UpdatedDate);
                     break;
             }
 
@@ -107,23 +94,23 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ItemImageId,ItemId,ImageFile,CreatedDate,UpdatedDate")] ItemImage itemImage)
+        public async Task<IActionResult> Create([Bind("ItemImageId,ItemId,ImageFile")] ItemImage itemImage)
         {
-            string uniqueFileName = null;
-
             if (ModelState.IsValid)
             {
-                string RootPath = _hostEnvironment.WebRootPath;
-                uniqueFileName = itemImage.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                string Extension = Path.GetExtension(itemImage.ImageFile.FileName);
-                itemImage.Images = uniqueFileName += Extension;
-                string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
-                using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+                foreach (IFormFile image in itemImage.ImageFile)
                 {
-                    await itemImage.ImageFile.CopyToAsync(fileStream);
+                    string folderPath = "/lib/images/";
+                    string itemImages = await UploadImage(folderPath, image);
+
+                    ItemImage newItemImage = new ItemImage
+                    {
+                        ItemId = itemImage.ItemId,
+                        Images = itemImages
+                    };
+                    _context.Add(newItemImage);
                 }
 
-                _context.Add(itemImage);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -173,7 +160,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,ItemId,ImageFile,CreatedDate,UpdatedDate")] ItemImage itemImage)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemImageId,ItemId,ImageFile")] ItemImage itemImage)
         {
 
             if (id != itemImage.ItemImageId)
@@ -186,23 +173,7 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
-                    string uniqueFileName = null;
-                    string RootPath = _hostEnvironment.WebRootPath;
-                    uniqueFileName = itemImage.ImageFile.FileName + "_" + Guid.NewGuid().ToString();
-                    string Extension = Path.GetExtension(itemImage.ImageFile.FileName);
-                    itemImage.Images = uniqueFileName += Extension;
-
-                    if (itemImage.Images != null)
-                    {
-                        if (itemImage.ImageFile != null)
-                        {
-                            string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
-                            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
-                            {
-                                await itemImage.ImageFile.CopyToAsync(fileStream);
-                            }
-                        }
-                    }
+                    
 
                     _context.Update(itemImage);
                     await _context.SaveChangesAsync();
@@ -262,6 +233,21 @@ namespace MobileShop.Areas.Admin.Controllers
             _context.ItemImage.Remove(itemImages);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+
+        private async Task<string> UploadImage(string folderPath, IFormFile image)
+        {
+            string RootPath = _hostEnvironment.WebRootPath;
+            string uniqueFileName = image.FileName + "_" + Guid.NewGuid().ToString();
+            string Extension = Path.GetExtension(image.FileName);
+            uniqueFileName = uniqueFileName += Extension;
+            string ImagePath = Path.Combine(RootPath + folderPath, uniqueFileName);
+            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+
+            return uniqueFileName;
         }
 
         private bool ItemImagesExists(int id)

@@ -8,11 +8,14 @@ namespace MobileShop.Areas.Admin.Models
 {
     public class UserInRole
     {
+        [StringLength(256)]
         [Display(Name = "User name")]
         public string Username { get; set; }
 
+        [StringLength(256)]
         public string Role { get; set; }
 
+        [StringLength(256)]
         public string Email { get; set; }
 
         [Display(Name = "Email Confirmed")]

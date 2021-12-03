@@ -18,9 +18,19 @@
         </dl>
         <dl class="row">
             <dd class="col-sm-12">
-                <p><b>Images</b></p>
+                <p><b>Main Image</b></p>
                 <img class="shadow" style="width: 30rem; padding-bottom: 2rem; padding-top: 2rem;"
                      src="@("~/lib/images/"+Model.Image)" asp-append-version="true" />
+            </dd>
+        </dl>
+        <dl class="row">
+            <dd class="col-sm-12">
+                <p><b>Sub-Images</b></p>
+                @foreach (var image in Model.ItemImage)
+                {
+                    <img class="shadow" style="width: 30rem; padding-bottom: 2rem; padding-top: 2rem;"
+                         src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
+                }
             </dd>
         </dl>
         <dl class="row">

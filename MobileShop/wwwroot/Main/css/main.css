@@ -38,92 +38,36 @@ h3 {
  * Main Page
  */
 
-.brand-card {
-    box-shadow: 0 0 0.1rem 0.1rem rgb(235, 235, 235);
-    transition: box-shadow .3s;
-    min-width: 19.5rem;
-    min-height: 7rem;
-    border-radius: 0 !important;
-}
-
-    .brand-card:hover {
-        box-shadow: 0 0 0.1rem 0.1rem rgb(18, 165, 214);
-    }
-
-.brand-img {
-    transition: width .3s;
-    position: absolute;
-    width: 7rem;
-    margin: auto;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-    .brand-img:hover {
-        width: 8rem;
-    }
-
-.white-div {
-    background-color: white;
-    box-shadow: 0 0 0.1rem 0.1rem rgb(235, 235, 235);
-    border-radius: 0 !important;
-}
-
-#carouselHotProducts .carousel-inner .carousel-item {
+.carouselItems .carousel-inner .carousel-item {
     height: 14rem;
 }
 
-    #carouselHotProducts .carousel-inner .carousel-item img {
-        width: 10rem;
-        margin-top: 1rem;
-    }
+.carouselItems .carousel-inner .carousel-item img {
+    width: 10rem;
+    margin-top: 1rem;
+}
 
-    #carouselHotProducts .carousel-inner .carousel-item p {
-        margin-top: -0.7rem;
-        font-size: small;
-        font-style: italic;
-    }
-
-#carouselHotProducts .carousel-control-prev {
+.carouselItems .carousel-control-prev {
     width: 5rem;
     height: 5rem;
-    top: 4.5rem;
-    left: -4rem;
+    top: 3rem;
+    left: -5.5rem;
 }
 
 .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='%23aaa'><path d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/></svg>");
 }
 
-#carouselHotProducts .carousel-control-next {
+.carouselItems .carousel-control-next {
     width: 5rem;
     height: 5rem;
-    top: 4.5rem;
-    right: -4rem;
+    top: 3rem;
+    right: -5.5rem;
 }
 
 .carousel-control-next-icon {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='%23aaa'><path d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/></svg>");
 }
-
-#carouselHotProducts .carousel-indicators {
-    visibility: hidden;
-}
-
-#carouselHotProducts:hover .carousel-indicators {
-    visibility: visible;
-    bottom: -2.5rem;
-}
-
-#carouselHotProducts .carousel-indicators button {
-    background-color: rgb(18, 165, 214);
-}
-
-    #carouselHotProducts .carousel-indicators button.active {
-        background-color: rgb(50, 65, 70);
-    }
 
 /*
  * Mobile Phone Page

@@ -42,11 +42,12 @@ const labels = [
 const data = {
     labels: labels,
     datasets: [{
-        label: 'Doanh thu',
+        label: 'Sales',
         backgroundColor: 'rgb(18, 165, 214)',
         borderColor: 'rgb(18, 165, 214)',
-        data: [10, 5, 2, 20],
-        pointBackgroundColor: '#007bff',
+        data: [10, 5, 2, 3, 4, 7, 15, 16, 20],
+        pointBackgroundColor: 'lightgray',
+        tension: 0.1
     }]
 };
 const config = {

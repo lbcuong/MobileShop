@@ -33,8 +33,8 @@ namespace MobileShop.Areas.Admin.Models
 
         [Required]
         [NotMapped]
-        [Display(Name = "Images")]
-        public IFormFile ImageFile { get; set; }
+        [Display(Name = "Image")]
+        public IFormFile MainImage { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "decimal(15, 0)")]
@@ -45,6 +45,11 @@ namespace MobileShop.Areas.Admin.Models
 
         [Display(Name = "Updated Date")]
         public DateTime? UpdatedDate { get; set; }
+
+
+        [Display(Name = "Secondary Images")]
+        [NotMapped]
+        public List<IFormFile> SecondaryImages { get; set; }
 
         public ICollection<ItemImage> ItemImage { get; set; }
     }

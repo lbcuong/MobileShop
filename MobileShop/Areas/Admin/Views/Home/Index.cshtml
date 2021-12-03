@@ -6,20 +6,42 @@
 
 <div class="d-flex justify-content-between align-items-center border-bottom m-0 p-0 mb-2">
     <h4>Overview</h4>
-    <div class="btn-toolbar">
-        <div class="btn-group me-2">
-            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+</div>
+<div class="row mt-4 g-3">
+    <div class="col-3">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Sales</p>
+            <p class="fs-5">30.000.000 ₫</p>
         </div>
-        <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-            <i class="fa-solid fa-calendar-days"></i>
-            Tháng 12
-        </button>
+    </div>
+    <div class="col-3">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Revenue</p>
+            <p class="fs-5">30.000.000 ₫</p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Orders</p>
+            <p class="fs-5">25</p>
+        </div>
+    </div>
+    <div class="col-3">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Visitors</p>
+            <p class="fs-5">120</p>
+        </div>
     </div>
 </div>
 
-<p>Doanh thu tháng 12/2021: 30.000.000 ₫</p>
-<canvas class="my-4 w-100" id="EachMonthRevenueChart" width="900" height="380"></canvas>
+<div class="row mt-4 g-3">
+    <div class="col-12">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary fs-5 p-3 border-bottom">Recent Movement</p>
+            <canvas class="my-4 w-100" id="EachMonthRevenueChart" width="900" height="300"></canvas>
+        </div>
+    </div>
+</div>
 
 <p>Doanh thu năm 2021: 130.000.000 ₫</p>
 <canvas class="my-4 w-100" id="EachYearRevenueChart" width="900" height="380"></canvas>

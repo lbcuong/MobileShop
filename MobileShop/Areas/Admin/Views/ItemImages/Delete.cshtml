@@ -24,18 +24,6 @@
             <dd class="col-sm-8">
                 <img class="w-25" src="@("~/lib/images/"+Model.Images)" asp-append-version="true" />
             </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.CreatedDate)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.CreatedDate)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.UpdatedDate)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.UpdatedDate)
-            </dd>
         </dl>
 
         <form asp-action="Delete">

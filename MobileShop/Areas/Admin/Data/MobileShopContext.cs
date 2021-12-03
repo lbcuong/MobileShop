@@ -21,5 +21,6 @@ namespace MobileShop.Data
         public DbSet<ReplyReview> ReplyReview { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<Banner> Banner { get; set; }
     }
 }

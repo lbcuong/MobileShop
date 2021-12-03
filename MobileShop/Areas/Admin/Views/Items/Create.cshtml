@@ -42,19 +42,14 @@
                 <span asp-validation-for="Price" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
-                <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" accept="lib/images/*" />
-                <span asp-validation-for="ImageFile" class="text-danger"></span>
+                <label asp-for="MainImage" class="control-label"></label>
+                <input asp-for="MainImage" class="form-control" accept="lib/images/*" />
+                <span asp-validation-for="MainImage" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="UpdatedDate" class="control-label"></label>
-                <input asp-for="UpdatedDate" class="form-control" />
-                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
+                <label asp-for="SecondaryImages" class="control-label multiple-image-label"></label>
+                <input asp-for="SecondaryImages" class="form-control multiple-image-input" accept="lib/images/*" multiple />
+                <span asp-validation-for="SecondaryImages" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group mb-2 d-flex justify-content-between">
@@ -67,6 +62,19 @@
 
 @section Scripts {
     <script>
+        $(document).ready(function () {
+            $('.multiple-image-input').on("change", function () {
+                var fileLabel = $(this).next('.multiple-image-label');
+                var files = $(this)[0].files;
+                if (files.length > 1) {
+                    fileLabel.html(files.length + ' files selected');
+                }
+                else if (files.length == 1) {
+                    fileLabel.html(files[0].name);
+                }
+            });
+        });
+
         ClassicEditor
             .create(document.querySelector('#detail'), {
                 // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]

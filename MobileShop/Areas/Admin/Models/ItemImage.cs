@@ -23,12 +23,6 @@ namespace MobileShop.Areas.Admin.Models
         [Required]
         [NotMapped]
         [Display(Name = "Images")]
-        public IFormFile ImageFile { get; set; }
-
-        [Display(Name = "Created Date")]
-        public DateTime CreatedDate { get; set; }
-
-        [Display(Name = "Updated Date")]
-        public DateTime? UpdatedDate { get; set; }
+        public List<IFormFile> ImageFile { get; set; }
     }
 }

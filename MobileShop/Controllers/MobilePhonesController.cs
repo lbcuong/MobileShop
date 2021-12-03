@@ -95,8 +95,26 @@ namespace MobileShop.Controllers
 
             var reviews = _context.Review.Include(i => i.Replies).Where(d => d.ItemId.Equals(id.Value)).ToList();
             ViewBag.Reviews = reviews;
+
             var countReview = reviews.Count;
             ViewBag.CountReview = countReview;
+
+            var currentItem = _context.Item.Find(id);
+            var relatedItem = _context.Item.Where(d => d.ItemId != id && d.ItemGroupId == currentItem.ItemGroupId).Take(20).ToList();
+            ViewBag.RelatedItems = relatedItem;
+
+            var subrelatedItem1 = relatedItem.Take(5).ToList();
+            ViewBag.SubrelatedItem1 = subrelatedItem1;
+
+            var subrelatedItem2 = relatedItem.Skip(5).Take(5).ToList();
+            ViewBag.SubrelatedItem2 = subrelatedItem2;
+
+            var subrelatedItem3 = relatedItem.Skip(10).Take(5).ToList();
+            ViewBag.SubrelatedItem3 = subrelatedItem3;
+
+            var subrelatedItem4 = relatedItem.Skip(15).Take(5).ToList();
+            ViewBag.SubrelatedItem4 = subrelatedItem4;
+
             if (countReview != 0)
             {
                 var averageRating = _context.Review.Where(d => d.ItemId.Equals(id.Value)).Average(a => a.Rate);

@@ -12,6 +12,10 @@
     var reviews = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Reviews;
     var replies = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Replies;
     var images = (IEnumerable<MobileShop.Areas.Admin.Models.ItemImage>)ViewBag.Images;
+    var subrelatedItems1 = (IEnumerable<MobileShop.Areas.Admin.Models.Item>)ViewBag.SubrelatedItem1;
+    var subrelatedItems2 = (IEnumerable<MobileShop.Areas.Admin.Models.Item>)ViewBag.SubrelatedItem2;
+    var subrelatedItems3 = (IEnumerable<MobileShop.Areas.Admin.Models.Item>)ViewBag.SubrelatedItem3;
+    var subrelatedItems4 = (IEnumerable<MobileShop.Areas.Admin.Models.Item>)ViewBag.SubrelatedItem4;
 
     List<int> ratingList = new List<int>();
     foreach (var rating in reviews)
@@ -21,9 +25,9 @@
 
     int[] ratingArray = ratingList.ToArray();
 }
-<div class="container product-option mt-3 mb-3">
-    <div class="card border-0">
-        <div class="row g-2 border-bottom">
+<div class="container product-option border-bottom my-3">
+    <div class="card border-0 py-3">
+        <div class="row g-2">
             <div class="col-md-5 border-end">
                 <div class="main-item-image d-flex justify-content-center align-items-center border border-2 shadow-sm">
                     <img class="img-fluid p-3" src="~/lib/images/@Html.DisplayFor(model => model.Image)" id="main-item-image">
@@ -111,11 +115,11 @@
         </div>
     </div>
 </div>
-<div class="container product-review mt-3 mb-3">
-    <div class="card border-0 pt-3">
+<div class="container product-review border-bottom my-3">
+    <div class="card border-0 py-3">
         <div class="row g-2 d-flex justify-content-center">
             <div class="col-md-12 px-4">
-                <h5 class="text-left">
+                <h5 class="text-left text-secondary">
                     Ratings & Reviews of @Html.DisplayFor(model => model.Name)
                 </h5>
                 <div class="row text-center">
@@ -258,56 +262,228 @@
                 </div>
             </div>
         </div>
-        <hr />
-        <div class="row g-2 d-flex justify-content-center border-bottom editor-form">
-            <div class="col-md-12 px-4">
-                @Html.Raw(Model.Detail)
+    </div>
+</div>
+<div class="container border-bottom my-3">
+    <div class="row g-2 d-flex justify-content-center editor-form py-3">
+        <div class="col-md-12 px-4">
+            @Html.Raw(Model.Detail)
+        </div>
+    </div>
+</div>
+<div class="container border-bottom my-3">
+    <div class="row g-2 d-flex justify-content-center py-3">
+        <div class="col-md-12 px-4">
+            <h5 class="text-left text-secondary">
+                Related Item
+            </h5>
+            <div>
+                <div id="carouselRelatedItems" class="carousel slide carouselItems" data-bs-interval="false" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        @if (ViewBag.SubrelatedItem1.Count > 0)
+                        {
+                            <div class="carousel-item active">
+                                <div class="row">
+                                    @{
+                                        int indexSlide1 = 0;
+                                    }
+                                    @foreach (var subrelatedItem1 in subrelatedItems1)
+                                    {
+                                        <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem1.ItemId">
+                                                <img src="@("~/lib/images/" + subrelatedItem1.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem1.Name" />
+                                                <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem1.Name)</h6>
+                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem1.Price) ₫</p>
+                                            </a>
+                                        </div>
+                                        indexSlide1++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.SubrelatedItem2.Count > 0)
+                        {
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @{
+                                        int indexSlide2 = 0;
+                                    }
+                                    @foreach (var subrelatedItem2 in subrelatedItems2)
+                                    {
+                                        <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem2.ItemId">
+                                                <img src="@("~/lib/images/" + subrelatedItem2.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem2.Name" />
+                                                <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem2.Name)</h6>
+                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem2.Price) ₫</p>
+                                            </a>
+                                        </div>
+                                        indexSlide2++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.SubrelatedItem3.Count > 0)
+                        {
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @{
+                                        int indexSlide3 = 0;
+                                    }
+                                    @foreach (var subrelatedItem3 in subrelatedItems3)
+                                    {
+                                        <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem3.ItemId">
+                                                <img src="@("~/lib/images/" + subrelatedItem3.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem3.Name" />
+                                                <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem3.Name)</h6>
+                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem3.Price) ₫</p>
+                                            </a>
+                                        </div>
+                                        indexSlide3++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                        @if (ViewBag.SubrelatedItem4.Count > 0)
+                        {
+                            <div class="carousel-item">
+                                <div class="row">
+                                    @{
+                                        int indexSlide4 = 0;
+                                    }
+                                    @foreach (var subrelatedItem4 in subrelatedItems4)
+                                    {
+                                        <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem4.ItemId">
+                                                <img src="@("~/lib/images/" + subrelatedItem4.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem4.Name" />
+                                                <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem4.Name)</h6>
+                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem4.Price) ₫</p>
+                                            </a>
+                                        </div>
+                                        indexSlide4++;
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselRelatedItems" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselRelatedItems" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
             </div>
         </div>
-        <hr />
-        @{ int commentbox = 1;}
-        @foreach (var review in reviews)
-        {
-            <div class="row g-2 d-flex justify-content-center border-bottom">
-                <div class="col-md-12 px-4">
-                    <div class="row">
-                        <div class="col">
-                            <div class="d-flex flex-start">
-                                <div class="mb-3">
-                                    <p class="mb-1">
-                                        @if (review.UserRole == "Admin")
-                                        {
-                                            <span class="text-secondary">
-                                                <i class="fa-solid fa-user text-primary"></i>
-                                                @Html.DisplayFor(model => review.UserName)
-                                            </span>
-                                        }
-                                        else if (review.UserRole == "Staff")
-                                        {
-                                            <span class="text-secondary">
-                                                <i class="fa-solid fa-user text-info"></i>
-                                                @Html.DisplayFor(model => review.UserName)
-                                            </span>
-                                        }
-                                        else
-                                        {
-                                            <span class="text-secondary">
-                                                <i class="fa-solid fa-user text-secondary"></i>
-                                                @Html.DisplayFor(model => review.UserName)
-                                            </span>
-                                        }
-                                        <span class="small text-secondary">
-                                            - @Html.ValueFor(model => review.CommentDate, "{0:MMMM dd, yyyy H:mm:ss}")
+    </div>
+</div>
+<div class="container border-bottom my-3">
+    @{ int commentbox = 1;}
+    @foreach (var review in reviews)
+    {
+        <div class="row g-2 d-flex justify-content-center py-3">
+            <div class="col-md-12 px-4">
+                <div class="row">
+                    <div class="col">
+                        <div class="d-flex flex-start">
+                            <div class="mb-3">
+                                <p class="mb-1">
+                                    @if (review.UserRole == "Admin")
+                                    {
+                                        <span class="text-secondary">
+                                            <i class="fa-solid fa-user text-primary"></i>
+                                            @Html.DisplayFor(model => review.UserName)
                                         </span>
-                                    </p>
-                                    <div class="rating mb-2" id="@review.ReviewId" data-rating="@review.ReviewId" data-rate="@review.Rate"></div>
-                                    <p class="small mb-0 ms-2">
-                                        @Html.DisplayFor(model => review.Comment)
-                                    </p>
+                                    }
+                                    else if (review.UserRole == "Staff")
+                                    {
+                                        <span class="text-secondary">
+                                            <i class="fa-solid fa-user text-info"></i>
+                                            @Html.DisplayFor(model => review.UserName)
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-secondary">
+                                            <i class="fa-solid fa-user text-secondary"></i>
+                                            @Html.DisplayFor(model => review.UserName)
+                                        </span>
+                                    }
+                                    <span class="small text-secondary">
+                                        - @Html.ValueFor(model => review.CommentDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                                    </span>
+                                </p>
+                                <div class="rating mb-2" id="@review.ReviewId" data-rating="@review.ReviewId" data-rate="@review.Rate"></div>
+                                <p class="small mb-0 ms-2">
+                                    @Html.DisplayFor(model => review.Comment)
+                                </p>
+                                @if (SignInManager.IsSignedIn(User))
+                                {
+                                    <a class="text-secondary small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
+                                    <div class="form-comment-box" id="commentbox-@commentbox">
+                                        <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
+                                            <div class="comment-box d-flex align-items-center">
+                                                <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
+
+                                                <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
+                                                <input type="hidden" name="ItemId" value="@Model.ItemId" />
+                                                <input type="hidden" name="ReviewId" value="@review.ReviewId" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                    commentbox++;
+                                }
+                                else
+                                {
+                                    <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
+                                }
+                                <div class="border-start border-4">
+                                    @foreach (var reply in review.Replies)
+                                    {
+                                        <div class="d-flex flex-start mt-3 ms-5">
+                                            <div>
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <p class="mb-1">
+                                                        @if (reply.UserRole == "Admin")
+                                                        {
+                                                            <span class="text-secondary">
+                                                                <i class="fa-solid fa-user text-primary"></i>
+                                                                @Html.DisplayFor(model => reply.UserName)
+                                                            </span>
+                                                        }
+                                                        else if (reply.UserRole == "Staff")
+                                                        {
+                                                            <span class="text-secondary">
+                                                                <i class="fa-solid fa-user text-info"></i>
+                                                                @Html.DisplayFor(model => reply.UserName)
+                                                            </span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-secondary">
+                                                                <i class="fa-solid fa-user text-secondary"></i>
+                                                                @Html.DisplayFor(model => reply.UserName)
+                                                            </span>
+                                                        }
+                                                        <span class="small text-secondary">
+                                                            - @Html.ValueFor(model => reply.ReplyDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <p class="small mb-0">
+                                                    @Html.DisplayFor(model => reply.Comment)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                                @if (review.Replies.Count != 0)
+                                {
                                     @if (SignInManager.IsSignedIn(User))
                                     {
-                                        <a class="text-secondary small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
-                                        <div class="form-comment-box" id="commentbox-@commentbox">
+                                        <a class="text-secondary ms-5 mt-1 small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
+                                        <div class="form-comment-box ms-5" id="commentbox-@commentbox">
                                             <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
                                                 <div class="comment-box d-flex align-items-center">
                                                     <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
@@ -324,77 +500,14 @@
                                     {
                                         <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
                                     }
-                                    <div class="border-start border-4">
-                                        @foreach (var reply in review.Replies)
-                                        {
-                                            <div class="d-flex flex-start mt-3 ms-5">
-                                                <div>
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        <p class="mb-1">
-                                                            @if (reply.UserRole == "Admin")
-                                                            {
-                                                                <span class="text-secondary">
-                                                                    <i class="fa-solid fa-user text-primary"></i>
-                                                                    @Html.DisplayFor(model => reply.UserName)
-                                                                </span>
-                                                            }
-                                                            else if (reply.UserRole == "Staff")
-                                                            {
-                                                                <span class="text-secondary">
-                                                                    <i class="fa-solid fa-user text-info"></i>
-                                                                    @Html.DisplayFor(model => reply.UserName)
-                                                                </span>
-                                                            }
-                                                            else
-                                                            {
-                                                                <span class="text-secondary">
-                                                                    <i class="fa-solid fa-user text-secondary"></i>
-                                                                    @Html.DisplayFor(model => reply.UserName)
-                                                                </span>
-                                                            }
-                                                            <span class="small text-secondary">
-                                                                - @Html.ValueFor(model => reply.ReplyDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                    <p class="small mb-0">
-                                                        @Html.DisplayFor(model => reply.Comment)
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                    @if (review.Replies.Count != 0)
-                                    {
-                                        @if (SignInManager.IsSignedIn(User))
-                                        {
-                                            <a class="text-secondary ms-5 mt-1 small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
-                                            <div class="form-comment-box ms-5" id="commentbox-@commentbox">
-                                                <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
-                                                    <div class="comment-box d-flex align-items-center">
-                                                        <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
-
-                                                        <button type="submit" class="btn"><i class="fa-solid fa-reply"></i></button>
-                                                        <input type="hidden" name="ItemId" value="@Model.ItemId" />
-                                                        <input type="hidden" name="ReviewId" value="@review.ReviewId" />
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            commentbox++;
-                                        }
-                                        else
-                                        {
-                                            <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
-                                        }
-                                    }
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
 
 @section Scripts {

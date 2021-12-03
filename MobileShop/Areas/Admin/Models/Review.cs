@@ -13,9 +13,11 @@ namespace MobileShop.Areas.Admin.Models
         [Key]
         public int ReviewId { get; set; }
 
+        [StringLength(256)]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
+        [StringLength(256)]
         [Display(Name = "User role")]
         public string UserRole { get; set; }
 

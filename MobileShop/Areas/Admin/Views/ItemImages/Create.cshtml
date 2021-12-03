@@ -19,18 +19,8 @@
             </div>
             <div class="form-group mb-2">
                 <label asp-for="ImageFile" class="control-label"></label>
-                <input asp-for="ImageFile" class="form-control" accept="lib/images/*"/>
+                <input asp-for="ImageFile" class="form-control" accept="lib/images/*" multiple/>
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="CreatedDate" class="control-label"></label>
-                <input asp-for="CreatedDate" class="form-control" />
-                <span asp-validation-for="CreatedDate" class="text-danger"></span>
-            </div>
-            <div class="form-group mb-2">
-                <label asp-for="UpdatedDate" class="control-label"></label>
-                <input asp-for="UpdatedDate" class="form-control" />
-                <span asp-validation-for="UpdatedDate" class="text-danger"></span>
             </div>
             <br>
             <div class="form-group mb-2 d-flex justify-content-between">

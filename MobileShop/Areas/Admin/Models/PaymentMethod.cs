@@ -12,6 +12,7 @@ namespace MobileShop.Areas.Admin.Models
     {
         public int PaymentMethodId { get; set; }
 
+        [StringLength(50)]
         [Required]
         public string Name { get; set; }
 

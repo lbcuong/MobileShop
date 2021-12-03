@@ -12,21 +12,29 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row header-bar sticky-top">
-            <div class="d-flex justify-content-start align-items-center">
-                <a class="nav-link text-light fs-4" style="width: 45rem;" aria-current="page" asp-area="Admin" asp-controller="Home" asp-action="Index">
+        <div class="row header-bar sticky-top shadow">
+            <div class="d-flex justify-content-between align-items-center">
+                <a class="nav-link text-light fs-4" aria-current="page" asp-area="Admin" asp-controller="Home" asp-action="Index">
                     Mobile Shop
                 </a>
-                <a class="nav-link text-light fs-6">
-                    Welcome "@User.Identity.Name" to Dashboard!
-                </a>
-                <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Index">Shopping Page</a>
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class="nav-link btn btn-link text-light">Logout</button>
-                </form>
+
+                <div class="dropdown">
+                    <a class="btn text-white" role="button" id="header-bar" data-bs-toggle="dropdown" aria-expanded="false">
+                        Welcome "@User.Identity.Name" to Dashboard!
+                    </a>
+
+                    <ul class="dropdown-menu shadow-sm p-3 rounded-0 mt-2" aria-labelledby="header-bar">
+                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Shopping Page</a></li>
+                        <li>
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="dropdown-item btn btn-link">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="row g-0">
+        <div class="row g-0 ">
             <div class="sidebar col-md-2 pt-1">
                 <ul class="nav flex-column">
                     <li class="nav-item mt-2">
@@ -98,6 +106,21 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
+                           href="#collapseUI" role="button" aria-expanded="false"
+                           aria-controls="collapseUI">
+                            <i class="fa-solid fa-file fs-5"></i>
+                            UI Management
+                        </a>
+                        <div class="collapse" id="collapseUI">
+                            <a class="nav-link text-light hover-underline-animation"
+                               asp-area="Admin" asp-controller="Banners" asp-action="Index">
+                                Banner
+                            </a>
+                            <br />
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light hover-underline-animation" data-bs-toggle="collapse"
                            href="#collapseUser" role="button" aria-expanded="false"
                            aria-controls="collapseUser">
                             <i class="fa-solid fa-user-group fs-5"></i>
@@ -138,7 +161,7 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="~/lib/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="~/lib/ckeditor/ckeditor.js"></script>
     <script type="text/javascript" src="~/lib/chart/dist/chart.js"></script>
