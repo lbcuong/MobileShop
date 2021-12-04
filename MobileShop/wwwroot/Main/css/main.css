@@ -6,7 +6,9 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
-.container .border-0, button {
+.btn {
+    outline: none !important;
+    box-shadow: none !important;
     border-radius: 0 !important;
 }
 
@@ -318,12 +320,6 @@ select {
 
 .form-LSR .text:hover {
     color: rgb(18, 165, 214);
-}
-
-.btn {
-    outline: none !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
 }
 
 .form-LSR .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {

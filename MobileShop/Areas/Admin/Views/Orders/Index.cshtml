@@ -23,8 +23,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead class="sticky-top">
             <tr>
                 <th>
@@ -67,7 +67,7 @@
                         @Html.DisplayNameFor(model => model.Status)
                     </a>
                 </th>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Staff") || Context.User.IsInRole("Admin")))
                 {
                     <th>
                         Options
@@ -99,13 +99,38 @@
                     <td>
                         @Html.ValueFor(modelItem => item.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
+                    @if (item.Status == "To Pack")
+                    {
+                        <td class="text-danger">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+                    else if (item.Status == "Delivered")
+                    {
+                        <td class="text-success">
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                    }
+                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Staff")))
+                    {
+                        <td>
+                            @if (item.Status == "To Pack" || item.Status == "Delivering")
+                            {
+                                <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.OrderId">Edit</a>
+                                <br />
+                            }
+                            <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.OrderId">Detail</a>
+                        </td>
+                    }
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {
                         <td>
-                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.OrderId">Edit</a> |
                             <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.OrderId">Detail</a>
                         </td>
                     }

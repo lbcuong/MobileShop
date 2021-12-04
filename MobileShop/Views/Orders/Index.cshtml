@@ -42,21 +42,36 @@
                         </th>
                         <th></th>
                         <th></th>
-                        @if (order.Status == "Delivering")
+                        @if (order.Status == "To Pack")
                         {
                             <th>
                                 <a class="border border-secondary rounded-pill bg-secondary text-decoration-none text-light fw-normal px-2 py-1">
                                     @Html.ValueFor(model => order.Status)
                                 </a>
                             </th>
+                            <th>
+                                <a class="text-decoration-none text-primary d-flex justify-content-center" asp-area="" asp-controller="Orders" asp-action="Cancel" asp-route-id="@order.OrderId">
+                                    Cancel
+                                </a>
+                            </th>
+                        }
+                        else if  (order.Status == "Delivered")
+                        {
+                            <th>
+                                <a class="border border-sucess rounded-pill bg-success text-decoration-none text-light fw-normal px-2 py-1">
+                                    @Html.ValueFor(model => order.Status)
+                                </a>
+                            </th>
+                            <th></th>
                         }
                         else
                         {
                             <th>
-                                <a class="border border-sucess rounded-pill bg-success text-light text-decoration-none text-light fw-normal px-2 py-1">
+                                <a class="border border-secondary rounded-pill bg-secondary text-decoration-none text-light fw-normal px-2 py-1">
                                     @Html.ValueFor(model => order.Status)
                                 </a>
                             </th>
+                            <th></th>
                         }
                     </tr>
                 </thead>
@@ -75,7 +90,8 @@
                                 </p>
                             </td>
                             <td class="col-md-2">Qty: @Html.DisplayFor(modelItem => orderdetail.Quantity)</td>
-                            <td class="col-md-3"> @Html.DisplayFor(modelItem => orderdetail.Item.Price) ₫</td>
+                            <td class="col-md-2"> @Html.DisplayFor(modelItem => orderdetail.Item.Price) ₫</td>
+                            <td class="col-md-1"></td>
                             <td class="col-md-1"></td>
                         </tr>
                     </tbody>

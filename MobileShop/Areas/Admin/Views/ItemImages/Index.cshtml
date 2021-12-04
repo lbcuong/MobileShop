@@ -27,8 +27,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead class="sticky-top">
             <tr>
                 <th>
@@ -57,12 +57,13 @@
                         @Html.DisplayFor(modelItem => item.Item.Name)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Images)
+                        <img class="w-25" src="@("~/lib/images/"+item.Images)" asp-append-version="true" />
                     </td>
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {
                         <td>
-                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemImageId">Edit</a> |
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemImageId">Edit</a>
+                            <br />
                             <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemImageId">Delete</a>
                         </td>
                     }

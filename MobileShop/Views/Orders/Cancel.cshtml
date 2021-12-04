@@ -1,0 +1,67 @@
+﻿@model MobileShop.Areas.Admin.Models.Order
+
+@{
+    ViewData["Title"] = "Order Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    int totalItem = 0;
+
+    var orderDetails = (IEnumerable<MobileShop.Areas.Admin.Models.Order>)ViewBag.OrderDetail;
+}
+
+<div class="mt-4">
+    <div class="d-flex justify-content-between">
+        <h6 class="text-secondary">
+            Order: @Html.DisplayFor(model => model.OrderId) -
+            <i>Placed at @Html.ValueFor(model => model.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")</i>
+        </h6>
+    </div>
+    <form class="form-LSR bg-white mt-1 py-3 px-2">
+        <table class="table table-borderless table-hover">
+            @foreach (var order in orderDetails)
+            {
+                <thead class="border-top">
+                    <tr>
+                        <th colspan="4"></th>
+                    </tr>
+                </thead>
+                @foreach (var orderDetail in order.OrderDetail)
+                {
+                    <tbody>
+                        <tr style="font-size: 0.9rem;">
+                            <td class="col-md-2" style="width: 15rem;">
+                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
+                                    <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
+                                </a>
+                            </td>
+                            <td class="col-md-4">
+                                <p class="m-0">
+                                    @Html.DisplayFor(model => orderDetail.Item.Name)
+                                </p>
+                            </td>
+                            <td class="col-md-2">Qty: @Html.DisplayFor(model => orderDetail.Quantity)</td>
+                            <td class="col-md-4"> @Html.DisplayFor(model => orderDetail.Item.Price) ₫</td>
+                        </tr>
+                    </tbody>
+                    totalItem += orderDetail.Quantity;
+                }
+            }
+        </table>
+        <hr>
+    </form>
+    <div class="d-flex justify-content-between">
+        <a class="btn btn-secondary px-5 py-2 text-white" asp-action="Index">Return</a>
+        <form asp-action="Cancel">
+            <input type="hidden" asp-for="OrderId" />
+            <input asp-for="OrderId" class="form-control" readonly="readonly" hidden />
+            <input asp-for="UserName" class="form-control" readonly="readonly" hidden />
+            <input asp-for="Name" class="form-control" readonly="readonly" hidden />
+            <input asp-for="PhoneNumber" class="form-control" readonly="readonly" hidden />
+            <input asp-for="Address" class="form-control" readonly="readonly" hidden />
+            <input asp-for="Total" class="form-control" readonly="readonly" hidden />
+            <input asp-for="OrderDate" class="form-control" readonly="readonly" hidden />
+            <input asp-for="Status" class="form-control" value="Cancelled" hidden />
+            <input type="submit" value="Cancel" class="btn btn-info w-100 px-5 py-2 text-white" />
+        </form>
+    </div>
+</div>

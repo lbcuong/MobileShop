@@ -10,7 +10,6 @@ namespace MobileShop.Models
     public class CheckOut
     {
         public List<CartItem> CartItem { get; set; }
-        public IEnumerable<PaymentMethod> PaymentMethod { set; get; }
 
         [Display(Name = "Full Name")]
         public string Name { get; set; }

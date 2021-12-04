@@ -8,18 +8,23 @@
     <h5>User Management / Roles / Create</h5>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <form asp-action="Create">
-            <div class="form-group mb-2">
-                <label name="roleName" class="control-label">Role Name</label>
-                <input name="roleName" class="form-control" />
+<div class="shadow rounded-0">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+                <h5 class="text-secondary">New Role</h5>
+                <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
             </div>
-            <br>
-            <div class="form-group d-flex justify-content-between">
-                <input type="submit" value="Create" class="btn btn-info w-50 text-white me-5" />
-                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
-            </div>
-        </form>
+            <form asp-action="Create">
+                <div class="form-group mb-2">
+                    <label name="roleName" class="control-label">Role Name</label>
+                    <input name="roleName" class="form-control" />
+                </div>
+                <br>
+                <div class="form-group d-flex justify-content-between">
+                    <input type="submit" value="Create" class="btn btn-info w-50 text-white me-5" />
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -88,6 +89,57 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
             }
 
             return View(await order.ToListAsync());
+        }
+
+        // GET: Admin/Orders/Edit/5
+        [Authorize(Roles = "Member")]
+        public async Task<IActionResult> Cancel(int? id)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id == null)
+                {
+                    return NotFound();
+                }
+                var order = await _context.Order.FindAsync(id);
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var orderDetail = _context.Order
+                    .Include(s => s.OrderDetail)
+                        .ThenInclude(s => s.Item)
+                            .ThenInclude(s => s.ItemImage)
+                    .Where(u => u.UserName == currentUser.UserName && u.OrderId == id);
+                ViewBag.OrderDetail = orderDetail;
+                if (order == null)
+                {
+                    return NotFound();
+                }
+                return View(order);
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Admin/Orders/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
+        public async Task<IActionResult> Cancel(int id, [Bind("OrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] Order order)
+        {
+            if (id != order.OrderId)
+            {
+                return NotFound();
+            }
+
+            _context.Update(order);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool OrderExists(int id)
+        {
+            return _context.Order.Any(e => e.OrderId == id);
         }
     }
 }

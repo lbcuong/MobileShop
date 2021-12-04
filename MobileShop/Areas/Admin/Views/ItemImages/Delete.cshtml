@@ -9,33 +9,30 @@
     <h5>Item Management / Item Images / Delete</h5>
 </div>
 
-<div class="row">
-    <div class="col-md-10">
-        <dl class="row p-2">
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.ItemId)
-            </dt>
-            <dd class="col-sm-8">
-                @Html.DisplayFor(model => model.Item.Name)
-            </dd>
-            <dt class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Images)
-            </dt>
-            <dd class="col-sm-8">
-                <img class="w-25" src="@("~/lib/images/"+Model.Images)" asp-append-version="true" />
-            </dd>
-        </dl>
-
-        <form asp-action="Delete">
-            <dl class="row p-2">
-                <dt class="col-sm-4">
-                    <input type="hidden" asp-for="ItemImageId" />
-                    <input type="submit" value="Delete" class="btn btn-info w-100 text-white" />
-                </dt>
-                <dd class="col-sm-4">
-                    <a class="btn btn-secondary w-100 text-white" asp-action="Index">Back to List</a>
-                </dd>
-            </dl>
-        </form>
+<div class="shadow rounded-0">
+    <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+        <h5 class="text-secondary">Delete Confirmation</h5>
+        <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
     </div>
+    <table class="table table-striped table-borderless my-3">
+        <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.ItemId)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.Item.Name)</td>
+        </tr>
+        <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.Images)</td>
+            <td class="col-8">
+                <img class="w-25" src="@("~/lib/images/"+Model.Images)" asp-append-version="true" />
+            </td>
+        </tr>
+        <tr class="row">
+            <td class="col-4">
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="ItemImageId" />
+                    <input type="submit" value="Delete" class="btn btn-info text-white w-100" />
+                </form>
+            </td>
+            <td class="col-8"></td>
+        </tr>
+    </table>
 </div>

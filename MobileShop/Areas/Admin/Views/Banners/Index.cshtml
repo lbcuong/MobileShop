@@ -27,8 +27,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead class="sticky-top">
             <tr>
                 <th>
@@ -62,28 +62,29 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <img style="width: 15rem;"
-                         src="@("~/lib/images/banners/" + item.Image)" asp-append-version="true" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                {
+                <tr>
                     <td>
-                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.BannerId">Edit</a> |
-                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.BannerId">Delete</a>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                }
-            </tr>
+                    <td>
+                        <img style="width: 15rem;"
+                             src="@("~/lib/images/banners/" + item.Image)" asp-append-version="true" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                    {
+                        <td>
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.BannerId">Edit</a>
+                            <br />
+                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.BannerId">Delete</a>
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>

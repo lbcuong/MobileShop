@@ -27,8 +27,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead class="sticky-top">
             <tr>
                 <th>
@@ -47,13 +47,18 @@
                     </a>
                 </th>
                 <th>
+                    <a class="text-dark text-decoration-none">
+                        @Html.DisplayNameFor(model => model.Image)
+                    </a>
+                </th>
+                <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                         @Html.DisplayNameFor(model => model.Quantity)
                     </a>
                 </th>
                 <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
-                        @Html.DisplayNameFor(model => model.Price) ₫
+                        @Html.DisplayNameFor(model => model.Price)
                     </a>
                 </th>
                 <th>
@@ -88,10 +93,14 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
+                    <img style="width: 15rem;"
+                         src="@("~/lib/images/" + item.Image)" asp-append-version="true" />
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Quantity)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Price)
+                    @Html.DisplayFor(modelItem => item.Price) ₫
                 </td>
                 <td>
                     @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
@@ -101,11 +110,13 @@
                 </td>
                 @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                 {
-            <td>
-                <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a> |
-                <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.ItemId">Details</a> |
-                <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
-            </td>
+                    <td>
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a>
+                        <br />
+                        <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.ItemId">Details</a>
+                        <br />
+                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                    </td>
                 }
             </tr>
             }

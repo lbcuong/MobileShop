@@ -138,7 +138,7 @@ namespace MobileShop.Areas.Admin.Controllers
         }
 
         // GET: Admin/Orders/Edit/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Staff")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -159,16 +159,39 @@ namespace MobileShop.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Staff")]
         public async Task<IActionResult> Edit(int id, [Bind("OrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] Order order)
         {
             if (id != order.OrderId)
             {
                 return NotFound();
             }
-
             _context.Update(order);
             await _context.SaveChangesAsync();
+
+            if (order.Status == "Delivering")
+            {
+                var orderDetail = _context.OrderDetail.Include(s => s.Item).Where(u => u.OrderId == id).AsNoTracking().ToList();
+
+                foreach (var item in orderDetail)
+                {
+                    var quantity = new Item
+                    {
+                        ItemId = item.Item.ItemId,
+                        ItemCategoryId = item.Item.ItemCategoryId,
+                        ItemGroupId = item.Item.ItemGroupId,
+                        Name = item.Item.Name,
+                        CreatedDate = item.Item.CreatedDate,
+                        UpdatedDate = DateTime.Now,
+                        Detail = item.Item.Detail,
+                        Price = item.Item.Price,
+                        Quantity = item.Item.Quantity - item.Quantity,
+                        Image = item.Item.Image
+                    };
+                    _context.Item.Update(quantity);
+                }
+                await _context.SaveChangesAsync();
+            }
 
             return RedirectToAction(nameof(Index));
         }

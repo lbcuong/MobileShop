@@ -23,7 +23,7 @@ namespace MobileShop.Controllers
         private readonly string _clientId;
         private readonly string _clientSecret;
 
-        public decimal USDCurrency = 22650;
+        public decimal USDCurrency = 22840;
 
         public CheckOutController(MobileShopContext context, UserManager<MobileShopUser> userManager, IConfiguration config) : base(context)
         {
@@ -37,25 +37,28 @@ namespace MobileShop.Controllers
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> CheckOut()
         {
-            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
 
-            var checkOut = new CheckOut
-            {
-                CartItem = GetCartItems(),
-                PaymentMethod = _context.PaymentMethod.ToList(),
-                Name = currentUser.Name,
-                PhoneNumber = currentUser.PhoneNumber,
-                Address = currentUser.Address
-            };
+                var checkOut = new CheckOut
+                {
+                    CartItem = GetCartItems(),
+                    Name = currentUser.Name,
+                    PhoneNumber = currentUser.PhoneNumber,
+                    Address = currentUser.Address
+                };
 
-            if (checkOut.CartItem.Count == 0)
-            {
-                return RedirectToAction(nameof(Index));
+                if (checkOut.CartItem.Count == 0)
+                {
+                    return RedirectToAction("Index", "Cart");
+                }
+                else
+                {
+                    return View(checkOut);
+                }
             }
-            else
-            {
-                return View(checkOut);
-            }
+            return RedirectToAction("Index", "Cart");
         }
 
         [Authorize(Roles = "Member")]
@@ -174,7 +177,7 @@ namespace MobileShop.Controllers
                 Name = currentUser.Name,
                 PhoneNumber = currentUser.PhoneNumber,
                 Address = currentUser.Address,
-                Status = "Delivering"
+                Status = "To Pack"
             };
 
             _context.Add(order);
@@ -190,26 +193,6 @@ namespace MobileShop.Controllers
 
                 };
                 _context.Add(orderdetail);
-            }
-            await _context.SaveChangesAsync();
-
-
-            foreach (var item in GetCartItems())
-            {
-                var quantity = new Areas.Admin.Models.Item
-                {
-                    ItemId = item.Item.ItemId,
-                    ItemCategoryId = item.Item.ItemCategoryId,
-                    ItemGroupId = item.Item.ItemGroupId,
-                    Name = item.Item.Name,
-                    CreatedDate = item.Item.CreatedDate,
-                    UpdatedDate = DateTime.Now,
-                    Detail = item.Item.Detail,
-                    Price = item.Item.Price,
-                    Quantity = item.Item.Quantity - item.Quantity,
-                    Image = item.Item.Image
-                };
-                _context.Update(quantity);
             }
             await _context.SaveChangesAsync();
 

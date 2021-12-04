@@ -15,10 +15,6 @@
 </div>
 
 <div class="d-flex justify-content-between m-0 p-0 mb-2">
-    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-    {
-        <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Reply</a>
-    }
     <form asp-controller="ReplyReviews" asp-action="Index">
         <div class="input-group">
             <input class="search-field border-0" type="text" placeholder="  Filtering ..." name="SearchString" />
@@ -27,8 +23,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead>
             <tr>
                 <th>
@@ -56,42 +52,29 @@
                         @Html.DisplayNameFor(model => model.ReplyDate)
                     </a>
                 </th>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                {
-                    <th>
-                        Options
-                    </th>
-                }
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Review.UserName)
-                    /
-                    @Html.DisplayFor(modelItem => item.Review.Item.Name)
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserRole)
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.Comment)
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.ReplyDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                {
+                <tr>
                     <td>
-                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ReplyReviewId">Edit</a> |
-                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ReplyReviewId">Delete</a>
+                        @Html.DisplayFor(modelItem => item.Review.UserName)
+                        /
+                        @Html.DisplayFor(modelItem => item.Review.Item.Name)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
                     </td>
-                }
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserRole)
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.Comment)
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.ReplyDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

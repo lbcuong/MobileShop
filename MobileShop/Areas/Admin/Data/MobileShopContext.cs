@@ -16,7 +16,6 @@ namespace MobileShop.Data
         public DbSet<ItemCategory> ItemCategory { get; set; }
         public DbSet<Item> Item { get; set; }
         public DbSet<ItemImage> ItemImage { get; set; }
-        public DbSet<PaymentMethod> PaymentMethod { get; set; }
         public DbSet<Review> Review { get; set; }
         public DbSet<ReplyReview> ReplyReview { get; set; }
         public DbSet<Order> Order { get; set; }

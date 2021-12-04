@@ -70,16 +70,18 @@
             <tr class="border-top">
                 <td colspan="2">Payment Method: </td>
             </tr>
-            @foreach (var payment in Model.PaymentMethod)
-            {
-                <tr>
-                    <td>
-                        <a asp-area="" asp-controller="CheckOut" asp-action="PaypalCheckOut">
-                            <img class="w-75" src="@("~/lib/images/logo/" + payment.Images)" alt="@payment.Name" asp-append-version="true" />
-                        </a>
-                    </td>
-                </tr>
-            }
+            <tr>
+                <td colspan="2">
+                    <a class="text-secondary text-decoration-none" asp-area="" asp-controller="CheckOut" asp-action="PaypalCheckOut">
+                        <div class="input-group rounded-0 shadow bg-light" style="background-color: rgb(0, 69, 124) !important">
+                            <span class="input-group-text bg-light border-0 rounded-0 py-1" id="paypal">
+                                <img style="width: 3rem;" src="~/lib/images/payment/paypal.png" alt="Paypal" />
+                            </span>
+                            <span class="fs-5 text-white d-flex justify-content-center align-items-center ms-5" aria-describedby="paypal">Paypal</span>
+                        </div>
+                    </a>
+                </td>
+            </tr>
         </table>
 
     </div>

@@ -27,8 +27,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead>
             <tr>
                 <th>
@@ -81,35 +81,35 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(model => @item.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.Role)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.EmailConfirmed)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.PhoneNumber)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.PhoneNumberConfirmed)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => @item.Gender)
-                </td>
-                <td>
-                    @Html.DisplayFor(model => item.DOB)
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => @item.Username)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.Role)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.EmailConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.PhoneNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.PhoneNumberConfirmed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => @item.Gender)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => item.DOB)
+                    </td>
+                </tr>
             }
         </tbody>
     </table>

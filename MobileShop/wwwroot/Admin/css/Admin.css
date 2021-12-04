@@ -97,9 +97,8 @@ body {
     background-color: rgb(245, 245, 245);
 }
 
-td, th {
+th {
     white-space: nowrap;
-    overflow: hidden;
 }
 
 td a {
@@ -202,7 +201,7 @@ h2, h4, h5 {
     border: none;
 }
 
-.editor-form tr:nth-of-type(even) {
+.editor-form tr:nth-of-type(odd) {
     background-color: #f3f3f3;
 }
 

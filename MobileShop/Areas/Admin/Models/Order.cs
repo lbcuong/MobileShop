@@ -19,6 +19,7 @@ namespace MobileShop.Areas.Admin.Models
         [Required]
         public string Name { get; set; }
 
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
         [Required]
@@ -30,6 +31,7 @@ namespace MobileShop.Areas.Admin.Models
         public decimal Total { get; set; }
 
         [Required]
+        [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
 
         [Required]

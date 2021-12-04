@@ -27,8 +27,8 @@
     </form>
 </div>
 
-<div class="table-responsive m-0 p-0">
-    <table class="table table-bordered table-hover table-sm">
+<div class="table-responsive shadow rounded-0">
+    <table class="table table-bordered table-hover table-sm my-3">
         <thead>
             <tr>
                 <th>
@@ -70,7 +70,8 @@
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {
                         <td>
-                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemGroupId">Edit</a> |
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemGroupId">Edit</a>
+                            <br />
                             <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemGroupId">Delete</a>
                         </td>
                     }

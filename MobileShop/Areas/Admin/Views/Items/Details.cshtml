@@ -1,5 +1,10 @@
 ﻿@model MobileShop.Areas.Admin.Models.Item
 
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
 @{
     ViewData["Title"] = "Details";
     Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
@@ -9,37 +14,34 @@
     <h5>Item Management / Items / Details</h5>
 </div>
 
-<div class="row editor-form">
-    <div class="col-md-12">
-        <dl class="row">
-            <dd class="col-sm-12">
-                @Html.Raw(Model.Detail)
-            </dd>
-        </dl>
-        <dl class="row">
-            <dd class="col-sm-12">
-                <p><b>Main Image</b></p>
-                <img class="shadow" style="width: 30rem; padding-bottom: 2rem; padding-top: 2rem;"
-                     src="@("~/lib/images/"+Model.Image)" asp-append-version="true" />
-            </dd>
-        </dl>
-        <dl class="row">
-            <dd class="col-sm-12">
-                <p><b>Sub-Images</b></p>
-                @foreach (var image in Model.ItemImage)
-                {
-                    <img class="shadow" style="width: 30rem; padding-bottom: 2rem; padding-top: 2rem;"
-                         src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
-                }
-            </dd>
-        </dl>
-        <dl class="row">
-            <dd class="col-sm-4">
-                <a class="btn btn-info w-100 text-white" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a>
-            </dd>
-            <dd class="col-sm-4">
-                <a class="btn btn-secondary w-100 text-white" asp-action="Index">Back to List</a>
-            </dd>
-        </dl>
+<div class="shadow rounded-0">
+    <div class="row">
+        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+            <h5 class="text-secondary">Item Information</h5>
+            @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+            {
+                <div>
+                    <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@Model.ItemId">Edit</a> |
+                    <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
+                </div>
+            }
+            @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Staff")))
+            {
+                <div>
+                    <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
+                </div>
+            }
+        </div>
+    </div>
+    <div class="row editor-form">
+        @Html.Raw(Model.Detail)
+    </div>
+    <div class="row">
+        <h5 class="text-secondary fw-bold">Sub-Images</h5>
+        @foreach (var image in Model.ItemImage)
+        {
+            <img class="py-2" style="width: 15rem;"
+                 src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
+        }
     </div>
 </div>

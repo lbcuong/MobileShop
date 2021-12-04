@@ -9,44 +9,48 @@
     <h5>Order Management / Orders / Edit</h5>
 </div>
 
-<div class="row">
+<div class="row shadow rounded-0 m-3 py-3">
     <div class="col-md-12">
+        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+            <h5 class="text-secondary">Edit Confirmation</h5>
+            <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
+        </div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="OrderId" />
             <div class="form-group mb-2">
                 <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" readonly="readonly"/>
+                <input asp-for="OrderId" class="form-control" readonly="readonly" />
                 <span asp-validation-for="OrderId" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="UserName" class="control-label"></label>
-                <input asp-for="UserName" class="form-control" readonly="readonly"/>
+                <input asp-for="UserName" class="form-control" readonly="readonly" />
                 <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" readonly="readonly"/>
+                <input asp-for="Name" class="form-control" readonly="readonly" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" readonly="readonly"/>
+                <input asp-for="PhoneNumber" class="form-control" readonly="readonly" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" readonly="readonly"/>
+                <input asp-for="Address" class="form-control" readonly="readonly" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="Total" class="control-label"></label>
-                <input asp-for="Total" class="form-control" readonly="readonly"/>
+                <input asp-for="Total" class="form-control" readonly="readonly" />
                 <span asp-validation-for="Total" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="OrderDate" class="control-label"></label>
-                <input asp-for="OrderDate" class="form-control" readonly="readonly"/>
+                <input asp-for="OrderDate" class="form-control" readonly="readonly" />
                 <span asp-validation-for="OrderDate" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
@@ -57,7 +61,6 @@
             <br>
             <div class="form-group d-flex justify-content-between">
                 <input type="submit" value="Save" class="btn btn-info w-50 text-white me-5" />
-                <a class="btn btn-secondary w-50 text-white" asp-action="Index">Back to List</a>
             </div>
         </form>
     </div>
