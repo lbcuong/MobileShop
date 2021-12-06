@@ -51,11 +51,40 @@ namespace MobileShop.Controllers
                     .Include(i => i.ItemGroup)
                     .Where(s => s.ItemCategoryId == 4);
 
+            var brands = _context.Item
+                    .Include(i => i.ItemCategory)
+                    .Include(i => i.ItemGroup)
+                    .Where(s => s.ItemCategoryId == 4)
+                    .Select(s => s.ItemGroup.Name).Distinct();
+            ViewBag.Brands = brands;
+
+            var storage = new List<string>()
+                    {
+                        "64GB",
+                        "128GB",
+                        "256GB",
+                        "512GB"
+                    };
+            ViewBag.Storage = storage;
+
+            var ram = new List<string>()
+                    {
+                        "2GB RAM",
+                        "3GB RAM",
+                        "4GB RAM",
+                        "6GB RAM",
+                        "8GB RAM",
+                        "12GB RAM"
+                    };
+            ViewBag.RAM = ram;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.Name.Contains(searchString));
             }
+
+            ViewBag.totalItem = mobileShopContext.Count();
+            ViewBag.SearchString = searchString;
 
             switch (sortOrder)
             {
@@ -100,7 +129,7 @@ namespace MobileShop.Controllers
             ViewBag.CountReview = countReview;
 
             var currentItem = _context.Item.Find(id);
-            var relatedItem = _context.Item.Where(d => d.ItemId != id && d.ItemGroupId == currentItem.ItemGroupId).Take(20).ToList();
+            var relatedItem = _context.Item.Where(d => d.ItemId != id && d.ItemGroupId == currentItem.ItemGroupId && d.ItemCategoryId == currentItem.ItemCategoryId).Take(20).ToList();
             ViewBag.RelatedItems = relatedItem;
 
             var subrelatedItem1 = relatedItem.Take(5).ToList();

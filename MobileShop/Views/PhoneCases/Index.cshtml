@@ -1,0 +1,165 @@
+﻿@model PaginatedList<MobileShop.Areas.Admin.Models.Item>
+
+@{
+    ViewData["Title"] = "Phone Cases";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row g-2 mb-2 d-flex border-bottom border-2">
+        <div class="col-md-12 d-flex justify-content-between mb-2">
+            @if (@ViewBag.SearchString == null)
+            { 
+                <h6 class="text-dark">@ViewData["Title"]: @ViewBag.totalItem result(s)</h6>
+            }
+            else
+            {
+                <h6 class="text-dark">@ViewData["Title"]: @ViewBag.totalItem result(s) for "<span style="color: darkgreen">@ViewBag.SearchString</span>"</h6>
+            }
+            <div class="btn-group shadow-sm">
+                <button class="btn border border-2 p-2 rounded-0" type="button" id="SortMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort by
+                </button>
+                <ul class="dropdown-menu shadow-sm p-3 rounded-0" aria-labelledby="SortMenu">
+                    <li>
+                        <a class="dropdown-item" asp-controller="PhoneCases" asp-action="Index" asp-route-sortOrder="@ViewData["PriceAscSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Price low to high
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="PhoneCases" asp-action="Index" asp-route-sortOrder="@ViewData["PriceDescSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Price high to low
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" asp-controller="PhoneCases" asp-action="Index" asp-route-sortOrder="@ViewData["NewDescSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                            Latest
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-2">
+        <div class="col-md-3">
+            <form asp-controller="PhoneCases" asp-action="Index" method="get">
+                <div class="form-font-size-filter px-2">
+                    <div class="px-2 mb-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h6 class="text-uppercase">Brand</h6>
+                        </div>
+                        @foreach (var brand in ViewBag.Brands)
+                        {
+                            <div class="d-flex justify-content-between">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="searchString" name="searchString" value="@brand" onClick="this.form.submit();" />
+                                    <label class="form-check-label">@brand</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-9 border-start border-2">
+            @foreach (var item in Model)
+            {
+                <div class="card card-filter mb-3">
+                    <div class="row g-2">
+                        <div class="col-md-4 mb-2" style="width: 15rem;">
+                            <a asp-area="" asp-controller="PhoneCases" asp-action="Detail" asp-route-id="@item.ItemId">
+                                <img src="~/lib/images/@Html.DisplayFor(modelItem => item.Image)" class="img-fluid rounded-start">
+                            </a>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <a class="text-decoration-none text-dark" asp-area="" asp-controller="PhoneCases" asp-action="Detail" asp-route-id="@item.ItemId">
+                                    <p class="card-title">
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </p>
+                                    <p class="card-text m-0 p-0 text-secondary" style="font-size: 0.8rem;">Color: @Html.DisplayFor(modelItem => item.Name)</p>
+                                    <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                    @if (item.Quantity < 10 && item.Quantity >= 1)
+                                    {
+                                        <p class="card-text text-danger m-0 p-0 fs-6">Only @Html.DisplayFor(modelItem => item.Quantity) item(s) in stock</p>
+                                    }
+                                    else if (item.Quantity == 0)
+                                    {
+                                        <p class="card-text text-danger m-0 p-0 fs-6">Out of stock</p>
+                                    }
+                                    else
+                                    {
+                                        <p></p>
+                                    }
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.TotalPages > 0)
+            {
+                var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+
+                <div class="row g-2">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <a asp-area="" asp-controller="PhoneCases" asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pageNumber="@(Model.PageIndex - 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn btn-default @prevDisabled">
+                            <i class="fa-solid fa-left-long"></i> Previous
+                        </a>
+
+                        @if (Model.PageIndex > 4)
+                        {
+                            <a asp-area="" asp-controller="PhoneCases" asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber=1
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn btn-default">
+                                1
+                            </a>
+                            <a class="btn btn-default disabled">...</a>
+                        }
+
+                        @for (var pages = Model.StartPage; pages <= Model.EndPage; pages++)
+                        {
+                            <a asp-area="" asp-controller="PhoneCases" asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@pages"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn btn-default mx-1 @(pages == Model.PageIndex ? "btn-secondary" : "")">
+                                @pages
+                            </a>
+                        }
+
+                        @if (Model.PageIndex < Model.TotalPages - 2)
+                        {
+                            <a class="btn btn-default disabled">...</a>
+                            <a asp-area="" asp-controller="PhoneCases" asp-action="Index"
+                               asp-route-sortOrder="@ViewData["CurrentSort"]"
+                               asp-route-pageNumber="@Model.TotalPages"
+                               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                               class="btn btn-default">
+                                @Model.TotalPages
+                            </a>
+                        }
+
+                        <a asp-area="" asp-controller="PhoneCases" asp-action="Index"
+                           asp-route-sortOrder="@ViewData["CurrentSort"]"
+                           asp-route-pageNumber="@(Model.PageIndex + 1)"
+                           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                           class="btn btn-default @nextDisabled">
+                            Next <i class="fa-solid fa-right-long"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

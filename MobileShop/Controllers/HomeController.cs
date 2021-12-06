@@ -52,9 +52,57 @@ namespace MobileShop.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Filter(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
-            return View();
+            ViewData["PriceAscSortParm"] = sortOrder == "PriceAsc" ? "PriceAsc" : "PriceAsc";
+            ViewData["PriceDescSortParm"] = sortOrder == "PriceDesc" ? "PriceDesc" : "PriceDesc";
+            ViewData["NewDescSortParm"] = sortOrder == "NewDesc" ? "NewDesc" : "NewDesc";
+            ViewData["CurrentSort"] = sortOrder;
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            IQueryable<Item> mobileShopContext = _context.Item
+                    .Include(i => i.ItemCategory)
+                    .Include(i => i.ItemGroup);
+
+            var brands = _context.Item
+                    .Include(i => i.ItemCategory)
+                    .Include(i => i.ItemGroup)
+                    .Select(s => s.ItemGroup.Name).Distinct();
+            ViewBag.Brands = brands;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                mobileShopContext = mobileShopContext.Where(s => s.Name.Contains(searchString));
+            }
+
+            ViewBag.totalItem = mobileShopContext.Count();
+            ViewBag.SearchString = searchString;
+
+            switch (sortOrder)
+            {
+                case "PriceDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.Price);
+                    break;
+                case "PriceAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.Price);
+                    break;
+                case "NewDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.CreatedDate);
+                    break;
+            }
+
+            int pageSize = 10;
+            return View(await PaginatedList<Item>.CreateAsync(mobileShopContext.AsNoTracking(), pageNumber ?? 1, pageSize));
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

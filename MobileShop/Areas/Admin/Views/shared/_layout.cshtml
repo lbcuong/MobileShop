@@ -23,9 +23,11 @@
                         Welcome "@User.Identity.Name" to Dashboard!
                     </a>
 
-                    <ul class="dropdown-menu shadow-sm p-3 rounded-0 mt-2" aria-labelledby="header-bar">
-                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Shopping Page</a></li>
-                        <li>
+                    <ul class="dropdown-menu dropdown-menu-black shadow-sm p-3 rounded-0 mt-2" aria-labelledby="header-bar">
+                        <li class="border-bottom border-2 px-5 text-center">
+                            <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Index">Shopping Page</a>
+                        </li>
+                        <li class="border-bottom border-2 px-5 text-center">
                             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                                 <button type="submit" class="dropdown-item btn btn-link">Logout</button>
                             </form>

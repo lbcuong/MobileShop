@@ -36,6 +36,15 @@ h3 {
     font-size: 0.9rem;
 }
 
+.dropdown-menu-white li a, .dropdown-menu-white li button {
+    color: black;
+}
+
+.dropdown-menu-white li a:hover, .dropdown-menu-white li button:hover {
+    background-color: white;
+    color: black;
+}
+
 /*
  * Main Page
  */

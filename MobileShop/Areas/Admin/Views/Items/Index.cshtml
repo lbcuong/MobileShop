@@ -19,7 +19,7 @@
     {
         <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Items</a>
     }
-    <form asp-controller="Items" asp-action="Index">
+    <form asp-controller="Items" asp-action="Index" method="get">
         <div class="input-group">
             <input class="search-field border-0" type="text" placeholder="  Filtering ..." name="SearchString" />
             <button class="btn btn-info text-light" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>

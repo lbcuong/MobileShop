@@ -12,18 +12,19 @@ body {
     width: 2rem;
 }
 
-.header-bar .dropdown ul {
+.dropdown-menu-black {
     background-color: rgb(50, 65, 70);
 }
 
-.header-bar .dropdown ul li a, .header-bar .dropdown ul li button {
+.dropdown-menu-black li a, .dropdown-menu-black li button {
     color: white;
 }
 
-.header-bar .dropdown ul li a:hover, .header-bar .dropdown ul li button:hover {
+.dropdown-menu-black li a:hover, .dropdown-menu-black li button:hover {
     background-color: rgb(50, 65, 70);
-    color: rgb(18, 165, 214);
+    color: white;
 }
+
 
 #show-hide {
     display: none;
