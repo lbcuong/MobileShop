@@ -64,7 +64,7 @@
         </nav>
     </header>
     <div class="modal fade" id="SearchBox" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content rounded-0">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">We will help you to find something!</h5>
@@ -72,9 +72,9 @@
                 </div>
                 <div class="modal-body">
                     <form asp-controller="Home" asp-action="Filter" method="get">
-                        <div class="input-group justify-content-center">
+                        <div class="input-group justify-content-center ui-widget">
                             <input class="search-field border-0 w-75" type="text" placeholder="  Filtering ..."
-                                   name="SearchString" />
+                                   id="SearchString" name="SearchString"/>
                             <button class="btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                         </div>
                     </form>

@@ -45,6 +45,24 @@ h3 {
     color: black;
 }
 
+.ui-widget {
+    z-index: 2000 !important;
+}
+
+.ui-menu-item {
+    color: gray;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background-color: white;
+    color: black;
+    border-width: 0;
+} 
+
 /*
  * Main Page
  */

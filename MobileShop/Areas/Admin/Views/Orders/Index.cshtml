@@ -119,18 +119,18 @@
                     }
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Staff")))
                     {
-                        <td>
-                            @if (item.Status == "To Pack" || item.Status == "Delivering")
-                            {
-                                <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.OrderId">Edit</a>
-                                <br />
-                            }
-                            <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.OrderId">Detail</a>
-                        </td>
+                <td>
+                    @if (item.Status == "To Pack" || item.Status == "Delivering")
+                    {
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.OrderId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                        <br />
+                    }
+                    <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.OrderId"><i class="fa-solid fa-circle-info"></i> Detail</a>
+                </td>
                     }
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {
-                        <td>
+                        <td style="white-space: nowrap;">
                             <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.OrderId">Detail</a>
                         </td>
                     }

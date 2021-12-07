@@ -52,6 +52,19 @@ namespace MobileShop.Controllers
             return View();
         }
 
+        public JsonResult AutoComplete(string prefix)
+        {
+            var items = (from item in _context.Item
+                             where item.Name.StartsWith(prefix)
+                             select new
+                             {
+                                 label = item.Name,
+                                 val = item.ItemId
+                             }).Take(10).ToList();
+
+            return Json(items);
+        }
+
         public async Task<IActionResult> Filter(string sortOrder, string searchString, string currentFilter, int? pageNumber)
         {
             ViewData["PriceAscSortParm"] = sortOrder == "PriceAsc" ? "PriceAsc" : "PriceAsc";

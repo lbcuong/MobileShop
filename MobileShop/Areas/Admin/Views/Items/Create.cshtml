@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="d-flex justify-content-between border-bottom py-2 mb-3">
                 <h5 class="text-secondary">New Item Information</h5>
-                <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
+                <a class="managing text-decoration-none" asp-action="Index"><i class="fa-solid fa-arrow-rotate-left"></i> Back to List</a>
             </div>
             <form asp-action="Create" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -48,12 +48,14 @@
                 </div>
                 <div class="form-group mb-2">
                     <label asp-for="MainImage" class="control-label"></label>
-                    <input asp-for="MainImage" class="form-control" accept="lib/images/*" />
+                    <input asp-for="MainImage" class="form-control" id="image-input" accept="lib/images/*" />
+                    <div id="imagePreview"></div>
                     <span asp-validation-for="MainImage" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-2">
                     <label asp-for="SecondaryImages" class="control-label multiple-image-label"></label>
-                    <input asp-for="SecondaryImages" class="form-control multiple-image-input" accept="lib/images/*" multiple />
+                    <input asp-for="SecondaryImages" class="form-control multiple-image-input" id="multiple-image-input" accept="lib/images/*" multiple />
+                    <div id="multipleImagePreview"></div>
                     <span asp-validation-for="SecondaryImages" class="text-danger"></span>
                 </div>
                 <br>
@@ -64,32 +66,3 @@
         </div>
     </div>
 </div>
-@section Scripts {
-    <script>
-        $(document).ready(function () {
-            $('.multiple-image-input').on("change", function () {
-                var fileLabel = $(this).next('.multiple-image-label');
-                var files = $(this)[0].files;
-                if (files.length > 1) {
-                    fileLabel.html(files.length + ' files selected');
-                }
-                else if (files.length == 1) {
-                    fileLabel.html(files[0].name);
-                }
-            });
-        });
-
-        ClassicEditor
-            .create(document.querySelector('#detail'), {
-                // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
-
-                ckfinder: { uploadUrl: '/lib/images/News/' }
-            })
-            .then(editor => {
-                window.editor = editor;
-            })
-            .catch(err => {
-                console.error(err.stack);
-            });
-    </script>
-}

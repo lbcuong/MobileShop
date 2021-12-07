@@ -82,43 +82,43 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ItemCategory.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ItemGroup.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    <img style="width: 15rem;"
-                         src="@("~/lib/images/" + item.Image)" asp-append-version="true" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Quantity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Price) ₫
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                {
+                <tr>
                     <td>
-                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId">Edit</a>
-                        <br />
-                        <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.ItemId">Details</a>
-                        <br />
-                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId">Delete</a>
+                        @Html.DisplayFor(modelItem => item.ItemCategory.Name)
                     </td>
-                }
-            </tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemGroup.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <img style="width: 15rem;"
+                             src="@("~/lib/images/" + item.Image)" asp-append-version="true" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price) ₫
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                    {
+                        <td style="white-space: nowrap;">
+                            <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.ItemId"><i class="fa-solid fa-circle-info"></i> Details</a>
+                            <br />
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <br />
+                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemId"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                        </td>
+                    }
+                </tr>
             }
         </tbody>
     </table>

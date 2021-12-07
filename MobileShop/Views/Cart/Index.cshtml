@@ -38,14 +38,14 @@
                         </td>
                         <td class="col-2">
                             <div class="input-group">
-                                <input class="btn btn-secondary btn-sm minus" type='button' id="minus" data-min="0" value='–' />
-                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
-                                    @for (var quantity = 0; quantity <= @cartItem.Item.Quantity; quantity++)
+                                <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="0" value='–' />
+                                <select class="text-center quantity-control w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
+                                    @for (var quantity = 0; quantity <= cartItem.Item.Quantity; quantity++)
                                     {
                                         <option value="@quantity">@quantity</option>
                                     }
                                 </select>
-                                <input class="btn btn-secondary btn-sm plus" type='button' id="plus" data-max="@cartItem.Item.Quantity" value='+' />
+                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@cartItem.Item.Quantity" value='+' />
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
@@ -98,44 +98,6 @@
             </table>
         </div>
     </div>
-
-    @section Scripts {
-        <script>
-          $(document).ready(function () {
-              $(".updatecartitem").click(function (event) {
-                  event.preventDefault();
-                  var itemId = $(this).attr("data-itemId");
-                  var quantity = $("#quantity-" + itemId).val();
-                  $.ajax({
-                      type: "POST",
-                      dataType: 'JSON',
-                      contentType: "application/x-www-form-urlencoded",
-                      url:"@Url.Action("UpdateCart", "Cart")",
-                      data: {
-                          itemId: itemId,
-                          Quantity:quantity
-                      },
-                      success: function (response) {
-                          window.location.href = response.redirectToUrl;
-                      }
-                  });
-              });
-
-              $(".plus").click(function () {
-                  if ($(this).prev().val() < $(this).data("max")) {
-                      $(this).prev().val(+$(this).prev().val() + 1);
-                  }
-              });
-
-              $(".minus").click(function () {
-                  if ($(this).next().val() > $(this).data("min")) {
-                      $(this).next().val(+$(this).next().val() - 1);
-                  }
-              });
-          });
-        </script>
-    }
-
 }
 else
 {

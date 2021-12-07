@@ -64,6 +64,7 @@ namespace MobileShop.Controllers
 
         // Add items to Cart
         [Authorize(Roles = "Member")]
+        [HttpPost]
         public async Task<IActionResult> AddToCart(int itemId, int quantity)
         {
 

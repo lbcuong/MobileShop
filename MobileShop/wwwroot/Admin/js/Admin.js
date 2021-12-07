@@ -1,9 +1,68 @@
 $(document).ready(function () {
+    $('.multiple-image-input').on("change", function () {
+        var fileLabel = $(this).next('.multiple-image-label');
+        var files = $(this)[0].files;
+        if (files.length > 1) {
+            fileLabel.html(files.length + ' files selected');
+        }
+        else if (files.length == 1) {
+            fileLabel.html(files[0].name);
+        }
+    });
 
-    $("#show-hide").click(function () {
-        $(".sidebar").toggle();
+    $("#image-input").change(function () {
+        if (typeof (FileReader) != "undefined") {
+            var dvPreview = $("#imagePreview");
+            dvPreview.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "width: 15rem; padding: 0.5rem 0.5rem 0.5rem 0");
+                    img.attr("src", e.target.result);
+                    dvPreview.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+        } else {
+            alert("This browser does not support HTML5 FileReader.");
+        }
+    });
+
+    $("#multiple-image-input").change(function () {
+        if (typeof (FileReader) != "undefined") {
+            var dvPreview = $("#multipleImagePreview");
+            dvPreview.html("");
+            $($(this)[0].files).each(function () {
+                var file = $(this);
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var img = $("<img />");
+                    img.attr("style", "width: 15rem; padding: 0.5rem 0.5rem 0.5rem 0");
+                    img.attr("src", e.target.result);
+                    dvPreview.append(img);
+                }
+                reader.readAsDataURL(file[0]);
+            });
+        } else {
+            alert("This browser does not support HTML5 FileReader.");
+        }
     });
 });
+
+ClassicEditor
+    .create(document.querySelector('#detail'), {
+        // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+
+        ckfinder: { uploadUrl: '/lib/images/News/' }
+    })
+    .then(editor => {
+        window.editor = editor;
+    })
+    .catch(err => {
+        console.error(err.stack);
+    });
 
 const labels = [
     '1',

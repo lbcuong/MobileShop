@@ -69,10 +69,10 @@
                 </td>
                 @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                 {
-                    <td>
-                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemCategoryId">Edit</a>
+                    <td style="white-space: nowrap;">
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                         <br />
-                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemCategoryId">Delete</a>
+                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-trash-can"></i> Delete</a>
                     </td>
                 }
                 </tr>
