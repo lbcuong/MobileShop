@@ -97,7 +97,7 @@ namespace MobileShop.Controllers
 
             // Save cart to Session
             SaveCartSession(cart);
-
+            TempData["SuccessMessage"] = "Item successfully added!";
             return Json(new { redirectToUrl = Url.Action("Detail", "MobilePhones", new { id = itemId }) });
         }
 
@@ -114,7 +114,7 @@ namespace MobileShop.Controllers
             }
 
             SaveCartSession(cart);
-
+            TempData["SuccessMessage"] = "Item successfully removed!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -131,7 +131,7 @@ namespace MobileShop.Controllers
                 cartItem.Quantity = quantity;
             }
             SaveCartSession(cart);
-
+            TempData["SuccessMessage"] = "Item successfully updated!";
             return Json(new { redirectToUrl = Url.Action("Index", "Cart") });
         }
     }

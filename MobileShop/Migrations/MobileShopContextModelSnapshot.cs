@@ -291,93 +291,59 @@ namespace MobileShop.Migrations
                     b.ToTable("ItemImage");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Order", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PurchaseOrder", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<int>("PurchaseOrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SupplierId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(15,0)");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                    b.HasKey("PurchaseOrderId");
 
-                    b.HasKey("OrderId");
+                    b.HasIndex("SupplierId");
 
-                    b.ToTable("Order");
+                    b.ToTable("PurchaseOrder");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.OrderDetail", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PurchaseOrderDetail", b =>
                 {
-                    b.Property<int>("OrderDetailId")
+                    b.Property<int>("PurchaseOrderDetailId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<decimal>("ImportPrice")
+                        .HasColumnType("decimal(15,0)");
+
                     b.Property<int>("ItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("PurchaseOrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("OrderDetailId");
+                    b.HasKey("PurchaseOrderDetailId");
 
                     b.HasIndex("ItemId");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("PurchaseOrderId");
 
-                    b.ToTable("OrderDetail");
-                });
-
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PaymentMethod", b =>
-                {
-                    b.Property<int>("PaymentMethodId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Images")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("PaymentMethodId");
-
-                    b.ToTable("PaymentMethod");
+                    b.ToTable("PurchaseOrderDetail");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.ReplyReview", b =>
@@ -443,6 +409,100 @@ namespace MobileShop.Migrations
                     b.HasIndex("ItemId");
 
                     b.ToTable("Review");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.SalesOrder", b =>
+                {
+                    b.Property<int>("SalesOrderId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("OrderDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("Total")
+                        .HasColumnType("decimal(15,0)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("SalesOrderId");
+
+                    b.ToTable("SalesOrder");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.SalesOrderDetail", b =>
+                {
+                    b.Property<int>("SalesOrderDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SalesOrderId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SalesOrderDetailId");
+
+                    b.HasIndex("ItemId");
+
+                    b.HasIndex("SalesOrderId");
+
+                    b.ToTable("SalesOrderDetail");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Supplier", b =>
+                {
+                    b.Property<int>("SupplierId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("SupplierId");
+
+                    b.ToTable("Supplier");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Identity.Data.MobileShopUser", b =>
@@ -603,7 +663,18 @@ namespace MobileShop.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.OrderDetail", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PurchaseOrder", b =>
+                {
+                    b.HasOne("MobileShop.Areas.Admin.Models.Supplier", "Supplier")
+                        .WithMany()
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PurchaseOrderDetail", b =>
                 {
                     b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
                         .WithMany()
@@ -611,15 +682,15 @@ namespace MobileShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MobileShop.Areas.Admin.Models.Order", "Order")
-                        .WithMany("OrderDetail")
-                        .HasForeignKey("OrderId")
+                    b.HasOne("MobileShop.Areas.Admin.Models.PurchaseOrder", "PurchaseOrder")
+                        .WithMany("PurchaseOrderDetail")
+                        .HasForeignKey("PurchaseOrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Item");
 
-                    b.Navigation("Order");
+                    b.Navigation("PurchaseOrder");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.ReplyReview", b =>
@@ -644,19 +715,43 @@ namespace MobileShop.Migrations
                     b.Navigation("Item");
                 });
 
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.SalesOrderDetail", b =>
+                {
+                    b.HasOne("MobileShop.Areas.Admin.Models.Item", "Item")
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MobileShop.Areas.Admin.Models.SalesOrder", "SalesOrder")
+                        .WithMany("SalesOrderDetail")
+                        .HasForeignKey("SalesOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+
+                    b.Navigation("SalesOrder");
+                });
+
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Item", b =>
                 {
                     b.Navigation("ItemImage");
                 });
 
-            modelBuilder.Entity("MobileShop.Areas.Admin.Models.Order", b =>
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.PurchaseOrder", b =>
                 {
-                    b.Navigation("OrderDetail");
+                    b.Navigation("PurchaseOrderDetail");
                 });
 
             modelBuilder.Entity("MobileShop.Areas.Admin.Models.Review", b =>
                 {
                     b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("MobileShop.Areas.Admin.Models.SalesOrder", b =>
+                {
+                    b.Navigation("SalesOrderDetail");
                 });
 #pragma warning restore 612, 618
         }

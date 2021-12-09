@@ -17,7 +17,7 @@
 <div class="d-flex justify-content-between m-0 p-0 mb-2">
     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
     {
-    <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Item Category</a>
+        <a class="create-function btn btn-info mb-2 text-white" asp-action="Create">New Item Category</a>
     }
     <form asp-controller="ItemCategories" asp-action="Index" method="get">
         <div class="input-group">
@@ -52,31 +52,38 @@
                         Options
                     </th>
                 }
-                </tr>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                <td>
-                    @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                </td>
-                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                {
-                    <td style="white-space: nowrap;">
-                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                        <br />
-                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
                     </td>
-                }
+                    <td>
+                        @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    <td>
+                        @Html.ValueFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                    </td>
+                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                    {
+                        <td style="white-space: nowrap;">
+                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                            <br />
+                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.ItemCategoryId"><i class="fa-solid fa-trash-can"></i> Delete</a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissable rounded-0 border-0 shadow-sm show-success-message">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}

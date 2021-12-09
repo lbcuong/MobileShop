@@ -15,12 +15,12 @@ namespace MobileShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Staff")]
-    public class OrdersController : Controller
+    public class SalesOrdersController : Controller
     {
         private readonly MobileShopContext _context;
         private readonly UserManager<MobileShopUser> _userManager;
 
-        public OrdersController(MobileShopContext context, UserManager<MobileShopUser> userManager)
+        public SalesOrdersController(MobileShopContext context, UserManager<MobileShopUser> userManager)
         {
             _context = context;
             _userManager = userManager;
@@ -45,8 +45,8 @@ namespace MobileShop.Areas.Admin.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var mobileShopContext = from m in _context.Order
-                .Include(s => s.OrderDetail)
+            var mobileShopContext = from m in _context.SalesOrder
+                .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
                 .OrderByDescending(o => o.OrderDate)
                                     select m;
@@ -65,10 +65,10 @@ namespace MobileShop.Areas.Admin.Controllers
             switch (sortOrder)
             {
                 case "OrderAsc":
-                    mobileShopContext = mobileShopContext.OrderBy(s => s.OrderId);
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.SalesOrderId);
                     break;
                 case "OrderDesc":
-                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.OrderId);
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.SalesOrderId);
                     break;
                 case "UserNameAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.UserName);
@@ -124,17 +124,17 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var order = _context.Order
-                .Include(s => s.OrderDetail)
+            var salesOrder = _context.SalesOrder
+                .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
-                .Where(u => u.OrderId == id);
+                .Where(u => u.SalesOrderId == id);
 
-            if (order == null)
+            if (salesOrder == null)
             {
                 return NotFound();
             }
 
-            return View(await order.ToListAsync());
+            return View(await salesOrder.ToListAsync());
         }
 
         // GET: Admin/Orders/Edit/5
@@ -146,12 +146,12 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var salesOrder = await _context.SalesOrder.FindAsync(id);
+            if (salesOrder == null)
             {
                 return NotFound();
             }
-            return View(order);
+            return View(salesOrder);
         }
 
         // POST: Admin/Orders/Edit/5
@@ -160,20 +160,20 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff")]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] Order order)
+        public async Task<IActionResult> Edit(int id, [Bind("SalesOrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] SalesOrder salesOrder)
         {
-            if (id != order.OrderId)
+            if (id != salesOrder.SalesOrderId)
             {
                 return NotFound();
             }
-            _context.Update(order);
+            _context.Update(salesOrder);
             await _context.SaveChangesAsync();
 
-            if (order.Status == "Delivering")
+            if (salesOrder.Status == "Delivering")
             {
-                var orderDetail = _context.OrderDetail.Include(s => s.Item).Where(u => u.OrderId == id).AsNoTracking().ToList();
+                var salesOrderDetail = _context.SalesOrderDetail.Include(s => s.Item).Where(u => u.SalesOrderId == id).AsNoTracking().ToList();
 
-                foreach (var item in orderDetail)
+                foreach (var item in salesOrderDetail)
                 {
                     var quantity = new Item
                     {
@@ -192,13 +192,13 @@ namespace MobileShop.Areas.Admin.Controllers
                 }
                 await _context.SaveChangesAsync();
             }
-
+            TempData["SuccessMessage"] = "Data successfully updated!";
             return RedirectToAction(nameof(Index));
         }
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.OrderId == id);
+            return _context.SalesOrder.Any(e => e.SalesOrderId == id);
         }
     }
 }

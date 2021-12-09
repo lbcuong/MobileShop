@@ -110,110 +110,113 @@
     </div>
 </div>
 
-<div class="container mt-2">
-    <div class="row d-flex justify-content-center py-3">
-        <div class="col-md-12 shadow px-4">
-            <h5 class="text-left text-secondary border-bottom my-3">
-                Top Sellers in Mobile Phones
-            </h5>
-            <div>
-                <div id="carouselBestSalesItems" class="carousel slide carouselItems" data-bs-interval="false" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        @if (ViewBag.SubbestSalesMobiles1.Count > 0)
-                        {
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    @{
-                                        int indexSlide1 = 0;
-                                    }
-                                    @foreach (var subbestSalesMobile1 in subbestSalesMobiles1)
-                                    {
-                                        <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile1.ItemId">
-                                                <img src="@("~/lib/images/" + subbestSalesMobile1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile1.Name" />
-                                                <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile1.Name)</h6>
-                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile1.Price) ₫</p>
-                                            </a>
-                                        </div>
-                                        indexSlide1++;
-                                    }
+@if (ViewBag.BestSalesMobiles.Count > 0)
+{
+    <div class="container mt-2">
+        <div class="row d-flex justify-content-center py-3">
+            <div class="col-md-12 shadow px-4">
+                <h5 class="text-left text-secondary border-bottom my-3">
+                    Top Sellers in Mobile Phones
+                </h5>
+                <div>
+                    <div id="carouselBestSalesItems" class="carousel slide carouselItems" data-bs-interval="false" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @if (ViewBag.SubbestSalesMobiles1.Count > 0)
+                            {
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        @{
+                                            int indexSlide1 = 0;
+                                        }
+                                        @foreach (var subbestSalesMobile1 in subbestSalesMobiles1)
+                                        {
+                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile1.ItemId">
+                                                    <img src="@("~/lib/images/" + subbestSalesMobile1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile1.Name" />
+                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile1.Name)</h6>
+                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile1.Price) ₫</p>
+                                                </a>
+                                            </div>
+                                            indexSlide1++;
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        @if (ViewBag.SubbestSalesMobiles2.Count > 0)
-                        {
-                            <div class="carousel-item">
-                                <div class="row">
-                                    @{
-                                        int indexSlide2 = 0;
-                                    }
-                                    @foreach (var subbestSalesMobile2 in subbestSalesMobiles2)
-                                    {
-                                        <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile2.ItemId">
-                                                <img src="@("~/lib/images/" + subbestSalesMobile2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile2.Name" />
-                                                <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile2.Name)</h6>
-                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile2.Price) ₫</p>
-                                            </a>
-                                        </div>
-                                        indexSlide2++;
-                                    }
+                            }
+                            @if (ViewBag.SubbestSalesMobiles2.Count > 0)
+                            {
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        @{
+                                            int indexSlide2 = 0;
+                                        }
+                                        @foreach (var subbestSalesMobile2 in subbestSalesMobiles2)
+                                        {
+                                            <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
+                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile2.ItemId">
+                                                    <img src="@("~/lib/images/" + subbestSalesMobile2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile2.Name" />
+                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile2.Name)</h6>
+                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile2.Price) ₫</p>
+                                                </a>
+                                            </div>
+                                            indexSlide2++;
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        @if (ViewBag.SubbestSalesMobiles3.Count > 0)
-                        {
-                            <div class="carousel-item">
-                                <div class="row">
-                                    @{
-                                        int indexSlide3 = 0;
-                                    }
-                                    @foreach (var subbestSalesMobile3 in subbestSalesMobiles3)
-                                    {
-                                        <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile3.ItemId">
-                                                <img src="@("~/lib/images/" + subbestSalesMobile3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile3.Name" />
-                                                <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile3.Name)</h6>
-                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile3.Price) ₫</p>
-                                            </a>
-                                        </div>
-                                        indexSlide3++;
-                                    }
+                            }
+                            @if (ViewBag.SubbestSalesMobiles3.Count > 0)
+                            {
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        @{
+                                            int indexSlide3 = 0;
+                                        }
+                                        @foreach (var subbestSalesMobile3 in subbestSalesMobiles3)
+                                        {
+                                            <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
+                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile3.ItemId">
+                                                    <img src="@("~/lib/images/" + subbestSalesMobile3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile3.Name" />
+                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile3.Name)</h6>
+                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile3.Price) ₫</p>
+                                                </a>
+                                            </div>
+                                            indexSlide3++;
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        }
-                        @if (ViewBag.SubbestSalesMobiles4.Count > 0)
-                        {
-                            <div class="carousel-item">
-                                <div class="row">
-                                    @{
-                                        int indexSlide4 = 0;
-                                    }
-                                    @foreach (var subbestSalesMobile4 in subbestSalesMobiles4)
-                                    {
-                                        <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile4.ItemId">
-                                                <img src="@("~/lib/images/" + subbestSalesMobile4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile4.Name" />
-                                                <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile4.Name)</h6>
-                                                <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile4.Price) ₫</p>
-                                            </a>
-                                        </div>
-                                        indexSlide4++;
-                                    }
+                            }
+                            @if (ViewBag.SubbestSalesMobiles4.Count > 0)
+                            {
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        @{
+                                            int indexSlide4 = 0;
+                                        }
+                                        @foreach (var subbestSalesMobile4 in subbestSalesMobiles4)
+                                        {
+                                            <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
+                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile4.ItemId">
+                                                    <img src="@("~/lib/images/" + subbestSalesMobile4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile4.Name" />
+                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile4.Name)</h6>
+                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile4.Price) ₫</p>
+                                                </a>
+                                            </div>
+                                            indexSlide4++;
+                                        }
+                                    </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselBestSalesItems" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselBestSalesItems" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselBestSalesItems" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselBestSalesItems" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}

@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.PurchaseOrder>
+
+@using Microsoft.AspNetCore.Identity
+@using MobileShop.Areas.Identity.Data
+@inject SignInManager<MobileShopUser> SignInManager
+@inject UserManager<MobileShopUser> UserManager
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Areas/Admin/Views/shared/_layout.cshtml";
+}
+
+<div class="border-bottom m-0 p-0 mb-2">
+    <h5>Order Management / Purchase Orders / Details</h5>
+</div>
+
+@foreach (var purchaseOrder in Model)
+{
+    <div class="shadow rounded-0 my-3">
+        <div class="d-flex justify-content-between border-bottom py-2 mb-3">
+            <h5 class="text-secondary">Purchase Order Information</h5>
+            @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Staff")))
+            {
+                <div>
+                    @if (purchaseOrder.Status == "Ordered")
+                    {
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@purchaseOrder.PurchaseOrderId"><i class="fa-solid fa-pen-to-square"></i> Edit</a> <span>|</span>
+                    }
+                    <a class="managing text-decoration-none" asp-action="Index"><i class="fa-solid fa-arrow-rotate-left"></i> Back to List</a>
+                </div>
+            }
+            @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+            {
+                <div>
+                    <a class="managing text-decoration-none" asp-action="Index">Back to List</a>
+                </div>
+            }
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="text-secondary fs-6">Order: @Html.DisplayFor(model => purchaseOrder.PurchaseOrderId)</p>
+            </div>
+            <div class="col-6">
+                <p class="text-secondary fs-6">Status: @Html.DisplayFor(model => purchaseOrder.Status)</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="text-secondary fs-6">Supplier: @Html.DisplayFor(model => purchaseOrder.Supplier.Name)</p>
+            </div>
+            <div class="col-6">
+                <p class="text-secondary fs-6">Order Date: @Html.DisplayFor(model => purchaseOrder.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <p class="text-secondary fs-6">Total: @Html.DisplayFor(model => purchaseOrder.Total)</p>
+            </div>
+            <div class="col-6">
+            </div>
+        </div>
+    </div>
+}
+
+<div class="table-responsive shadow rounded-0 my-3">
+    <h5 class="text-secondary border-bottom py-2 mb-3">Purchase Order Details</h5>
+    <table class="table table-bordered table-hover table-sm my-3">
+        <thead class="sticky-top">
+            <tr>
+                <th>
+                    Item
+                </th>
+                <th>
+                    Quantity
+                </th>
+                <th>
+                    Import Price
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var purchaseOrder in Model)
+            {
+                @foreach (var purchaseOrderdetail in purchaseOrder.PurchaseOrderDetail)
+                {
+                    <tr>
+                        <td>
+                            <span>
+                                <img style="width: 15rem;"
+                                     src="@("~/lib/images/" + purchaseOrderdetail.Item.Image)" asp-append-version="true" />
+                                @Html.DisplayFor(model => purchaseOrderdetail.Item.Name)
+                            </span>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => purchaseOrderdetail.Quantity)
+                        <td>
+                            @Html.DisplayFor(modelItem => purchaseOrderdetail.ImportPrice)
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

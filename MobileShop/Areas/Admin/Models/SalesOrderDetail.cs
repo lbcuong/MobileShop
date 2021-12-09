@@ -7,20 +7,22 @@ using System.Threading.Tasks;
 
 namespace MobileShop.Areas.Admin.Models
 {
-    public class OrderDetail
+    public class SalesOrderDetail
     {
         [Key]
-        public int OrderDetailId { get; set; }
+        public int SalesOrderDetailId { get; set; }
 
-        [Display(Name = "Item")]
-        public int OrderId { get; set; }
-        [ForeignKey("OrderId")]
-        public Order Order { get; set; }
+        [Display(Name = "Order")]
+        public int SalesOrderId { get; set; }
+        [ForeignKey("SalesOrderId")]
+        public SalesOrder SalesOrder { get; set; }
 
         [Display(Name = "Item")]
         public int ItemId { get; set; }
         [ForeignKey("ItemId")]
         public Item Item { get; set; }
+
+        [Required]
         public int Quantity { get; set; }
     }
 }

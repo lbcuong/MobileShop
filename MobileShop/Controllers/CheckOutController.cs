@@ -169,7 +169,7 @@ namespace MobileShop.Controllers
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
             var orderTotal = Math.Round(GetCartItems().Sum(s => s.SubTotal), 2);
 
-            var order = new Areas.Admin.Models.Order
+            var salesOrder = new Areas.Admin.Models.SalesOrder
             {
                 UserName = currentUser.UserName,
                 Total = orderTotal,
@@ -180,19 +180,19 @@ namespace MobileShop.Controllers
                 Status = "To Pack"
             };
 
-            _context.Add(order);
+            _context.Add(salesOrder);
             await _context.SaveChangesAsync();
 
             foreach (var item in GetCartItems())
             {
-                var orderdetail = new OrderDetail
+                var salesOrderdetail = new SalesOrderDetail
                 {
-                    OrderId = order.OrderId,
+                    SalesOrderId = salesOrder.SalesOrderId,
                     ItemId = item.Item.ItemId,
                     Quantity = item.Quantity
 
                 };
-                _context.Add(orderdetail);
+                _context.Add(salesOrderdetail);
             }
             await _context.SaveChangesAsync();
 

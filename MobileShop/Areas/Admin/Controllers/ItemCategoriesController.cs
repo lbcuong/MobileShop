@@ -86,7 +86,8 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 _context.Add(itemCategory);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["SuccessMessage"] = "Data successfully added!";
+                return RedirectToAction(nameof(Create));
             }
             return View(itemCategory);
         }
@@ -127,6 +128,7 @@ namespace MobileShop.Areas.Admin.Controllers
                 {
                     _context.Update(itemCategory);
                     await _context.SaveChangesAsync();
+                    TempData["SuccessMessage"] = "Data successfully updated!";
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -139,7 +141,7 @@ namespace MobileShop.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Edit));
             }
             return View(itemCategory);
         }
@@ -172,6 +174,7 @@ namespace MobileShop.Areas.Admin.Controllers
             var itemCategory = await _context.ItemCategory.FindAsync(id);
             _context.ItemCategory.Remove(itemCategory);
             await _context.SaveChangesAsync();
+            TempData["SuccessMessage"] = "Data successfully deleted!";
             return RedirectToAction(nameof(Index));
         }
 

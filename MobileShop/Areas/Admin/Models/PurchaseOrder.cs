@@ -7,23 +7,15 @@ using System.Threading.Tasks;
 
 namespace MobileShop.Areas.Admin.Models
 {
-    public class Order
+    public class PurchaseOrder
     {
         [Key]
-        public int OrderId { get; set; }
+        public int PurchaseOrderId { get; set; }
 
-        [StringLength(256)]
-        [Required]
-        public string UserName { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
-        [Display(Name = "Phone Number")]
-        public string PhoneNumber { get; set; }
-
-        [Required]
-        public string Address { get; set; }
+        [Display(Name = "Supplier")]
+        public int SupplierId { get; set; }
+        [ForeignKey("SupplierId")]
+        public Supplier Supplier { get; set; }
 
         [Required]
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
@@ -37,7 +29,7 @@ namespace MobileShop.Areas.Admin.Models
         [Required]
         public string Status { get; set; }
 
-        [Required]
-        public ICollection<OrderDetail> OrderDetail { get; set; }
+        public List<PurchaseOrderDetail> PurchaseOrderDetail { get; set; } = new List<PurchaseOrderDetail>();
+
     }
 }

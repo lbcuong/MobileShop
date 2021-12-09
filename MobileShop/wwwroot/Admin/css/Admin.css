@@ -47,6 +47,13 @@ body {
     background-color: rgb(18, 165, 214);
 }
 
+.show-success-message {
+    position: fixed;
+    right: 1rem;
+    bottom: 0;
+    width: fit-content;
+}
+
 /* Mobile: width < 740px */
 @media only screen and (max-width: 46.1875rem) {
     .sidebar {

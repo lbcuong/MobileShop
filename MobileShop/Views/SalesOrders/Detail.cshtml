@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Order>
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.SalesOrder>
 
 @{
     ViewData["Title"] = "Order Detail";
@@ -11,7 +11,7 @@
     <div class="d-flex justify-content-between">
         @foreach (var order in Model)
         {
-            <h5>Order: @Html.DisplayFor(model => order.OrderId)</h5>
+            <h5>Order: @Html.DisplayFor(model => order.SalesOrderId)</h5>
         }
     </div>
     <form class="form-LSR bg-white mt-1 py-3 px-2">
@@ -24,7 +24,7 @@
                         <th colspan="4"></th>
                     </tr>
                 </thead>
-                @foreach (var orderdetail in order.OrderDetail)
+                @foreach (var orderdetail in order.SalesOrderDetail)
                 {
                     <tbody>
                         <tr style="font-size: 0.9rem;">

@@ -15,12 +15,12 @@ using MobileShop.Data;
 
 namespace MobileShop.Areas.Identity.Pages.Account.Manage
 {
-    public partial class OrdersController : Controller
+    public partial class SalesOrdersController : Controller
     {
         private readonly UserManager<MobileShopUser> _userManager;
         private readonly MobileShopContext _context;
 
-        public OrdersController(UserManager<MobileShopUser> userManager, MobileShopContext context)
+        public SalesOrdersController(UserManager<MobileShopUser> userManager, MobileShopContext context)
         {
             _userManager = userManager;
             _context = context;
@@ -36,8 +36,8 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
             ViewData["CurrentFilter"] = searchString;
 
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var order = _context.Order
-                .Include(s => s.OrderDetail)
+            var salesOrder = _context.SalesOrder
+                .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
                         .ThenInclude(s => s.ItemImage)
                 .Where(u => u.UserName == currentUser.UserName)
@@ -49,24 +49,24 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                 {
                     var startDate = DateTime.Today.AddDays(-7);
                     var endDate = DateTime.Today.AddDays(1);
-                    order = (IOrderedQueryable<Order>)order.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
+                    salesOrder = (IOrderedQueryable<SalesOrder>)salesOrder.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
                 }
                 else if (searchString == "last-30-days")
                 {
                     var startDate = DateTime.Today.AddDays(-30);
                     var endDate = DateTime.Today.AddDays(1);
-                    order = (IOrderedQueryable<Order>)order.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
+                    salesOrder = (IOrderedQueryable<SalesOrder>)salesOrder.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
                 }
                 else if (searchString == "last-100-days")
                 {
                     var startDate = DateTime.Today.AddDays(-100);
                     var endDate = DateTime.Today.AddDays(1);
-                    order = (IOrderedQueryable<Order>)order.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
+                    salesOrder = (IOrderedQueryable<SalesOrder>)salesOrder.Where(s => s.OrderDate >= startDate && s.OrderDate <= endDate);
                 }
 
             }
 
-            return View(await order.ToListAsync());
+            return View(await salesOrder.ToListAsync());
         }
 
         public async Task<IActionResult> Detail(int? id)
@@ -77,18 +77,18 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
             }
 
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var order = _context.Order
-                .Include(s => s.OrderDetail)
+            var salesOrder = _context.SalesOrder
+                .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
                         .ThenInclude(s => s.ItemImage)
-                .Where(u => u.UserName == currentUser.UserName && u.OrderId == id);
+                .Where(u => u.UserName == currentUser.UserName && u.SalesOrderId == id);
 
-            if (order == null)
+            if (salesOrder == null)
             {
                 return NotFound();
             }
 
-            return View(await order.ToListAsync());
+            return View(await salesOrder.ToListAsync());
         }
 
         // GET: Admin/Orders/Edit/5
@@ -101,19 +101,19 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                 {
                     return NotFound();
                 }
-                var order = await _context.Order.FindAsync(id);
+                var salesOrder = await _context.SalesOrder.FindAsync(id);
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                var orderDetail = _context.Order
-                    .Include(s => s.OrderDetail)
+                var salesOrderDetail = _context.SalesOrder
+                    .Include(s => s.SalesOrderDetail)
                         .ThenInclude(s => s.Item)
                             .ThenInclude(s => s.ItemImage)
-                    .Where(u => u.UserName == currentUser.UserName && u.OrderId == id);
-                ViewBag.OrderDetail = orderDetail;
-                if (order == null)
+                    .Where(u => u.UserName == currentUser.UserName && u.SalesOrderId == id);
+                ViewBag.SalesOrderDetail = salesOrderDetail;
+                if (salesOrder == null)
                 {
                     return NotFound();
                 }
-                return View(order);
+                return View(salesOrder);
             }
             return RedirectToAction(nameof(Index));
         }
@@ -124,14 +124,14 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Member")]
-        public async Task<IActionResult> Cancel(int id, [Bind("OrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] Order order)
+        public async Task<IActionResult> Cancel(int id, [Bind("SalesOrderId,UserName,Name,PhoneNumber,Address,Total,OrderDate,Status")] SalesOrder salesOrder)
         {
-            if (id != order.OrderId)
+            if (id != salesOrder.SalesOrderId)
             {
                 return NotFound();
             }
 
-            _context.Update(order);
+            _context.Update(salesOrder);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
@@ -139,7 +139,7 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
 
         private bool OrderExists(int id)
         {
-            return _context.Order.Any(e => e.OrderId == id);
+            return _context.SalesOrder.Any(e => e.SalesOrderId == id);
         }
     }
 }

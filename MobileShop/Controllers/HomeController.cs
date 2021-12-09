@@ -29,12 +29,12 @@ namespace MobileShop.Controllers
             ViewBag.Banners = banners;
 
             var bestSalesMobiles = (from m in _context.Item
-                                        let totalQuantity = (from i in _context.OrderDetail
+                                        let totalQuantity = (from i in _context.SalesOrderDetail
                                         where i.ItemId == m.ItemId
                                         select i.Quantity).Sum()
                                     where totalQuantity > 0
                                     orderby totalQuantity descending
-                                    select m).Take(10).ToList();
+                                    select m).Take(20).ToList();
             ViewBag.BestSalesMobiles = bestSalesMobiles;
 
             var subbestSalesMobiles1 = bestSalesMobiles.Take(5).ToList();

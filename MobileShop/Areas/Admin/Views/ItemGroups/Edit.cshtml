@@ -42,3 +42,10 @@
         </div>
     </div>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissable rounded-0 border-0 shadow-sm show-success-message">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}

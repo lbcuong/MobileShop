@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.Order
+﻿@model MobileShop.Areas.Admin.Models.SalesOrder
 
 @{
     ViewData["Title"] = "Order Detail";
@@ -6,26 +6,26 @@
 
     int totalItem = 0;
 
-    var orderDetails = (IEnumerable<MobileShop.Areas.Admin.Models.Order>)ViewBag.OrderDetail;
+    var salesOrderDetails = (IEnumerable<MobileShop.Areas.Admin.Models.SalesOrder>)ViewBag.SalesOrderDetail;
 }
 
 <div class="mt-4">
     <div class="d-flex justify-content-between">
         <h6 class="text-secondary">
-            Order: @Html.DisplayFor(model => model.OrderId) -
+            Order: @Html.DisplayFor(model => model.SalesOrderId) -
             <i>Placed at @Html.ValueFor(model => model.OrderDate, "{0:MMMM dd, yyyy H:mm:ss}")</i>
         </h6>
     </div>
     <form class="form-LSR bg-white mt-1 py-3 px-2">
         <table class="table table-borderless table-hover">
-            @foreach (var order in orderDetails)
+            @foreach (var salesOrder in salesOrderDetails)
             {
                 <thead class="border-top">
                     <tr>
                         <th colspan="4"></th>
                     </tr>
                 </thead>
-                @foreach (var orderDetail in order.OrderDetail)
+                @foreach (var orderDetail in salesOrder.SalesOrderDetail)
                 {
                     <tbody>
                         <tr style="font-size: 0.9rem;">
@@ -52,8 +52,8 @@
     <div class="d-flex justify-content-between">
         <a class="btn btn-secondary px-5 py-2 text-white" asp-action="Index">Return</a>
         <form asp-action="Cancel">
-            <input type="hidden" asp-for="OrderId" />
-            <input asp-for="OrderId" class="form-control" readonly="readonly" hidden />
+            <input type="hidden" asp-for="SalesOrderId" />
+            <input asp-for="SalesOrderId" class="form-control" readonly="readonly" hidden />
             <input asp-for="UserName" class="form-control" readonly="readonly" hidden />
             <input asp-for="Name" class="form-control" readonly="readonly" hidden />
             <input asp-for="PhoneNumber" class="form-control" readonly="readonly" hidden />

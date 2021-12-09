@@ -140,9 +140,11 @@ namespace MobileShop.Areas.Admin.Controllers
                 if (staffUser.Succeeded)
                 {
                     await _userManager.AddToRoleAsync(user, "Staff");
+                    TempData["SuccessMessage"] = "Data successfully added!";
+                    return RedirectToAction(nameof(Create));
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Create));
         }
     }
 }

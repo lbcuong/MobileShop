@@ -60,6 +60,8 @@ namespace MobileShop.Areas.Admin.Controllers
             if (roleName != null)
             {
                 await _roleManager.CreateAsync(new IdentityRole(roleName.Trim()));
+                TempData["SuccessMessage"] = "Data successfully added!";
+                return RedirectToAction(nameof(Create));
             }
             return RedirectToAction(nameof(Index));
         }

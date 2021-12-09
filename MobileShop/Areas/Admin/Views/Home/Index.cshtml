@@ -11,13 +11,13 @@
     <div class="col-3">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary border-bottom">Sales</p>
-            <p class="fs-5">@ViewBag.TotalSales.ToString("n0") ₫</p>
+            <p class="fs-5">₫ @ViewBag.TotalSales.ToString("n0")</p>
         </div>
     </div>
     <div class="col-3">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary border-bottom">Revenue</p>
-            <p class="fs-5">@ViewBag.TotalSales.ToString("n0") ₫</p>
+            <p class="fs-5">₫ @ViewBag.Revenue.ToString("n0")</p>
         </div>
     </div>
     <div class="col-3">
@@ -38,11 +38,13 @@
     <div class="col-12">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary fs-5 p-3 border-bottom">Recent Movement</p>
-            <canvas class="my-4 w-100" id="EachMonthRevenueChart" width="900" height="300"></canvas>
+            <canvas class="my-4 w-100" id="YearSalesChart" width="900" height="300"></canvas>
         </div>
     </div>
 </div>
 
+<!--
 <p>Doanh thu năm 2021: 130.000.000 ₫</p>
 <canvas class="my-4 w-100" id="EachYearRevenueChart" width="900" height="380"></canvas>
+-->
 

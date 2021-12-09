@@ -22,11 +22,18 @@ namespace MobileShop.Areas.Admin.Controllers
         // GET: HomeController
         public ActionResult Index()
         {
-            var totalOrder = _context.Order;
+            var totalOrder = _context.SalesOrder;
             ViewBag.TotalOrder = totalOrder.Count();
 
-            var totalSales = _context.Order.Where(s => s.Status == "Delivered").Sum(s => s.Total);
+            var totalSales = _context.SalesOrder.Where(s => s.Status == "Delivered").Sum(s => s.Total);
             ViewBag.TotalSales = totalSales;
+
+            var totalPurchase = _context.PurchaseOrder.Where(s => s.Status == "Received").Sum(s => s.Total);
+            ViewBag.TotalPurchase = totalPurchase;
+
+            var revenue = totalSales - totalPurchase;
+            ViewBag.Revenue = revenue;
+
             return View();
         }
 

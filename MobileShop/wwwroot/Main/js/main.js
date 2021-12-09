@@ -133,6 +133,13 @@ $(document).ready(function () {
         $("#commentbox-" + rating).show();
     });
 
+    var message = '@Html.Raw((string)TempData["SuccessMessage"])';
+    if (message != null) {
+        $(".show-success-message").fadeIn('fast', function () {
+            $(".show-success-message").delay(5000).fadeOut('slow');
+        });
+    }
+
     initializeStatistics();
 });
 

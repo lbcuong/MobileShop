@@ -18,8 +18,11 @@ namespace MobileShop.Data
         public DbSet<ItemImage> ItemImage { get; set; }
         public DbSet<Review> Review { get; set; }
         public DbSet<ReplyReview> ReplyReview { get; set; }
-        public DbSet<Order> Order { get; set; }
-        public DbSet<OrderDetail> OrderDetail { get; set; }
+        public DbSet<SalesOrder> SalesOrder { get; set; }
+        public DbSet<SalesOrderDetail> SalesOrderDetail { get; set; }
+        public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
+        public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public DbSet<Banner> Banner { get; set; }
+        public DbSet<MobileShop.Areas.Admin.Models.Supplier> Supplier { get; set; }
     }
 }

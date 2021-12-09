@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.Order
+﻿@model MobileShop.Areas.Admin.Models.SalesOrder
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,7 +6,7 @@
 }
 
 <div class="border-bottom m-0 p-0 mb-2">
-    <h5>Order Management / Orders / Edit</h5>
+    <h5>Order Management / Sales Orders / Edit</h5>
 </div>
 
 <div class="row shadow rounded-0 m-3 py-3">
@@ -17,11 +17,11 @@
         </div>
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="OrderId" />
+            <input type="hidden" asp-for="SalesOrderId" />
             <div class="form-group mb-2">
-                <label asp-for="OrderId" class="control-label"></label>
-                <input asp-for="OrderId" class="form-control" readonly="readonly" />
-                <span asp-validation-for="OrderId" class="text-danger"></span>
+                <label asp-for="SalesOrderId" class="control-label"></label>
+                <input asp-for="SalesOrderId" class="form-control" readonly="readonly" />
+                <span asp-validation-for="SalesOrderId" class="text-danger"></span>
             </div>
             <div class="form-group mb-2">
                 <label asp-for="UserName" class="control-label"></label>
@@ -65,7 +65,7 @@
             {
                 <div class="form-group mb-2">
                     <label asp-for="Status" class="control-label"></label>
-                    <input asp-for="Status" class="form-control" value="Delivered" readonly="readonly" />
+                    <input asp-for="Status" class="form-control text-success" value="Delivered" readonly="readonly" />
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
             }
@@ -76,3 +76,10 @@
         </form>
     </div>
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissable rounded-0 border-0 shadow-sm show-success-message">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}
