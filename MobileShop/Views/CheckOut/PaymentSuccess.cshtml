@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "CheckoutSuccess";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="margin-bottom: 15rem;">
+    <div class="row d-flex justify-content-center my-2">
+        <h4 class="text-success d-flex justify-content-center">Payment Successfully</h4>
+    </div>
+
+    <div class="row d-flex justify-content-center my-2">
+        <img style="width: 10rem;" src="~/lib/images/Other/checkout-success.png" />
+    </div>
+
+    <div class="row d-flex justify-content-center my-2">
+        <a class="btn btn-outline-info col-2 text-decoration-none me-3" asp-area="" asp-controller="SalesOrders" asp-action="Index">
+            <span>
+                Check Order
+            </span>
+        </a>
+        <a class="btn btn-info col-2 text-decoration-none text-light" asp-area="" asp-controller="Home" asp-action="Index">
+            <span>
+                Continue Shopping <i class="fa-solid fa-cart-arrow-down"></i>
+            </span>
+        </a>
+    </div>
+</div>

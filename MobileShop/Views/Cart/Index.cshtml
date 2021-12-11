@@ -9,7 +9,8 @@
 {
     decimal subtotal = 0;
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 15rem;">
+        <h4 class="text-secondary border-bottom">My Cart</h4>
         <div class="col-8">
             <table class="table lh-sm">
                 @foreach (var cartItem in Model)
@@ -38,14 +39,14 @@
                         </td>
                         <td class="col-2">
                             <div class="input-group">
-                                <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="0" value='–' />
-                                <select class="text-center quantity-control w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
+                                <input class="btn btn-secondary btn-sm minus-cart" type='button' data-min="0" value='–' />
+                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
                                     @for (var quantity = 0; quantity <= cartItem.Item.Quantity; quantity++)
                                     {
                                         <option value="@quantity">@quantity</option>
                                     }
                                 </select>
-                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@cartItem.Item.Quantity" value='+' />
+                                <input class="btn btn-secondary btn-sm plus-cart" type='button' data-max="@cartItem.Item.Quantity" value='+' />
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
@@ -90,7 +91,7 @@
 
                 <tr class="border-top">
                     <td colspan="2">
-                        <a asp-area="" asp-controller="CheckOut" asp-action="CheckOut" class="btn btn-info text-light">
+                        <a asp-area="" asp-controller="CheckOut" asp-action="CheckOut" class="btn btn-info text-light w-100 py-2">
                             Confirm Cart
                         </a>
                     </td>
@@ -101,19 +102,27 @@
 }
 else
 {
-    <div class="row">
-        <p class="text-secondary col d-flex justify-content-center align-items-center">
-            <span>
-                Your cart is empty <i class="fa-solid fa-circle-xmark text-danger"></i>
-            </span>
-        </p>
-    </div>
-    <div class="row d-flex justify-content-center">
-        <a class="btn btn-info col-2 text-decoration-none text-light" asp-area="" asp-controller="Home" asp-action="Index">
-            <span>
-                Go Shopping <i class="fa-solid fa-cart-arrow-down"></i>
-            </span>
-        </a>
+    <div class="row" style="margin-bottom: 15rem;">
+        <h4 class="text-secondary border-bottom">My Cart</h4>
+        <div class="row">
+            <div class="col d-flex justify-content-center align-items-center">
+                <img class="w-25" src="~/lib/images/Other/shopping-cart-empty.png" />
+            </div>
+        </div>
+        <div class="row">
+            <p class="text-secondary col d-flex justify-content-center align-items-center">
+                <span>
+                    Your cart is empty <i class="fa-solid fa-circle-xmark text-danger"></i>
+                </span>
+            </p>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <a class="btn btn-info col-2 text-decoration-none text-light" asp-area="" asp-controller="Home" asp-action="Index">
+                <span>
+                    Go Shopping <i class="fa-solid fa-cart-arrow-down"></i>
+                </span>
+            </a>
+        </div>
     </div>
 }
 

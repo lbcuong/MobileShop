@@ -115,7 +115,7 @@ namespace MobileShop.Controllers
 
                 RedirectUrls = new RedirectUrls()
                 {
-                    CancelUrl = $"{hostname}/CheckOut/CheckoutFail",
+                    CancelUrl = $"{hostname}/CheckOut/PaymentFailed",
                     ReturnUrl = $"{hostname}/CheckOut/CheckoutSuccess"
                 },
 
@@ -155,12 +155,12 @@ namespace MobileShop.Controllers
                 var debugId = httpException.Headers.GetValues("PayPal-Debug-Id").FirstOrDefault();
 
                 //Process when Checkout with Paypal fails
-                return Redirect("/CheckOut/CheckoutFail");
+                return Redirect("/CheckOut/PaymentFailed");
             }
 
         }
 
-        public IActionResult CheckoutFail()
+        public IActionResult PaymentFailed()
         {
             return View();
         }
@@ -198,10 +198,10 @@ namespace MobileShop.Controllers
 
             ClearCart();
 
-            return RedirectToAction(nameof(IndexCheckoutSuccess));
+            return RedirectToAction(nameof(PaymentSuccess));
         }
 
-        public IActionResult IndexCheckoutSuccess()
+        public IActionResult PaymentSuccess()
         {
             return View();
         }

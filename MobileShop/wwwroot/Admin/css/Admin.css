@@ -101,6 +101,11 @@ body {
     overflow: auto;
 }
 
+.table-responsive-statistics {
+    height: 29.35rem;
+    overflow: auto;
+}
+
 .table-responsive thead {
     background-color: rgb(245, 245, 245);
 }

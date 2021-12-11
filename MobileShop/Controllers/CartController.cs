@@ -65,7 +65,7 @@ namespace MobileShop.Controllers
         // Add items to Cart
         [Authorize(Roles = "Member")]
         [HttpPost]
-        public async Task<IActionResult> AddToCart(int itemId, int quantity)
+        public async Task<IActionResult> AddToCart(int itemId, int quantity, string categoryURL)
         {
 
             var item = await _context.Item
@@ -94,11 +94,11 @@ namespace MobileShop.Controllers
                 //  Add new item to cart
                 cart.Add(new CartItem() { Quantity = quantity, Item = item });
             }
-
             // Save cart to Session
             SaveCartSession(cart);
             TempData["SuccessMessage"] = "Item successfully added!";
-            return Json(new { redirectToUrl = Url.Action("Detail", "MobilePhones", new { id = itemId }) });
+
+            return Json(new { redirectToUrl = Url.Action("Detail", categoryURL, new { id = itemId }) });
         }
 
         // Remove items from cart

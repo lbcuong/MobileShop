@@ -6,7 +6,7 @@
 @inject UserManager<MobileShopUser> UserManager
 
 @{
-    ViewData["Title"] = "MobilePhoneDetail";
+    ViewData["Title"] = "MobilePhones Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var reviews = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Reviews;
@@ -90,10 +90,7 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <div class="options d-flex flex-row mt-3 gap-3">
-                                <button class="btn btn-info w-50">
-                                    Buy Now
-                                </button>
-                                <button class="btn btn-secondary w-50 addtocart" data-itemId="@Model.ItemId">
+                                <button class="btn btn-info w-50 addtocart" data-itemId="@Model.ItemId" data-categoryURL="MobilePhones">
                                     Add to Cart
                                 </button>
                             </div>
@@ -102,9 +99,6 @@
                         {
                             <div class="options d-flex flex-row mt-3 gap-3">
                                 <a class="btn btn-info w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
-                                    Buy Now
-                                </a>
-                                <a class="btn btn-secondary w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
                                     Add to Cart
                                 </a>
                             </div>

@@ -105,6 +105,81 @@ ClassicEditor
         console.error(err.stack);
     });
 
+// items Sold Total Chart
+$(function () {
+    var labels = itemsSoldTotalChart_labels;
+    var datas = itemsSoldTotalChart_datas;
+    var labelsArray = new Array();
+    var dataArray = new Array();
+    var colorArray = new Array();
+    for (var i = 0; i < labels.split(',').length; i++) {
+        labelsArray.push(labels.split(',')[i]);
+        dataArray.push(datas.split(',')[i]);
+        colorArray.push(getRandomColor());
+    }
+
+    new Chart(document.getElementById("itemsSoldTotalChart").getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: labelsArray,
+            datasets: [{
+                backgroundColor: colorArray,
+                data: dataArray
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+
+// items Sold Yesterday Chart
+$(function () {
+    var labels = itemsSoldYesterdayChart_labels;
+    var datas = itemsSoldYesterdayChart_datas;
+    var labelsArray = new Array();
+    var dataArray = new Array();
+    var colorArray = new Array();
+    for (var i = 0; i < labels.split(',').length; i++) {
+        labelsArray.push(labels.split(',')[i]);
+        dataArray.push(datas.split(',')[i]);
+        colorArray.push(getRandomColor());
+    }
+
+    new Chart(document.getElementById("itemsSoldYesterdayChart").getContext('2d'), {
+        type: 'pie',
+        data: {
+            labels: labelsArray,
+            datasets: [{
+                backgroundColor: colorArray,
+                data: dataArray
+            }]
+        },
+        options: {
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+});
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+
+
 const labels = [
     'Jan',
     'Fer',
@@ -131,6 +206,7 @@ const data = {
         tension: 0.1
     }]
 };
+
 const config = {
     type: 'line',
     data: data,
@@ -158,58 +234,7 @@ const config = {
     }
 };
 
-/*
-const labels1 = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-];
-
-const data1 = {
-    labels: labels1,
-    datasets: [{
-        label: 'Doanh thu',
-        backgroundColor: 'rgb(18, 165, 214)',
-        borderColor: 'rgb(18, 165, 214)',
-        data: [10, 5, 2, 20],
-        pointBackgroundColor: '#007bff',
-    }]
-};
-const config1 = {
-    type: 'bar',
-    data: data1,
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    // Include a dollar sign in the ticks
-                    callback: function (value, index, values) {
-                        return value + '₫';
-                    }
-                }
-            }
-        }
-    }
-};
-*/
 var EachMonthRevenueChart = new Chart(
     document.getElementById('YearSalesChart'),
     config
 );
-
-/*
-var EachMonthRevenueChart = new Chart(
-    document.getElementById('EachYearRevenueChart'),
-    config1
-);
-*/

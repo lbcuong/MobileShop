@@ -32,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\images\banners\" />
-    <Folder Include="wwwroot\lib\images\Other\" />
   </ItemGroup>
 
 </Project>

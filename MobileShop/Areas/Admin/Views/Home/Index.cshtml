@@ -8,28 +8,108 @@
     <h4>Overview</h4>
 </div>
 <div class="row mt-4 g-3">
-    <div class="col-3">
+    <div class="col-12">
+        <p class="text-info fs-5 border-start border-info border-3 ps-3">Yesterday's Statistics (@String.Format("{0:MMMM dd, yyyy}", ViewBag.Yesterday))</p>
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-4"></div>
+    <div class="col-4">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary border-bottom">Sales</p>
-            <p class="fs-5">₫ @ViewBag.TotalSales.ToString("n0")</p>
+            <p class="fs-5">₫ @ViewBag.TotalSalesYesterday.ToString("n0")</p>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Orders</p>
+            <p class="fs-5">@ViewBag.TotalOrderYesterday</p>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-4">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Items sold yesterday chart</p>
+            <canvas class="my-4 w-100" id="itemsSoldYesterdayChart" width="900" height="300"></canvas>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="table-responsive-statistics bg-light shadow">
+            <table class="table table-borderless">
+                <thead class="sticky-top table-info px-2">
+                    <tr>
+                        <th>Item</th>
+                        <th>Sold (Qty)</th>
+                    </tr>
+                </thead>
+                <tbody class="px-2">
+                    @foreach (var item in ViewBag.ItemsSoldYesterdayChart)
+                    {
+                        <tr>
+                            <td>@item["Item"]</td>
+                            <td>@item["Sold"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4 g-3">
+    <div class="col-12">
+        <p class="text-info fs-5 border-start border-info border-3 ps-3">Total's Statistics</p>
+    </div>
+</div>
+<div class="row g-3">
+    <div class="col-4">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary border-bottom">Revenue</p>
             <p class="fs-5">₫ @ViewBag.Revenue.ToString("n0")</p>
         </div>
     </div>
-    <div class="col-3">
+    <div class="col-4">
+        <div class="p-3 bg-light shadow">
+            <p class="text-secondary border-bottom">Sales</p>
+            <p class="fs-5">₫ @ViewBag.TotalSales.ToString("n0")</p>
+        </div>
+    </div>
+    <div class="col-4">
         <div class="p-3 bg-light shadow">
             <p class="text-secondary border-bottom">Orders</p>
             <p class="fs-5">@ViewBag.TotalOrder</p>
         </div>
     </div>
-    <div class="col-3">
+</div>
+
+<div class="row mt-4 g-3">
+    <div class="col-4">
         <div class="p-3 bg-light shadow">
-            <p class="text-secondary border-bottom">Visitors</p>
-            <p class="fs-5"></p>
+            <p class="text-secondary border-bottom">Items sold Total chart</p>
+            <canvas class="my-4 w-100" id="itemsSoldTotalChart" width="900" height="300"></canvas>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="table-responsive-statistics bg-light shadow">
+            <table class="table table-borderless">
+                <thead class="sticky-top table-info px-2">
+                    <tr>
+                        <th>Item</th>
+                        <th>Sold (Qty)</th>
+                    </tr>
+                </thead>
+                <tbody class="px-2">
+                    @foreach (var item in ViewBag.ItemsSoldTotalChart)
+                    {
+                        <tr>
+                            <td>@item["Item"]</td>
+                            <td>@item["Sold"]</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
@@ -43,8 +123,12 @@
     </div>
 </div>
 
-<!--
-<p>Doanh thu năm 2021: 130.000.000 ₫</p>
-<canvas class="my-4 w-100" id="EachYearRevenueChart" width="900" height="380"></canvas>
--->
+@section Scripts {
+    <script type="text/javascript">
+        var itemsSoldYesterdayChart_labels = '@ViewBag.ItemsSoldYesterday';
+        var itemsSoldYesterdayChart_datas = '@ViewBag.QuantityItemsSoldYesterday';
 
+        var itemsSoldTotalChart_labels = '@ViewBag.ItemsSoldTotal';
+        var itemsSoldTotalChart_datas = '@ViewBag.QuantityItemsSoldTotal';
+    </script>
+}

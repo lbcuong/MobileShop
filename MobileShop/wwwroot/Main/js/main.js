@@ -4,6 +4,7 @@ $(document).ready(function () {
         event.preventDefault();
         var itemId = $(this).attr("data-itemId");
         var quantity = $("#quantity-" + itemId).val();
+        var categoryURL = $(this).attr("data-categoryURL");
         $.ajax({
             type: "POST",
             dataType: 'JSON',
@@ -11,7 +12,8 @@ $(document).ready(function () {
             url: "/Cart/AddToCart",
             data: {
                 itemId: itemId,
-                Quantity: quantity
+                quantity: quantity,
+                categoryURL: categoryURL
             },
             success: function (response) {
                 window.location.href = response.redirectToUrl;
@@ -50,6 +52,20 @@ $(document).ready(function () {
     $("#minus").on('click', function () {
         if ($(".quantity-control").val() > $(this).data("min")) {
             $(".quantity-control").val(Number($(".quantity-control").val()) - 1);
+        }
+    });
+
+    // Plus button in cart
+    $(".plus-cart").click(function () {
+        if ($(this).prev().val() < $(this).data("max")) {
+            $(this).prev().val(+$(this).prev().val() + 1);
+        }
+    });
+
+    // Minus button in cart
+    $(".minus-cart").click(function () {
+        if ($(this).next().val() > $(this).data("min")) {
+            $(this).next().val(+$(this).next().val() - 1);
         }
     });
 

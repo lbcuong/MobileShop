@@ -30,7 +30,9 @@ namespace MobileShop.Controllers
 
             var bestSalesMobiles = (from m in _context.Item
                                         let totalQuantity = (from i in _context.SalesOrderDetail
-                                        where i.ItemId == m.ItemId
+                                        where i.ItemId == m.ItemId 
+                                              && (i.SalesOrder.Status == "Delivering" || i.SalesOrder.Status == "Delivered") 
+                                              && i.Item.ItemCategory.ItemCategoryId == 4
                                         select i.Quantity).Sum()
                                     where totalQuantity > 0
                                     orderby totalQuantity descending
@@ -48,6 +50,29 @@ namespace MobileShop.Controllers
 
             var subbestSalesMobiles4 = bestSalesMobiles.Skip(15).Take(5).ToList();
             ViewBag.SubbestSalesMobiles4 = subbestSalesMobiles4;
+
+            var bestSalesAccessories = (from m in _context.Item
+                                    let totalQuantity = (from i in _context.SalesOrderDetail
+                                                         where i.ItemId == m.ItemId
+                                                               && (i.SalesOrder.Status == "Delivering" || i.SalesOrder.Status == "Delivered")
+                                                               && (i.Item.ItemCategory.ItemCategoryId != 4 && i.Item.ItemCategory.ItemCategoryId != 7)
+                                                         select i.Quantity).Sum()
+                                    where totalQuantity > 0
+                                    orderby totalQuantity descending
+                                    select m).Take(20).ToList();
+            ViewBag.BestSalesAccessories = bestSalesAccessories;
+
+            var subbestSalesAccessories1 = bestSalesAccessories.Take(5).ToList();
+            ViewBag.SubbestSalesAccessories1 = subbestSalesAccessories1;
+
+            var subbestSalesAccessories2 = bestSalesAccessories.Skip(5).Take(5).ToList();
+            ViewBag.SubbestSalesAccessories2 = subbestSalesAccessories2;
+
+            var subbestSalesAccessories3 = bestSalesAccessories.Skip(10).Take(5).ToList();
+            ViewBag.SubbestSalesAccessories3 = subbestSalesAccessories3;
+
+            var subbestSalesAccessories4 = bestSalesAccessories.Skip(15).Take(5).ToList();
+            ViewBag.SubbestSalesAccessories4 = subbestSalesAccessories4;
 
             return View();
         }

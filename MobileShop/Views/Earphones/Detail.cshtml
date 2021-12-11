@@ -6,7 +6,7 @@
 @inject UserManager<MobileShopUser> UserManager
 
 @{
-    ViewData["Title"] = "MobilePhoneDetail";
+    ViewData["Title"] = "Earphone Detail";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var reviews = (IEnumerable<MobileShop.Areas.Admin.Models.Review>)ViewBag.Reviews;
@@ -90,10 +90,7 @@
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <div class="options d-flex flex-row mt-3 gap-3">
-                                <button class="btn btn-info w-50">
-                                    Buy Now
-                                </button>
-                                <button class="btn btn-secondary w-50 addtocart" data-itemId="@Model.ItemId">
+                                <button class="btn btn-info w-50 addtocart" data-itemId="@Model.ItemId" data-categoryURL="Earphones">
                                     Add to Cart
                                 </button>
                             </div>
@@ -101,10 +98,7 @@
                         else
                         {
                             <div class="options d-flex flex-row mt-3 gap-3">
-                                <a class="btn btn-info w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
-                                    Buy Now
-                                </a>
-                                <a class="btn btn-secondary w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
+                                <a class="btn btn-info w-50" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "Earphones", new { area = "" , id = Model.ItemId})">
                                     Add to Cart
                                 </a>
                             </div>
@@ -218,7 +212,7 @@
                         </div>
 
                         <!-- Review Modal -->
-                        <form asp-area="" asp-controller="MobilePhones" asp-action="SendReview">
+                        <form asp-action="SendReview">
                             <div class="modal fade" id="ModalReview" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content rounded-0">
@@ -254,7 +248,7 @@
                     else
                     {
                         <div class="col-md-3 d-flex justify-content-center my-auto">
-                            <a class="btn btn-secondary w-75 text-light" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">
+                            <a class="btn btn-secondary w-75 text-light" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "Earphones", new { area = "" , id = Model.ItemId})">
                                 Write a Review
                             </a>
                         </div>
@@ -290,7 +284,7 @@
                                     @foreach (var subrelatedItem1 in subrelatedItems1)
                                     {
                                         <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem1.ItemId">
+                                            <a class="text-decoration-none" asp-action="Detail" asp-route-id="@subrelatedItem1.ItemId">
                                                 <img src="@("~/lib/images/" + subrelatedItem1.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem1.Name" />
                                                 <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem1.Name)</h6>
                                                 <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem1.Price) ₫</p>
@@ -311,7 +305,7 @@
                                     @foreach (var subrelatedItem2 in subrelatedItems2)
                                     {
                                         <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem2.ItemId">
+                                            <a class="text-decoration-none" asp-action="Detail" asp-route-id="@subrelatedItem2.ItemId">
                                                 <img src="@("~/lib/images/" + subrelatedItem2.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem2.Name" />
                                                 <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem2.Name)</h6>
                                                 <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem2.Price) ₫</p>
@@ -332,7 +326,7 @@
                                     @foreach (var subrelatedItem3 in subrelatedItems3)
                                     {
                                         <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem3.ItemId">
+                                            <a class="text-decoration-none" asp-action="Detail" asp-route-id="@subrelatedItem3.ItemId">
                                                 <img src="@("~/lib/images/" + subrelatedItem3.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem3.Name" />
                                                 <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem3.Name)</h6>
                                                 <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem3.Price) ₫</p>
@@ -353,7 +347,7 @@
                                     @foreach (var subrelatedItem4 in subrelatedItems4)
                                     {
                                         <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
-                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subrelatedItem4.ItemId">
+                                            <a class="text-decoration-none" asp-action="Detail" asp-route-id="@subrelatedItem4.ItemId">
                                                 <img src="@("~/lib/images/" + subrelatedItem4.Image)" asp-append-version="true" class="img-fluid" alt="@subrelatedItem4.Name" />
                                                 <h6 class="text-secondary">@Html.DisplayFor(model => subrelatedItem4.Name)</h6>
                                                 <p class="text-danger fs-6">@Html.DisplayFor(model => subrelatedItem4.Price) ₫</p>
@@ -422,7 +416,7 @@
                                 {
                                     <a class="text-secondary small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
                                     <div class="form-comment-box" id="commentbox-@commentbox">
-                                        <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
+                                        <form asp-action="Reply">
                                             <div class="comment-box d-flex align-items-center">
                                                 <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
@@ -436,7 +430,7 @@
                                 }
                                 else
                                 {
-                                    <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
+                                    <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "Earphones", new { area = "" , id = Model.ItemId})">Reply</a>
                                 }
                                 <div class="border-start border-4">
                                     @foreach (var reply in review.Replies)
@@ -484,7 +478,7 @@
                                     {
                                         <a class="text-secondary ms-5 mt-1 small text-decoration-none comment-box-expand" data-expand="@commentbox" type="button">Reply</a>
                                         <div class="form-comment-box ms-5" id="commentbox-@commentbox">
-                                            <form asp-area="" asp-controller="MobilePhones" asp-action="Reply">
+                                            <form asp-action="Reply">
                                                 <div class="comment-box d-flex align-items-center">
                                                     <textarea class="w-75 commentBox" placeholder="Reply" name="Comment" id="commentBox" rows="1"></textarea>
 
@@ -498,7 +492,7 @@
                                     }
                                     else
                                     {
-                                        <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "MobilePhones", new { area = "" , id = Model.ItemId})">Reply</a>
+                                        <a class="text-secondary small text-decoration-none" type="button" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Detail", "Earphones", new { area = "" , id = Model.ItemId})">Reply</a>
                                     }
                                 }
                             </div>
@@ -509,6 +503,13 @@
         </div>
     }
 </div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissable rounded-0 border-0 shadow-sm show-success-message">
+        <strong>@TempData["SuccessMessage"]</strong>
+    </div>
+}
 
 @section Scripts {
     <script>
