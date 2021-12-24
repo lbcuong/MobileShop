@@ -22,7 +22,6 @@ namespace MobileShop.Areas.Admin.Models
         [Column(TypeName = "decimal(15, 0)")]
         public decimal Total { get; set; }
 
-        [Required]
         [Display(Name = "Order Date")]
         public DateTime OrderDate { get; set; }
 

@@ -47,38 +47,29 @@
                     </h6>
                     <h5>@Html.DisplayFor(model => model.Price) ₫</h5>
                     <div class="row">
-                        <span class="mb-2">Quantity</span>
+                        <span class="my-2">Quantity</span>
                         <div class="d-flex flex-row justify-content-center w-100">
                             <div class="col input-group mb-3">
-                                <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="0" value='–' />
-                                <select class="text-center quantity-control w-25" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" id="@($"quantity-{@Model.ItemId}")">
-                                    @for (var quantity = 0; quantity <= Model.Quantity; quantity++)
-                                    {
-                                        if (quantity != 1)
-                                        {
-                                            <option value="@quantity">@quantity</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@quantity" selected>@quantity</option>
-                                        }
-                                    }
-                                </select>
-                                <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Quantity" value='+' />
                                 @if (Model.Quantity < 10 && Model.Quantity >= 1)
                                 {
+                                    <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="1" value='–'/>
+                                    <input class="text-center quantity-control w-25 form-quantity border border-secondary bg-light" type="number" asp-for="Quantity" value="1" id="@($"quantity-{@Model.ItemId}")" data-max="@Model.Quantity" />
+                                    <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Quantity" value='+' />
                                     <small class="text-danger m-auto ms-5">
                                         Only @Html.DisplayFor(modelItem => Model.Quantity) item(s) in stock
                                     </small>
                                 }
                                 else if (Model.Quantity == 0)
                                 {
-                                    <small class="text-danger m-auto ms-5">
+                                    <p class="text-danger m-auto fs-5 w-100">
                                         Out of stock
-                                    </small>
+                                    </p>
                                 }
                                 else
                                 {
+                                    <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="1" value='–' />
+                                    <input class="text-center quantity-control w-25 form-quantity" type="number" asp-for="Quantity" value="1" id="@($"quantity-{@Model.ItemId}")" data-max="@Model.Quantity" />
+                                    <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Quantity" value='+' />
                                     <small class="text-muted m-auto ms-5">In Stock</small>
                                 }
                             </div>

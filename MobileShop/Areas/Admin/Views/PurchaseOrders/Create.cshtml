@@ -13,7 +13,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-between border-bottom py-2 mb-3">
-                <h5 class="text-secondary">New Banner</h5>
+                <h5 class="text-secondary">New Purchase Order</h5>
                 <a class="managing text-decoration-none" asp-action="Index"><i class="fa-solid fa-arrow-rotate-left"></i> Back to List</a>
             </div>
             <form asp-action="Create">
@@ -23,8 +23,8 @@
                     <select asp-for="SupplierId" class="form-control" asp-items="ViewBag.SupplierId"></select>
                 </div>
                 <div class="form-group mb-2">
-                    <label asp-for="Total" class="control-label"></label>
-                    <input asp-for="Total" class="form-control" />
+                    <label asp-for="Total" class="control-label">Total (₫)</label>
+                    <input asp-for="Total" id="total" class="form-control" readonly="readonly"/>
                     <span asp-validation-for="Total" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-2">
@@ -37,27 +37,28 @@
                         <tr>
                             <th>Item</th>
                             <th>Quantity</th>
-                            <th>Import Price</th>
-                            <th></th>
+                            <th>Import Price (₫)</th>
+                            <th>
+                                <button id="btnadd" type="button" class="btn text-secondary visible" onclick="AddItem(this)"><i class="fa-solid fa-circle-plus"></i></button>
+                            </th>
                         </tr>
                         @for (int puchaseOrderDetail = 0; puchaseOrderDetail < Model.PurchaseOrderDetail.Count; puchaseOrderDetail++)
                         {
                             <tr>
                                 <td>
-                                    @Html.DropDownListFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].ItemId, ViewBag.ItemId as IEnumerable<SelectListItem>, "Select Item", new { htmlAttributes = new { @class = "form-control my-2 py-2"} })
+                                    @Html.DropDownListFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].ItemId, ViewBag.ItemId as IEnumerable<SelectListItem>, "Select Item", new { htmlAttributes = new { @class = "form-control my-2 py-2" } })
                                     <span asp-validation-for="@Model.PurchaseOrderDetail[puchaseOrderDetail].ItemId" class="text-danger"></span>
                                 </td>
                                 <td>
-                                    @Html.EditorFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].Quantity, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+                                    @Html.EditorFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].Quantity, new { htmlAttributes = new { @class = "form-control", @min = "1" } })
                                     <span asp-validation-for="@Model.PurchaseOrderDetail[puchaseOrderDetail].Quantity" class="text-danger"></span>
                                 </td>
                                 <td>
-                                    @Html.EditorFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].ImportPrice, new { htmlAttributes = new { @class = "form-control", @min = "0" } })
+                                    @Html.EditorFor(x => x.PurchaseOrderDetail[puchaseOrderDetail].ImportPrice, new { htmlAttributes = new { @class = "form-control import-price", @min = "0" } })
                                     <span asp-validation-for="@Model.PurchaseOrderDetail[puchaseOrderDetail].ImportPrice" class="text-danger"></span>
                                 </td>
                                 <td>
-                                    <button id="btnadd-@puchaseOrderDetail" type="button" class="btn text-secondary visible" onclick="AddItem(this)"><i class="fa-solid fa-circle-plus"></i></button>
-                                    <button id="btnremove-@puchaseOrderDetail" type="button" class="btn text-secondary invisible" onclick="DeleteItem(this)"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button id="btnremove-@puchaseOrderDetail" type="button" class="btn text-secondary visible" onclick="DeleteItem(this)"><i class="fa-solid fa-trash-can"></i></button>
                                 </td>
                             </tr>
                         }

@@ -104,6 +104,7 @@ namespace MobileShop.Areas.Admin.Controllers
             var purchaseOrder = _context.PurchaseOrder
                 .Include(s => s.PurchaseOrderDetail)
                     .ThenInclude(s => s.Item)
+                .Include(s => s.Supplier)
                 .Where(u => u.PurchaseOrderId == id);
 
             if (purchaseOrder == null)
@@ -136,6 +137,7 @@ namespace MobileShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                purchaseOrder.OrderDate = DateTime.Now;
                 _context.Add(purchaseOrder);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Data successfully added!";

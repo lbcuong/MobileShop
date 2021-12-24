@@ -112,7 +112,7 @@
                     @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
                     {
                         <td style="white-space: nowrap;">
-                            <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.PurchaseOrderId">Detail</a>
+                            <a class="managing text-decoration-none" asp-action="Details" asp-route-id="@item.PurchaseOrderId"><i class="fa-solid fa-circle-info"></i> Detail</a>
                         </td>
                     }
                 </tr>

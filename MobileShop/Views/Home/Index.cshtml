@@ -259,63 +259,63 @@
                             }
                             @if (ViewBag.SubbestSalesAccessories2.Count > 0)
                             {
-                                <div class="carousel-item active">
+                                <div class="carousel-item">
                                     <div class="row">
                                         @{
-                                            int indexSlide1 = 0;
+                                            int indexSlide2 = 0;
                                         }
                                         @foreach (var subbestSalesAccessory2 in subbestSalesAccessories2)
                                         {
-                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory2.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory2.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory2.Name)</h6>
                                                     <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory2.Price) ₫</p>
                                                 </a>
                                             </div>
-                                            indexSlide1++;
+                                            indexSlide2++;
                                         }
                                     </div>
                                 </div>
                             }
                             @if (ViewBag.SubbestSalesAccessories3.Count > 0)
                             {
-                                <div class="carousel-item active">
+                                <div class="carousel-item">
                                     <div class="row">
                                         @{
-                                            int indexSlide1 = 0;
+                                            int indexSlide3 = 0;
                                         }
                                         @foreach (var subbestSalesAccessory3 in subbestSalesAccessories3)
                                         {
-                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory3.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory3.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory3.Name)</h6>
                                                     <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory3.Price) ₫</p>
                                                 </a>
                                             </div>
-                                            indexSlide1++;
+                                            indexSlide3++;
                                         }
                                     </div>
                                 </div>
                             }
                             @if (ViewBag.SubbestSalesAccessories4.Count > 0)
                             {
-                                <div class="carousel-item active">
+                                <div class="carousel-item">
                                     <div class="row">
                                         @{
-                                            int indexSlide1 = 0;
+                                            int indexSlide4 = 0;
                                         }
                                         @foreach (var subbestSalesAccessory4 in subbestSalesAccessories4)
                                         {
-                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory4.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory4.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory4.Name)</h6>
                                                     <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory4.Price) ₫</p>
                                                 </a>
                                             </div>
-                                            indexSlide1++;
+                                            indexSlide4++;
                                         }
                                     </div>
                                 </div>

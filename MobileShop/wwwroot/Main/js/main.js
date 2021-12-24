@@ -25,7 +25,25 @@ $(document).ready(function () {
     $(".updatecartitem").click(function (event) {
         event.preventDefault();
         var itemId = $(this).attr("data-itemId");
-        var quantity = $("#quantity-" + itemId).val();
+        var maxQuantity = $(this).data("max");
+        var minQuantity = $(this).data("min");
+        var quantity = +$("#quantity-" + itemId).val();
+        if ($(this).hasClass("plus-cart")) {
+            if (quantity < maxQuantity) {
+                quantity = +$("#quantity-" + itemId).val() + 1;
+            }
+            else {
+                $(this).hasClass("plus-cart").prop("disabled", true);
+            }
+        }
+        if ($(this).hasClass("minus-cart")) {
+            if (quantity > minQuantity) {
+                quantity = +$("#quantity-" + itemId).val() - 1;
+            }
+            else {
+                $(this).hasClass("minus-cart").prop("disabled", true);
+            }
+        }
         $.ajax({
             type: "POST",
             dataType: 'JSON',
@@ -41,10 +59,26 @@ $(document).ready(function () {
         });
     });
 
+
+    $("#minus").prop("disabled", true);
     // Plus button
     $("#plus").on('click', function () {
         if ($(".quantity-control").val() < $(this).data("max")) {
             $(".quantity-control").val(Number($(".quantity-control").val()) + 1);
+        }
+
+        if ($(".quantity-control").val() > $(this).data("min")) {
+            $("#minus").prop("disabled", true);
+        }
+        else {
+            $("#minus").prop("disabled", false);
+        }
+
+        if ($(".quantity-control").val() < $(this).data("max")) {
+            $("#plus").prop("disabled", false);
+        }
+        else {
+            $("#plus").prop("disabled", true);
         }
     });
 
@@ -52,6 +86,37 @@ $(document).ready(function () {
     $("#minus").on('click', function () {
         if ($(".quantity-control").val() > $(this).data("min")) {
             $(".quantity-control").val(Number($(".quantity-control").val()) - 1);
+        }
+
+        if ($(".quantity-control").val() > $(this).data("min")) {
+            $("#minus").prop("disabled", false);
+        }
+        else {
+            $("#minus").prop("disabled", true);
+        }
+
+        if ($(".quantity-control").val() >= $(this).data("max")) {
+            $("#plus").prop("disabled", true);
+        }
+        else {
+            $("#plus").prop("disabled", false);
+        }
+    });
+
+
+    $('.quantity-control').keyup(function () {
+        if ($(".quantity-control").val() == $("#minus").data("min")) {
+            $("#minus").prop("disabled", true);
+        }
+        else {
+            $("#minus").prop("disabled", false);
+        }
+
+        if ($(".quantity-control").val() == $("#plus").data("max")) {
+            $("#plus").prop("disabled", true);
+        }
+        else {
+            $("#plus").prop("disabled", false);
         }
     });
 
@@ -147,6 +212,25 @@ $(document).ready(function () {
         e.preventDefault();
         var rating = $(this).attr("data-expand");
         $("#commentbox-" + rating).show();
+    });
+
+
+    $('.form-quantity').keypress(function (event) {
+        var txt = String.fromCharCode(event.which);
+        if (!txt.match(/[0-9]/)) {
+            return false;
+        }
+    });
+
+    $('.form-quantity').on('input', function () {
+
+        var max = $(this).data("max");
+        var value = $(this).val();
+
+        if ((value !== '') && (value.indexOf('.') === -1)) {
+
+            $(this).val(Math.max(Math.min(value, max), 1));
+        }
     });
 
     var message = '@Html.Raw((string)TempData["SuccessMessage"])';

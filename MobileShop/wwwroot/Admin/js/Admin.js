@@ -58,8 +58,37 @@ $(document).ready(function () {
     }
 });
 
+function CalculateTotal() {
+    var importPrice = document.getElementsByClassName('import-price');
+    document.getElementsByClassName('import-price').value = importPrice.toLocaleString();
+    var total = 0;
+    var i;
+    for (i = 0; i < importPrice.length; i++) {
+        total = total + eval(importPrice[i].value);
+    }
+
+    document.getElementById('total').value = total.toLocaleString();
+
+    return;
+}
+
+document.addEventListener('change', function (event) {
+    if (event.target.classList.contains('import-price')) {
+        CalculateTotal();
+    }
+}, false);
+
 function DeleteItem(btn) {
+    var table = document.getElementById('purchaseOrderDetail');
+    var rows = table.getElementsByTagName('tr');
+
+    if (rows.length == 2) {
+        return;
+    }
+
     $(btn).closest('tr').remove();
+
+    CalculateTotal();
 }
 
 function AddItem(btn) {
@@ -68,9 +97,8 @@ function AddItem(btn) {
 
     var rowOuterHtml = rows[rows.length - 1].outerHTML;
 
-    var lastrowIdx = document.getElementById('lastIndex').value;
+    var lastrowIdx = rows.length - 2;
     var nextrowIdx = eval(lastrowIdx) + 1;
-    document.getElementById('lastIndex').value = nextrowIdx;
 
     rowOuterHtml = rowOuterHtml.replaceAll('_' + lastrowIdx + '_', '_' + nextrowIdx + '_');
     rowOuterHtml = rowOuterHtml.replaceAll('[' + lastrowIdx + ']', '[' + nextrowIdx + ']');
@@ -78,18 +106,6 @@ function AddItem(btn) {
 
     var newRow = table.insertRow();
     newRow.innerHTML = rowOuterHtml;
-
-    var btnAddID = btn.id;
-    var btnDeleteid = btnAddID.replaceAll('btnadd', 'btnremove');
-
-    var delbtn = document.getElementById(btnDeleteid);
-    delbtn.classList.add("visible");
-    delbtn.classList.remove("invisible");
-
-
-    var addbtn = document.getElementById(btnAddID);
-    addbtn.classList.remove("visible");
-    addbtn.classList.add("invisible");
 }
 
 ClassicEditor

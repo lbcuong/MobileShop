@@ -131,7 +131,6 @@ namespace MobileShop.Controllers
                 cartItem.Quantity = quantity;
             }
             SaveCartSession(cart);
-            TempData["SuccessMessage"] = "Item successfully updated!";
             return Json(new { redirectToUrl = Url.Action("Index", "Cart") });
         }
     }

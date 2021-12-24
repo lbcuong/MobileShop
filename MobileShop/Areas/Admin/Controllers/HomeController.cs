@@ -62,9 +62,9 @@ namespace MobileShop.Areas.Admin.Controllers
 
             var yesterday = DateTime.Today.AddDays(-1);
             ViewBag.Yesterday = yesterday;
-            var totalOrderYesterday = _context.SalesOrder.Where(s => s.OrderDate >= yesterday);
+            var totalOrderYesterday = _context.SalesOrder.Where(s => s.OrderDate >= yesterday && s.OrderDate < DateTime.Today);
             ViewBag.TotalOrderYesterday = totalOrderYesterday.Count();
-            var totalSalesYesterday = _context.SalesOrder.Where(s => s.Status == "Delivered" && s.OrderDate >= yesterday).Sum(s => s.Total);
+            var totalSalesYesterday = _context.SalesOrder.Where(s => s.Status == "Delivered" && s.OrderDate >= yesterday && s.OrderDate < DateTime.Today).Sum(s => s.Total);
             ViewBag.TotalSalesYesterday = totalSalesYesterday;
             var itemsSoldYesterday = from m in _context.SalesOrder
                                        .Include(s => s.SalesOrderDetail)
@@ -72,7 +72,7 @@ namespace MobileShop.Areas.Admin.Controllers
                                            .AsEnumerable()
                                    join j in _context.SalesOrderDetail on m.SalesOrderId equals j.SalesOrderId
                                    join i in _context.Item on j.ItemId equals i.ItemId
-                                   where m.OrderDate >= yesterday && (m.Status == "Delivering" || m.Status == "Delivered")
+                                   where (m.OrderDate >= yesterday && m.OrderDate < DateTime.Today) && (m.Status == "Delivering" || m.Status == "Delivered")
                                    group j by j.ItemId into g
                                    select new { name = g.First().Item.Name, quantity = g.Sum(s => s.Quantity) };
 

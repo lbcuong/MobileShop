@@ -39,23 +39,14 @@
                         </td>
                         <td class="col-2">
                             <div class="input-group">
-                                <input class="btn btn-secondary btn-sm minus-cart" type='button' data-min="0" value='–' />
-                                <select class="text-center w-50" style="-webkit-appearance: none; -moz-appearance: none; text-indent: 1px; text-overflow: '';" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">
-                                    @for (var quantity = 0; quantity <= cartItem.Item.Quantity; quantity++)
-                                    {
-                                        <option value="@quantity">@quantity</option>
-                                    }
-                                </select>
-                                <input class="btn btn-secondary btn-sm plus-cart" type='button' data-max="@cartItem.Item.Quantity" value='+' />
+                                <input class="btn btn-secondary btn-sm minus-cart updatecartitem" data-itemId="@cartItem.Item.ItemId" type='button' data-min="1" value='–' />
+                                <input class="text-center w-50 form-quantity border border-secondary bg-light" type="number" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")" data-max="@cartItem.Item.Quantity" readonly="readonly"/>
+                                <input class="btn btn-secondary btn-sm plus-cart updatecartitem" data-itemId="@cartItem.Item.ItemId" type='button' data-max="@cartItem.Item.Quantity" value='+' />
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
                             <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
                             <span>
-                                <button class="btn text-secondary updatecartitem"
-                                        data-itemId="@cartItem.Item.ItemId">
-                                    <i class="fa-solid fa-pen-to-square"></i>
-                                </button>
                                 <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
                                    asp-route-itemId="@cartItem.Item.ItemId" class="btn text-secondary">
                                     <i class="fa-solid fa-trash-can"></i>
@@ -86,7 +77,7 @@
                 }
                 <tr>
                     <td class="text-secondary">Total</td>
-                    <td>@(subtotal.ToString("n0")) ₫</td>
+                    <td style="white-space: nowrap;">@(subtotal.ToString("n0")) ₫</td>
                 </tr>
 
                 <tr class="border-top">
