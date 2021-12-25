@@ -12,6 +12,7 @@ $(document).ready(function () {
 
     $("#image-input").change(function () {
         if (typeof (FileReader) != "undefined") {
+            $(".existing-image").hide();
             var dvPreview = $("#imagePreview");
             dvPreview.html("");
             $($(this)[0].files).each(function () {
@@ -25,13 +26,15 @@ $(document).ready(function () {
                 }
                 reader.readAsDataURL(file[0]);
             });
-        } else {
+        }
+        else {
             alert("This browser does not support HTML5 FileReader.");
         }
     });
 
     $("#multiple-image-input").change(function () {
         if (typeof (FileReader) != "undefined") {
+            $(".existing-multiple-image").hide();
             var dvPreview = $("#multipleImagePreview");
             dvPreview.html("");
             $($(this)[0].files).each(function () {

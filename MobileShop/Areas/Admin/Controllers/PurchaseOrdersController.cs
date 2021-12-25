@@ -173,7 +173,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Staff")]
-        public async Task<IActionResult> Edit(int id, [Bind("PurchaseOrderId,SupplierId,Total,OrderDate,Status")] PurchaseOrder purchaseOrder)
+        public async Task<IActionResult> Edit(int id, PurchaseOrder purchaseOrder)
         {
             if (id != purchaseOrder.PurchaseOrderId)
             {

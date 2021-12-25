@@ -31,7 +31,7 @@ namespace MobileShop.Areas.Admin.Models
 
         public string Image { get; set; }
 
-        [Required]
+
         [NotMapped]
         [Display(Name = "Image")]
         public IFormFile MainImage { get; set; }

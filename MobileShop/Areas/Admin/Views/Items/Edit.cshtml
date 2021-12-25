@@ -19,6 +19,7 @@
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="ItemId" />
+                <input type="hidden" asp-for="Image" />
                 <div class="form-group mb-2">
                     <label asp-for="ItemCategoryId" class="control-label"></label>
                     <select asp-for="ItemCategoryId" class="form-control" asp-items="ViewBag.ItemCategoryId"></select>
@@ -52,24 +53,21 @@
                 <div class="form-group mb-2">
                     <label asp-for="MainImage" class="control-label"></label>
                     <input asp-for="MainImage" class="form-control" id="image-input" accept="lib/images/*" />
+                    <img class="p-2 existing-image" style="width: 15rem;"
+                         src="@("~/lib/images/" + Model.Image)" asp-append-version="true" />
                     <div id="imagePreview"></div>
                     <span asp-validation-for="MainImage" class="text-danger"></span>
                 </div>
                 <div class="form-group mb-2">
                     <label asp-for="SecondaryImages" class="control-label"></label>
                     <input asp-for="SecondaryImages" class="form-control" id="multiple-image-input" accept="lib/images/*" multiple />
+                    @foreach (var image in Model.ItemImage)
+                    {
+                        <img class="p-2 existing-multiple-image" style="width: 15rem;"
+                             src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
+                    }
                     <div id="multipleImagePreview"></div>
                     <span asp-validation-for="SecondaryImages" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-2">
-                    <label asp-for="CreatedDate" class="control-label"></label>
-                    <input asp-for="CreatedDate" class="form-control" />
-                    <span asp-validation-for="CreatedDate" class="text-danger"></span>
-                </div>
-                <div class="form-group mb-2">
-                    <label asp-for="UpdatedDate" class="control-label"></label>
-                    <input asp-for="UpdatedDate" class="form-control" />
-                    <span asp-validation-for="UpdatedDate" class="text-danger"></span>
                 </div>
                 <br>
                 <div class="form-group d-flex justify-content-between">

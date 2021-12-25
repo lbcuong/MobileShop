@@ -14,7 +14,7 @@
     <h5>Item Management / Items / Details</h5>
 </div>
 
-<div class="shadow rounded-0">
+<div class="shadow rounded-0 py-2">
     <div class="row">
         <div class="d-flex justify-content-between border-bottom py-2 mb-3">
             <h5 class="text-secondary">Item Information</h5>
@@ -40,7 +40,7 @@
         <h5 class="text-secondary fw-bold">Sub-Images</h5>
         @foreach (var image in Model.ItemImage)
         {
-            <img class="py-2" style="width: 15rem;"
+            <img class="shadow p-2 m-2" style="width: 15rem;"
                  src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
         }
     </div>

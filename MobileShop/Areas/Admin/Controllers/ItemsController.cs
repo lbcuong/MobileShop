@@ -202,7 +202,10 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Item.FindAsync(id);
+            var item = await _context.Item
+                .Include(i => i.ItemCategory)
+                .Include(i => i.ItemGroup)
+                .Include(i => i.ItemImage).FirstOrDefaultAsync(s => s.ItemId == id);
             if (item == null)
             {
                 return NotFound();
@@ -229,27 +232,93 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
-                    string uniqueFileName = null;
                     string RootPath = _hostEnvironment.WebRootPath;
-                    uniqueFileName = item.MainImage.FileName + "_" + Guid.NewGuid().ToString();
-                    string Extension = Path.GetExtension(item.MainImage.FileName);
-                    item.Image = uniqueFileName += Extension;
-
-                    if (item.Image != null)
+                    string folderPath = "/lib/images/";
+                    var existingMainImage = _context.Item.Where(x => x.ItemId == id).Select(s => s.Image).FirstOrDefault();
+                    if (item.MainImage == null)
                     {
-                        if (item.MainImage != null)
+                        Item Item = new Item
                         {
-                            string ImagePath = Path.Combine(RootPath + "/lib/images/", uniqueFileName);
-                            using (var fileStream = new FileStream(ImagePath, FileMode.Create))
-                            {
-                                await item.MainImage.CopyToAsync(fileStream);
-                            }
-                        }
-                    }
+                            ItemId = item.ItemId,
+                            ItemCategoryId = item.ItemCategoryId,
+                            ItemGroupId = item.ItemGroupId,
+                            Name = item.Name,
+                            Quantity = item.Quantity,
+                            Detail = item.Detail,
+                            Image = existingMainImage,
+                            Price = item.Price,
+                            CreatedDate = item.CreatedDate,
+                            UpdatedDate = DateTime.Now
+                        };
+                        _context.Update(Item);
+                        await _context.SaveChangesAsync();
 
-                    _context.Update(item);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Data successfully updated!";
+                        if (item.SecondaryImages != null)
+                        {
+                            _context.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
+                            await _context.SaveChangesAsync();
+
+                            foreach (IFormFile image in item.SecondaryImages)
+                            {
+                                string itemImages = await UploadImage(folderPath, image);
+
+                                ItemImage newItemImage = new ItemImage
+                                {
+                                    ItemId = Item.ItemId,
+                                    Images = itemImages
+                                };
+                                _context.Update(newItemImage);
+                            }
+                            await _context.SaveChangesAsync();
+                        }
+                        TempData["SuccessMessage"] = "Data successfully updated!";
+                    }
+                    else
+                    {
+
+                        if (System.IO.File.Exists(RootPath + folderPath + existingMainImage))
+                        {
+                            System.IO.File.Delete(RootPath + folderPath + existingMainImage);
+                        }
+
+                        string mainImageFile = await UploadImage(folderPath, item.MainImage);
+
+                        Item Item = new Item
+                        {
+                            ItemId = item.ItemId,
+                            ItemCategoryId = item.ItemCategoryId,
+                            ItemGroupId = item.ItemGroupId,
+                            Name = item.Name,
+                            Quantity = item.Quantity,
+                            Detail = item.Detail,
+                            Image = mainImageFile,
+                            Price = item.Price,
+                            CreatedDate = item.CreatedDate,
+                            UpdatedDate = DateTime.Now
+                        };
+                        _context.Update(Item);
+                        await _context.SaveChangesAsync();
+
+                        if (item.SecondaryImages != null)
+                        {
+                            _context.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
+                            await _context.SaveChangesAsync();
+
+                            foreach (IFormFile image in item.SecondaryImages)
+                            {
+                                string itemImages = await UploadImage(folderPath, image);
+
+                                ItemImage newItemImage = new ItemImage
+                                {
+                                    ItemId = Item.ItemId,
+                                    Images = itemImages
+                                };
+                                _context.Update(newItemImage);
+                            }
+                            await _context.SaveChangesAsync();
+                        }
+                        TempData["SuccessMessage"] = "Data successfully updated!";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
