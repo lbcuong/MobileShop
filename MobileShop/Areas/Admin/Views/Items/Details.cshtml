@@ -40,8 +40,7 @@
         <h5 class="text-secondary fw-bold">Sub-Images</h5>
         @foreach (var image in Model.ItemImage)
         {
-            <img class="shadow p-2 m-2" style="width: 15rem;"
-                 src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
+            <img class="secondary-images" src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
         }
     </div>
 </div>

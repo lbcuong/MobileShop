@@ -93,13 +93,12 @@
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
                     <td>
-                        <img style="width: 15rem;"
-                             src="@("~/lib/images/" + item.Image)" asp-append-version="true" />
+                        <img class="main-image" src="@("~/lib/images/" + item.Image)" asp-append-version="true" />
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
-                    <td>
+                    <td style="white-space: nowrap;">
                         @Html.DisplayFor(modelItem => item.Price) ₫
                     </td>
                     <td>

@@ -94,6 +94,7 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 string folderPath = "/lib/images/banners/";
                 banner.Image = await UploadImage(folderPath, banner.ImageFile);
+                banner.CreatedDate = DateTime.Now;
 
                 _context.Add(banner);
                 await _context.SaveChangesAsync();
@@ -126,7 +127,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("BannerId,Name,ImageFile,CreatedDate,UpdatedDate")] Banner banner)
+        public async Task<IActionResult> Edit(int id, Banner banner)
         {
             if (id != banner.BannerId)
             {
@@ -137,12 +138,46 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
+                    string RootPath = _hostEnvironment.WebRootPath;
                     string folderPath = "/lib/images/banners/";
-                    banner.Image = await UploadImage(folderPath, banner.ImageFile);
+                    var existingMainImage = _context.Banner.Where(x => x.BannerId == id).Select(s => s.Image).FirstOrDefault();
+                    if ( banner.ImageFile != null)
+                    {
+                        if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
+                        {
+                            System.IO.File.Delete(RootPath + folderPath + existingMainImage);
+                        }
 
-                    _context.Update(banner);
-                    await _context.SaveChangesAsync();
-                    TempData["SuccessMessage"] = "Data successfully updated!";
+                        string mainImageFile = await UploadImage(folderPath, banner.ImageFile);
+
+                        Banner Banner = new Banner
+                        {
+                            BannerId = banner.BannerId,
+                            Name = banner.Name,
+                            Image = mainImageFile,
+                            CreatedDate = banner.CreatedDate,
+                            UpdatedDate = DateTime.Now
+                        };
+
+                        _context.Update(Banner);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Data successfully updated!";
+                    }
+                    else
+                    {
+                        Banner Banner = new Banner
+                        {
+                            BannerId = banner.BannerId,
+                            Name = banner.Name,
+                            Image = existingMainImage,
+                            CreatedDate = banner.CreatedDate,
+                            UpdatedDate = DateTime.Now
+                        };
+
+                        _context.Update(Banner);
+                        await _context.SaveChangesAsync();
+                        TempData["SuccessMessage"] = "Data successfully updated!";
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -186,6 +221,15 @@ namespace MobileShop.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var banner = await _context.Banner.FindAsync(id);
+
+            string RootPath = _hostEnvironment.WebRootPath;
+            string folderPath = "/lib/images/banners/";
+            var existingMainImage = _context.Banner.Where(x => x.BannerId == id).Select(s => s.Image).FirstOrDefault();
+            if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
+            {
+                System.IO.File.Delete(RootPath + folderPath + existingMainImage);
+            }
+
             _context.Banner.Remove(banner);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Data successfully deleted!";

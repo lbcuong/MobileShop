@@ -53,8 +53,7 @@
                 <div class="form-group mb-2">
                     <label asp-for="MainImage" class="control-label"></label>
                     <input asp-for="MainImage" class="form-control" id="image-input" accept="lib/images/*" />
-                    <img class="p-2 existing-image" style="width: 15rem;"
-                         src="@("~/lib/images/" + Model.Image)" asp-append-version="true" />
+                    <img class="p-2 existing-image" src="@("~/lib/images/" + Model.Image)" asp-append-version="true" />
                     <div id="imagePreview"></div>
                     <span asp-validation-for="MainImage" class="text-danger"></span>
                 </div>
@@ -63,20 +62,24 @@
                     <input asp-for="SecondaryImages" class="form-control" id="multiple-image-input" accept="lib/images/*" multiple />
                     @foreach (var image in Model.ItemImage)
                     {
-                        <img class="p-2 existing-multiple-image" style="width: 15rem;"
-                             src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
+                        <img class="p-2 existing-multiple-image" src="@("~/lib/images/" + image.Images)" asp-append-version="true" />
                     }
                     <div id="multipleImagePreview"></div>
                     <span asp-validation-for="SecondaryImages" class="text-danger"></span>
                 </div>
                 <br>
                 <div class="form-group d-flex justify-content-between">
+                    <input asp-for="CreatedDate" class="form-control" hidden />
                     <input type="submit" value="Save" class="btn btn-info w-50 text-white me-5" />
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+            
+                
+            
 
 @if (TempData["SuccessMessage"] != null)
 {

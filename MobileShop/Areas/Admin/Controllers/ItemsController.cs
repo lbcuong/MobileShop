@@ -235,6 +235,7 @@ namespace MobileShop.Areas.Admin.Controllers
                     string RootPath = _hostEnvironment.WebRootPath;
                     string folderPath = "/lib/images/";
                     var existingMainImage = _context.Item.Where(x => x.ItemId == id).Select(s => s.Image).FirstOrDefault();
+                    var existingSecondaryImages = _context.ItemImage.Where(x => x.ItemId == id).Select(s => s.Images).ToList();
                     if (item.MainImage == null)
                     {
                         Item Item = new Item
@@ -255,8 +256,19 @@ namespace MobileShop.Areas.Admin.Controllers
 
                         if (item.SecondaryImages != null)
                         {
-                            _context.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
-                            await _context.SaveChangesAsync();
+                            if (existingSecondaryImages != null)
+                            {
+                                _context.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
+                                await _context.SaveChangesAsync();
+
+                                foreach (var existingSecondaryImage in existingSecondaryImages)
+                                {
+                                    if (System.IO.File.Exists(RootPath + folderPath + existingSecondaryImage))
+                                    {
+                                        System.IO.File.Delete(RootPath + folderPath + existingSecondaryImage);
+                                    }
+                                }
+                            }
 
                             foreach (IFormFile image in item.SecondaryImages)
                             {
@@ -276,7 +288,7 @@ namespace MobileShop.Areas.Admin.Controllers
                     else
                     {
 
-                        if (System.IO.File.Exists(RootPath + folderPath + existingMainImage))
+                        if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
                         {
                             System.IO.File.Delete(RootPath + folderPath + existingMainImage);
                         }
@@ -303,6 +315,17 @@ namespace MobileShop.Areas.Admin.Controllers
                         {
                             _context.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
                             await _context.SaveChangesAsync();
+
+                            if (existingSecondaryImages != null)
+                            {
+                                foreach (var existingSecondaryImage in existingSecondaryImages)
+                                {
+                                    if (System.IO.File.Exists(RootPath + folderPath + existingSecondaryImage))
+                                    {
+                                        System.IO.File.Delete(RootPath + folderPath + existingSecondaryImage);
+                                    }
+                                }
+                            }
 
                             foreach (IFormFile image in item.SecondaryImages)
                             {
@@ -366,6 +389,31 @@ namespace MobileShop.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var item = await _context.Item.FindAsync(id);
+
+            string RootPath = _hostEnvironment.WebRootPath;
+            string folderPath = "/lib/images/";
+            var existingMainImage = _context.Item.Where(x => x.ItemId == id).Select(s => s.Image).FirstOrDefault();
+            var existingSecondaryImages = _context.ItemImage.Where(x => x.ItemId == id).Select(s => s.Images).ToList();
+
+            if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
+            {
+                System.IO.File.Delete(RootPath + folderPath + existingMainImage);
+            }
+
+            _context.ItemImage.RemoveRange(_context.ItemImage.Where(s => s.ItemId == id));
+            await _context.SaveChangesAsync();
+
+            if (existingSecondaryImages != null)
+            {
+                foreach (var existingSecondaryImage in existingSecondaryImages)
+                {
+                    if (System.IO.File.Exists(RootPath + folderPath + existingSecondaryImage))
+                    {
+                        System.IO.File.Delete(RootPath + folderPath + existingSecondaryImage);
+                    }
+                }
+            }
+
             _context.Item.Remove(item);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Data successfully deleted!";

@@ -20,7 +20,7 @@ $(document).ready(function () {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img = $("<img />");
-                    img.attr("style", "width: 15rem; padding: 0.5rem 0.5rem 0.5rem 0");
+                    img.attr("style", "width: 15rem; padding: 0.5rem; margin-top: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);");
                     img.attr("src", e.target.result);
                     dvPreview.append(img);
                 }
@@ -42,7 +42,7 @@ $(document).ready(function () {
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var img = $("<img />");
-                    img.attr("style", "width: 15rem; padding: 0.5rem 0.5rem 0.5rem 0");
+                    img.attr("style", "width: 15rem; padding: 0.5rem; margin: 0.5rem 0.3rem 0 0; box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);");
                     img.attr("src", e.target.result);
                     dvPreview.append(img);
                 }
