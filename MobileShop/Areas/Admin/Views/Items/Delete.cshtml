@@ -31,8 +31,16 @@
             <td class="col-8">@Html.DisplayFor(model => model.Quantity)</td>
         </tr>
         <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.PromotionBannerId)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.PromotionBanner.Name)</td>
+        </tr>
+        <tr class="row">
             <td class="col-4">@Html.DisplayNameFor(model => model.Price)</td>
             <td class="col-8">@Html.DisplayFor(model => model.Price) ₫</td>
+        </tr>
+        <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.PromotionPercentage)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.PromotionPercentage)</td>
         </tr>
         <tr class="row">
             <td class="col-4">@Html.DisplayNameFor(model => model.Image)</td>

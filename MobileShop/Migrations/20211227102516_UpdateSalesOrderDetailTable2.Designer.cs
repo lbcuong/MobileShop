@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileShop.Data;
 
 namespace MobileShop.Migrations
 {
     [DbContext(typeof(MobileShopContext))]
-    partial class MobileShopContextModelSnapshot : ModelSnapshot
+    [Migration("20211227102516_UpdateSalesOrderDetailTable2")]
+    partial class UpdateSalesOrderDetailTable2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

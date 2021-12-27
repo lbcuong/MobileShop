@@ -55,7 +55,7 @@
                                 </a>
                             </th>
                         }
-                        else if  (salesOrder.Status == "Delivered")
+                        else if (salesOrder.Status == "Delivered")
                         {
                             <th>
                                 <a class="border border-sucess rounded-pill bg-success text-decoration-none text-light fw-normal px-2 py-1">
@@ -90,7 +90,14 @@
                                 </p>
                             </td>
                             <td class="col-md-2">Qty: @Html.DisplayFor(modelItem => salesOrderdetail.Quantity)</td>
-                            <td class="col-md-2"> @Html.DisplayFor(modelItem => salesOrderdetail.Item.Price) ₫</td>
+                            @if (salesOrderdetail.Item.Price != salesOrderdetail.Item.PromotionPrice)
+                            {
+                                <td class="col-md-2"> @Html.DisplayFor(modelItem => salesOrderdetail.Item.PromotionPrice) ₫</td>
+                            }
+                            else
+                            {
+                                <td class="col-md-2"> @Html.DisplayFor(modelItem => salesOrderdetail.Item.Price) ₫</td>
+                            }
                             <td class="col-md-1"></td>
                             <td class="col-md-1"></td>
                         </tr>

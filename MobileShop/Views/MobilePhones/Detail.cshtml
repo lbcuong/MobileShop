@@ -45,14 +45,30 @@
                     <h6 class="text-uppercase fw-bold">
                         @Html.DisplayFor(model => model.Name)
                     </h6>
-                    <h5>@Html.DisplayFor(model => model.Price) ₫</h5>
+                    @if (Model.Quantity != 0)
+                    {
+                        @if (Model.Price != Model.PromotionPrice)
+                        {
+                            <img class="promotion-banner my-2" src="@("~/lib/images/banners/" + Model.PromotionBanner.Image)" asp-append-version="true" />
+                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0 fs-6">@Html.DisplayFor(modelItem => Model.Price) ₫</p>
+                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => Model.PromotionPrice) ₫ &ensp; <span class="text-secondary fs-6">-@Html.DisplayFor(modelItem => Model.PromotionPercentageConvert)%</span></p>
+                        }
+                        else
+                        {
+                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => Model.Price) ₫</p>
+                        }
+                    }
+                    else
+                    {
+                        <p></p>
+                    }
                     <div class="row">
                         <span class="my-2">Quantity</span>
                         <div class="d-flex flex-row justify-content-center w-100">
                             <div class="col input-group mb-3">
                                 @if (Model.Quantity < 10 && Model.Quantity >= 1)
                                 {
-                                    <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="1" value='–'/>
+                                    <input class="btn btn-secondary btn-sm" type='button' id="minus" data-min="1" value='–' />
                                     <input class="text-center quantity-control w-25 form-quantity border border-secondary bg-light" type="number" asp-for="Quantity" value="1" id="@($"quantity-{@Model.ItemId}")" data-max="@Model.Quantity" />
                                     <input class="btn btn-secondary btn-sm" type='button' id="plus" data-max="@Model.Quantity" value='+' />
                                     <small class="text-danger m-auto ms-5">

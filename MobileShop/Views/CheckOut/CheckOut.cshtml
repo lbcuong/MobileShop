@@ -7,11 +7,6 @@
 
 <h5 class="text-secondary">@ViewData["Title"]</h5>
 
-@{
-    decimal total = 0;
-    int totalItem = 0;
-}
-
 <div class="row product-option">
     <div class="col-8">
         <table class="table lh-sm">
@@ -30,10 +25,6 @@
             </tr>
             @foreach (var cartItem in Model.CartItem)
             {
-                var totalPrice = cartItem.Quantity * cartItem.Item.Price;
-                total += totalPrice;
-                totalItem += cartItem.Quantity;
-
                 <tr class="row">
                     <td class="d-flex justify-content-start col-7" style="font-size: 0.9rem;">
                         <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
@@ -47,7 +38,14 @@
                         <p class="text-secondary mb-2" style="font-size: 0.9rem;" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")">Qty: @cartItem.Quantity</p>
                     </td>
                     <td class="d-flex flex-column justify-content-between text-end col-3">
-                        <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                        @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
+                        {
+                            <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                        }
+                        else
+                        {
+                            <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                        }
                         <span>
                             <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
                                asp-route-itemId="@cartItem.Item.ItemId" class="btn text-secondary">
@@ -63,9 +61,9 @@
         <table class="table table-borderless border-start lh-1">
             <tr style="white-space: nowrap; overflow: hidden;">
                 <td class="text-secondary" style="font-size: 0.9rem;">
-                    Total(@totalItem item(s))
+                    Total(@ViewBag.TotalItem item(s))
                 </td>
-                <td>@(total.ToString("n0")) ₫</td>
+                <td>@(ViewBag.Total.ToString("n0")) ₫</td>
             </tr>
             <tr class="border-top">
                 <td colspan="2">Payment Method: </td>

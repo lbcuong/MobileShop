@@ -26,10 +26,6 @@
                                 {
                                     <p class="text-danger mb-2">Only @Html.DisplayFor(modelItem => cartItem.Item.Quantity) item(s) in stock</p>
                                 }
-                                else if (cartItem.Item.Quantity == 0)
-                                {
-                                    <p class="text-danger mb-2">Out of stock</p>
-                                }
                                 else
                                 {
                                     <p></p>
@@ -45,7 +41,14 @@
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
-                            <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                            @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
+                            {
+                                <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                            }
+                            else
+                            {
+                                <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                            }
                             <span>
                                 <a asp-area="" asp-controller="Cart" asp-action="RemoveCart"
                                    asp-route-itemId="@cartItem.Item.ItemId" class="btn text-secondary">
@@ -64,16 +67,32 @@
                 </tr>
                 @foreach (var cartItem in Model)
                 {
-                    var totalPrice = cartItem.Quantity * cartItem.Item.Price;
-                    subtotal += totalPrice;
-                    <tr>
-                        <td class="text-secondary" style="font-size: 0.9rem;">
-                            @Html.DisplayFor(modelItem => cartItem.Item.Name)
-                            <br />
-                            @cartItem.Quantity item(s)
-                        </td>
-                        <td>@(totalPrice.ToString("n0")) ₫</td>
-                    </tr>
+                    @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
+                    {
+                        var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
+                        subtotal += totalPrice;
+                        <tr>
+                            <td class="text-secondary" style="font-size: 0.9rem;">
+                                @Html.DisplayFor(modelItem => cartItem.Item.Name)
+                                <br />
+                                @cartItem.Quantity item(s)
+                            </td>
+                            <td>@(totalPrice.ToString("n0")) ₫</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        var totalPrice = cartItem.Quantity * cartItem.Item.Price;
+                        subtotal += totalPrice;
+                        <tr>
+                            <td class="text-secondary" style="font-size: 0.9rem;">
+                                @Html.DisplayFor(modelItem => cartItem.Item.Name)
+                                <br />
+                                @cartItem.Quantity item(s)
+                            </td>
+                            <td>@(totalPrice.ToString("n0")) ₫</td>
+                        </tr>
+                    }
                 }
                 <tr>
                     <td class="text-secondary">Total</td>

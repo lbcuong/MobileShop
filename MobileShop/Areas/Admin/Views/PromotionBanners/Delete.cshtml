@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.Banner
+﻿@model MobileShop.Areas.Admin.Models.PromotionBanner
 
 @{
     ViewData["Title"] = "Delete";
@@ -25,6 +25,18 @@
             </td>
         </tr>
         <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.PromotionPercentageLimit)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.PromotionPercentageLimit)</td>
+        </tr>
+        <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.PromotionStartDate)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.PromotionStartDate)</td>
+        </tr>
+        <tr class="row">
+            <td class="col-4">@Html.DisplayNameFor(model => model.PromotionEndDate)</td>
+            <td class="col-8">@Html.DisplayFor(model => model.PromotionEndDate)</td>
+        </tr>
+        <tr class="row">
             <td class="col-4">@Html.DisplayNameFor(model => model.CreatedDate)</td>
             <td class="col-8">@Html.DisplayFor(model => model.CreatedDate)</td>
         </tr>
@@ -35,7 +47,7 @@
         <tr class="row">
             <td class="col-4">
                 <form asp-action="Delete">
-                    <input type="hidden" asp-for="BannerId" />
+                    <input type="hidden" asp-for="PromotionBannerId" />
                     <input type="submit" value="Delete" class="btn btn-info text-white w-100" />
                 </form>
             </td>

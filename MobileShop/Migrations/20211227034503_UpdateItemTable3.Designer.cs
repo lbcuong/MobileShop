@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MobileShop.Data;
 
 namespace MobileShop.Migrations
 {
     [DbContext(typeof(MobileShopContext))]
-    partial class MobileShopContextModelSnapshot : ModelSnapshot
+    [Migration("20211227034503_UpdateItemTable3")]
+    partial class UpdateItemTable3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,10 +183,13 @@ namespace MobileShop.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("OnSale")
+                        .HasColumnType("bit");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(15,0)");
 
-                    b.Property<int?>("PromotionBannerId")
+                    b.Property<int>("PromotionBannerId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("PromotionPercentage")
@@ -482,9 +487,6 @@ namespace MobileShop.Migrations
                     b.Property<int>("SalesOrderId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("SalesPrice")
-                        .HasColumnType("decimal(15,0)");
-
                     b.HasKey("SalesOrderDetailId");
 
                     b.HasIndex("ItemId");
@@ -669,7 +671,9 @@ namespace MobileShop.Migrations
 
                     b.HasOne("MobileShop.Areas.Admin.Models.PromotionBanner", "PromotionBanner")
                         .WithMany()
-                        .HasForeignKey("PromotionBannerId");
+                        .HasForeignKey("PromotionBannerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("ItemCategory");
 

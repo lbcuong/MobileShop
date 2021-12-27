@@ -25,8 +25,8 @@ namespace MobileShop.Controllers
 
         public IActionResult Index()
         {
-            var banners = _context.Banner.OrderByDescending(o => o.CreatedDate).Take(10).ToList();
-            ViewBag.Banners = banners;
+            var promotionBanners = _context.PromotionBanner.OrderByDescending(o => o.CreatedDate).Take(10).ToList();
+            ViewBag.PromotionBanners = promotionBanners;
 
             var bestSalesMobiles = (from m in _context.Item
                                         let totalQuantity = (from i in _context.SalesOrderDetail

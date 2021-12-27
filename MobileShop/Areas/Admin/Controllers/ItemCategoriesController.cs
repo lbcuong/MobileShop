@@ -84,6 +84,7 @@ namespace MobileShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                itemCategory.CreatedDate = DateTime.Now;
                 _context.Add(itemCategory);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Data successfully added!";
@@ -115,7 +116,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemCategoryId,Name,CreatedDate,UpdatedDate")] ItemCategory itemCategory)
+        public async Task<IActionResult> Edit(int id, ItemCategory itemCategory)
         {
             if (id != itemCategory.ItemCategoryId)
             {
@@ -126,7 +127,15 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(itemCategory);
+                    ItemCategory ItemCategory = new ItemCategory
+                    {
+                        ItemCategoryId = itemCategory.ItemCategoryId,
+                        Name = itemCategory.Name,
+                        CreatedDate = itemCategory.CreatedDate,
+                        UpdatedDate = DateTime.Now
+                    };
+
+                    _context.Update(ItemCategory);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Data successfully updated!";
                 }

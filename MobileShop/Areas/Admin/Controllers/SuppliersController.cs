@@ -105,6 +105,7 @@ namespace MobileShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                supplier.CreatedDate = DateTime.Now;
                 _context.Add(supplier);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Data successfully added!";
@@ -138,7 +139,7 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, [Bind("SupplierId,Name,Address,PhoneNumber,CreatedDate,UpdatedDate")] Supplier supplier)
+        public async Task<IActionResult> Edit(int id, Supplier supplier)
         {
             if (id != supplier.SupplierId)
             {
@@ -149,7 +150,17 @@ namespace MobileShop.Areas.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(supplier);
+                    Supplier Supplier = new Supplier
+                    {
+                        SupplierId = supplier.SupplierId,
+                        Name = supplier.Name,
+                        Address = supplier.Address,
+                        PhoneNumber = supplier.PhoneNumber,
+                        CreatedDate = supplier.CreatedDate,
+                        UpdatedDate = DateTime.Now
+                    };
+
+                    _context.Update(Supplier);
                     await _context.SaveChangesAsync();
                     TempData["SuccessMessage"] = "Data successfully added!";
                 }
@@ -164,7 +175,7 @@ namespace MobileShop.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Create));
+                return RedirectToAction(nameof(Edit));
             }
             ViewData["SupplierId"] = new SelectList(_context.Supplier, "SupplierId", "Name", supplier.SupplierId);
             return View(supplier);

@@ -31,14 +31,23 @@ namespace MobileShop.Areas.Admin.Models
 
         public string Image { get; set; }
 
-
         [NotMapped]
         [Display(Name = "Image")]
         public IFormFile MainImage { get; set; }
 
+        [Display(Name = "Promotion Name")]
+        public int? PromotionBannerId { get; set; }
+        [ForeignKey("PromotionBannerId")]
+        public PromotionBanner PromotionBanner { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         [Column(TypeName = "decimal(15, 0)")]
         public decimal Price { get; set; }
+
+        [Display(Name = "Promotion Percentage")]
+        [Range(0.0, 1)]
+        [Column(TypeName = "decimal(2, 1)")]
+        public decimal PromotionPercentage { get; set; }
 
         [Display(Name = "Created Date")]
         public DateTime CreatedDate { get; set; }
@@ -52,5 +61,14 @@ namespace MobileShop.Areas.Admin.Models
         public List<IFormFile> SecondaryImages { get; set; }
 
         public ICollection<ItemImage> ItemImage { get; set; }
+
+        [Display(Name = "Promotion Price")]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "decimal(15, 0)")]
+        public decimal PromotionPrice => Price - (Price * PromotionPercentage);
+
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "decimal(3, 0)")]
+        public decimal PromotionPercentageConvert => PromotionPercentage * 100;
     }
 }

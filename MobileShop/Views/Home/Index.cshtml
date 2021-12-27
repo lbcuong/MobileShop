@@ -12,14 +12,14 @@
 }
 <div class="container">
     <div class="bg-light rounded shadow p-3">
-        <div id="carouselBanner" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div id="carouselPromotionBanner" class="carousel slide carousel-fade" data-bs-ride="carousel">
             <div class="carousel-indicators">
                 @{
                     int indexNumber = 0;
                 }
-                @foreach (var banner in ViewBag.Banners)
+                @foreach (var promotionBanner in ViewBag.PromotionBanners)
                 {
-                    <button type="button" data-bs-target="#carouselBanner" data-bs-slide-to="@indexNumber" class="@(indexNumber == 0 ? "active" : "")" aria-current="true"></button>
+                    <button type="button" data-bs-target="#carouselPromotionBanner" data-bs-slide-to="@indexNumber" class="@(indexNumber == 0 ? "active" : "")" aria-current="true"></button>
                     indexNumber++;
                 }
             </div>
@@ -27,21 +27,21 @@
                 @{
                     int indexBanner = 0;
                 }
-                @foreach (var banner in ViewBag.Banners)
+                @foreach (var promotionBanner in ViewBag.PromotionBanners)
                 {
 
                     <div class="carousel-item @(indexBanner == 0 ? "active" : "")">
-                        <img src="@("~/lib/images/banners/" + banner.Image)" asp-append-version="true" class="rounded d-block w-100" height="300" alt="@banner.Name">
+                        <img src="@("~/lib/images/banners/" + promotionBanner.Image)" asp-append-version="true" class="rounded d-block w-100" height="300" alt="@promotionBanner.Name">
                     </div>
 
                     indexBanner++;
                 }
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselBanner" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselPromotionBanner" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselBanner" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselPromotionBanner" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>
@@ -138,7 +138,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile1.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesMobile1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile1.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile1.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile1.Price) ₫</p>
+                                                    @if (subbestSalesMobile1.Price != subbestSalesMobile1.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile1.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile1.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide1++;
@@ -159,7 +167,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile2.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesMobile2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile2.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile2.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile2.Price) ₫</p>
+                                                    @if (subbestSalesMobile2.Price != subbestSalesMobile2.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile2.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile2.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide2++;
@@ -180,7 +196,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile3.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesMobile3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile3.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile3.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile3.Price) ₫</p>
+                                                    @if (subbestSalesMobile3.Price != subbestSalesMobile3.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile3.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile3.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide3++;
@@ -201,7 +225,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile4.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesMobile4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile4.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile4.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesMobile4.Price) ₫</p>
+                                                    @if (subbestSalesMobile4.Price != subbestSalesMobile4.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile4.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile4.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide4++;
@@ -249,7 +281,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory1.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory1.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory1.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory1.Price) ₫</p>
+                                                    @if (subbestSalesAccessory1.Price != subbestSalesAccessory1.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory1.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory1.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide1++;
@@ -270,7 +310,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory2.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory2.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory2.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory2.Price) ₫</p>
+                                                    @if (subbestSalesAccessory2.Price != subbestSalesAccessory2.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory2.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory2.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory2.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory2.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide2++;
@@ -291,7 +339,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory3.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory3.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory3.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory3.Price) ₫</p>
+                                                    @if (subbestSalesAccessory3.Price != subbestSalesAccessory3.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory3.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory3.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory3.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory3.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide3++;
@@ -312,7 +368,15 @@
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory4.ItemId">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory4.Name" />
                                                     <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory4.Name)</h6>
-                                                    <p class="text-danger fs-6">@Html.DisplayFor(model => subbestSalesAccessory4.Price) ₫</p>
+                                                    @if (subbestSalesAccessory4.Price != subbestSalesAccessory4.PromotionPrice)
+                                                    {
+                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory4.Price) ₫</p>
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory4.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory4.PromotionPercentageConvert)%</span></p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory4.Price) ₫</p>
+                                                    }
                                                 </a>
                                             </div>
                                             indexSlide4++;

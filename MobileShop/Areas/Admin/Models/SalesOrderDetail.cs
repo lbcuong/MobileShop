@@ -24,5 +24,10 @@ namespace MobileShop.Areas.Admin.Models
 
         [Required]
         public int Quantity { get; set; }
+
+        [Required]
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
+        [Column(TypeName = "decimal(15, 0)")]
+        public decimal SalesPrice { get; set; }
     }
 }

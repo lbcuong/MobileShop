@@ -57,8 +57,18 @@
                     </a>
                 </th>
                 <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PromotionBannerSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PromotionBannerId)
+                    </a>
+                </th>
+                <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                         @Html.DisplayNameFor(model => model.Price)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PromotionPercentageSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PromotionPercentage)
                     </a>
                 </th>
                 <th>
@@ -98,8 +108,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromotionBanner.Name)
+                    </td>
                     <td style="white-space: nowrap;">
                         @Html.DisplayFor(modelItem => item.Price) ₫
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PromotionPercentage)
                     </td>
                     <td>
                         @Html.ValueFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")

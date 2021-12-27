@@ -8,16 +8,27 @@ using System.Threading.Tasks;
 
 namespace MobileShop.Areas.Admin.Models
 {
-    public class Banner
+    public class PromotionBanner
     {
         [Key]
-        public int BannerId { get; set; }
+        public int PromotionBannerId { get; set; }
 
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
 
         public string Image { get; set; }
+
+        [Display(Name = "Promotion Percentage Limit")]
+        [Range(0.0, 1)]
+        [Column(TypeName = "decimal(2, 1)")]
+        public decimal PromotionPercentageLimit { get; set; }
+
+        [Display(Name = "Start Date")]
+        public DateTime PromotionStartDate { get; set; }
+
+        [Display(Name = "End Date")]
+        public DateTime PromotionEndDate { get; set; }
 
         [NotMapped]
         [Display(Name = "Image")]

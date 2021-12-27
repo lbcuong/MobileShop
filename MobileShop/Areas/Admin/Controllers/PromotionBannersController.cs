@@ -16,11 +16,11 @@ namespace MobileShop.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin, Staff")]
-    public class BannersController : Controller
+    public class PromotionBannersController : Controller
     {
         private readonly MobileShopContext _context;
         private readonly IWebHostEnvironment _hostEnvironment;
-        public BannersController(MobileShopContext context, IWebHostEnvironment hostEnvironment)
+        public PromotionBannersController(MobileShopContext context, IWebHostEnvironment hostEnvironment)
         {
             _context = context;
             _hostEnvironment = hostEnvironment;
@@ -30,6 +30,9 @@ namespace MobileShop.Areas.Admin.Controllers
         public async Task<IActionResult> Index(string searchString, string sortOrder, string currentFilter)
         {
             ViewData["NameSortParm"] = sortOrder == "NameAsc" ? "NameDesc" : "NameAsc";
+            ViewData["PromotionPercentageLimitSortParm"] = sortOrder == "PromotionPercentageLimitAsc" ? "PromotionPercentageLimitDesc" : "PromotionPercentageLimitAsc";
+            ViewData["PromotionStartDateSortParm"] = sortOrder == "PromotionStartDateAsc" ? "PromotionStartDateDesc" : "PromotionStartDateAsc";
+            ViewData["PromotionEndDateSortParm"] = sortOrder == "PromotionEndDateAsc" ? "PromotionEndDateDesc" : "PromotionEndDateAsc";
             ViewData["CreatedDateSortParm"] = sortOrder == "CreatedDateAsc" ? "CreatedDateDesc" : "CreatedDateAsc";
             ViewData["UpdatedDateSortParm"] = sortOrder == "UpdatedDateAsc" ? "UpdatedDateDesc" : "UpdatedDateAsc";
 
@@ -40,12 +43,15 @@ namespace MobileShop.Areas.Admin.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var mobileShopContext = from m in _context.Banner
+            var mobileShopContext = from m in _context.PromotionBanner
                                     select m;
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 mobileShopContext = mobileShopContext.Where(s => s.Name.Contains(searchString)
+                                                              || s.PromotionPercentageLimit.ToString().Contains(searchString)
+                                                              || s.PromotionStartDate.ToString().Contains(searchString)
+                                                              || s.PromotionEndDate.ToString().Contains(searchString)
                                                               || s.CreatedDate.ToString().Contains(searchString)
                                                               || s.UpdatedDate.ToString().Contains(searchString));
             }
@@ -57,6 +63,24 @@ namespace MobileShop.Areas.Admin.Controllers
                     break;
                 case "NameDesc":
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Name);
+                    break;
+                case "PromotionPercentageLimitAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.PromotionPercentageLimit);
+                    break;
+                case "PromotionPercentageLimitDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.PromotionPercentageLimit);
+                    break;
+                case "PromotionStartDateAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.PromotionStartDate);
+                    break;
+                case "PromotionStartDateDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.PromotionStartDate);
+                    break;
+                case "PromotionEndDateAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.PromotionEndDate);
+                    break;
+                case "PromotionEndDateDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.PromotionEndDate);
                     break;
                 case "CreatedDateAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.CreatedDate);
@@ -88,20 +112,27 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("BannerId,Name,ImageFile,CreatedDate,UpdatedDate")] Banner banner)
+        public async Task<IActionResult> Create([Bind("BannerId,Name,PromotionPercentageLimit,PromotionStartDate,PromotionEndDate,ImageFile,CreatedDate,UpdatedDate")] PromotionBanner promotionBanner)
         {
             if (ModelState.IsValid)
             {
-                string folderPath = "/lib/images/banners/";
-                banner.Image = await UploadImage(folderPath, banner.ImageFile);
-                banner.CreatedDate = DateTime.Now;
+                if (promotionBanner.ImageFile != null)
+                { 
+                    string folderPath = "/lib/images/banners/";
+                    promotionBanner.Image = await UploadImage(folderPath, promotionBanner.ImageFile);
+                }
+                else
+                {
+                    promotionBanner.Image = null;
+                }
+                promotionBanner.CreatedDate = DateTime.Now;
 
-                _context.Add(banner);
+                _context.Add(promotionBanner);
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = "Data successfully added!";
                 return RedirectToAction(nameof(Create));
             }
-            return View(banner);
+            return View(promotionBanner);
         }
 
         // GET: Admin/Banners/Edit/5
@@ -113,7 +144,7 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var banner = await _context.Banner.FindAsync(id);
+            var banner = await _context.PromotionBanner.FindAsync(id);
             if (banner == null)
             {
                 return NotFound();
@@ -127,9 +158,9 @@ namespace MobileShop.Areas.Admin.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Edit(int id, Banner banner)
+        public async Task<IActionResult> Edit(int id, PromotionBanner promotionBanner)
         {
-            if (id != banner.BannerId)
+            if (id != promotionBanner.PromotionBannerId)
             {
                 return NotFound();
             }
@@ -140,48 +171,54 @@ namespace MobileShop.Areas.Admin.Controllers
                 {
                     string RootPath = _hostEnvironment.WebRootPath;
                     string folderPath = "/lib/images/banners/";
-                    var existingMainImage = _context.Banner.Where(x => x.BannerId == id).Select(s => s.Image).FirstOrDefault();
-                    if ( banner.ImageFile != null)
+                    var existingMainImage = _context.PromotionBanner.Where(x => x.PromotionBannerId == id).Select(s => s.Image).FirstOrDefault();
+                    if (promotionBanner.ImageFile != null)
                     {
                         if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
                         {
                             System.IO.File.Delete(RootPath + folderPath + existingMainImage);
                         }
 
-                        string mainImageFile = await UploadImage(folderPath, banner.ImageFile);
+                        string mainImageFile = await UploadImage(folderPath, promotionBanner.ImageFile);
 
-                        Banner Banner = new Banner
+                        PromotionBanner PromotionBanner = new PromotionBanner
                         {
-                            BannerId = banner.BannerId,
-                            Name = banner.Name,
+                            PromotionBannerId = promotionBanner.PromotionBannerId,
+                            Name = promotionBanner.Name,
                             Image = mainImageFile,
-                            CreatedDate = banner.CreatedDate,
+                            PromotionPercentageLimit = promotionBanner.PromotionPercentageLimit,
+                            PromotionStartDate = promotionBanner.PromotionStartDate,
+                            PromotionEndDate = promotionBanner.PromotionEndDate,
+                            CreatedDate = promotionBanner.CreatedDate,
                             UpdatedDate = DateTime.Now
                         };
 
-                        _context.Update(Banner);
+                        _context.Update(PromotionBanner);
                         await _context.SaveChangesAsync();
                         TempData["SuccessMessage"] = "Data successfully updated!";
                     }
                     else
                     {
-                        Banner Banner = new Banner
+                        PromotionBanner PromotionBanner = new PromotionBanner
                         {
-                            BannerId = banner.BannerId,
-                            Name = banner.Name,
+                            PromotionBannerId = promotionBanner.PromotionBannerId,
+                            Name = promotionBanner.Name,
                             Image = existingMainImage,
-                            CreatedDate = banner.CreatedDate,
+                            PromotionPercentageLimit = promotionBanner.PromotionPercentageLimit,
+                            PromotionStartDate = promotionBanner.PromotionStartDate,
+                            PromotionEndDate = promotionBanner.PromotionEndDate,
+                            CreatedDate = promotionBanner.CreatedDate,
                             UpdatedDate = DateTime.Now
                         };
 
-                        _context.Update(Banner);
+                        _context.Update(PromotionBanner);
                         await _context.SaveChangesAsync();
                         TempData["SuccessMessage"] = "Data successfully updated!";
                     }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BannerExists(banner.BannerId))
+                    if (!BannerExists(promotionBanner.PromotionBannerId))
                     {
                         return NotFound();
                     }
@@ -192,7 +229,7 @@ namespace MobileShop.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Edit));
             }
-            return View(banner);
+            return View(promotionBanner);
         }
 
         // GET: Admin/Banners/Delete/5
@@ -204,8 +241,8 @@ namespace MobileShop.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var banner = await _context.Banner
-                .FirstOrDefaultAsync(m => m.BannerId == id);
+            var banner = await _context.PromotionBanner
+                .FirstOrDefaultAsync(m => m.PromotionBannerId == id);
             if (banner == null)
             {
                 return NotFound();
@@ -220,17 +257,17 @@ namespace MobileShop.Areas.Admin.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var banner = await _context.Banner.FindAsync(id);
+            var banner = await _context.PromotionBanner.FindAsync(id);
 
             string RootPath = _hostEnvironment.WebRootPath;
             string folderPath = "/lib/images/banners/";
-            var existingMainImage = _context.Banner.Where(x => x.BannerId == id).Select(s => s.Image).FirstOrDefault();
+            var existingMainImage = _context.PromotionBanner.Where(x => x.PromotionBannerId == id).Select(s => s.Image).FirstOrDefault();
             if (existingMainImage != null && System.IO.File.Exists(RootPath + folderPath + existingMainImage))
             {
                 System.IO.File.Delete(RootPath + folderPath + existingMainImage);
             }
 
-            _context.Banner.Remove(banner);
+            _context.PromotionBanner.Remove(banner);
             await _context.SaveChangesAsync();
             TempData["SuccessMessage"] = "Data successfully deleted!";
             return RedirectToAction(nameof(Index));
@@ -253,7 +290,7 @@ namespace MobileShop.Areas.Admin.Controllers
 
         private bool BannerExists(int id)
         {
-            return _context.Banner.Any(e => e.BannerId == id);
+            return _context.PromotionBanner.Any(e => e.PromotionBannerId == id);
         }
     }
 }

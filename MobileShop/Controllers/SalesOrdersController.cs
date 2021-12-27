@@ -103,12 +103,13 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                 }
                 var salesOrder = await _context.SalesOrder.FindAsync(id);
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-                var salesOrderDetail = _context.SalesOrder
+                var salesOrderDetails = _context.SalesOrder
                     .Include(s => s.SalesOrderDetail)
                         .ThenInclude(s => s.Item)
                             .ThenInclude(s => s.ItemImage)
                     .Where(u => u.UserName == currentUser.UserName && u.SalesOrderId == id);
-                ViewBag.SalesOrderDetail = salesOrderDetail;
+                ViewBag.SalesOrderDetail = salesOrderDetails;
+
                 if (salesOrder == null)
                 {
                     return NotFound();

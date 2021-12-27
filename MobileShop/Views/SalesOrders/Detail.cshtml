@@ -39,7 +39,14 @@
                                 </p>
                             </td>
                             <td class="col-md-2">Qty: @Html.DisplayFor(model => orderdetail.Quantity)</td>
-                            <td class="col-md-4"> @Html.DisplayFor(model => orderdetail.Item.Price) ₫</td>
+                            @if (orderdetail.Item.Price != orderdetail.Item.PromotionPrice)
+                            {
+                                <td class="col-md-4"> @Html.DisplayFor(model => orderdetail.Item.PromotionPrice) ₫</td>
+                            }
+                            else
+                            {
+                                <td class="col-md-4"> @Html.DisplayFor(model => orderdetail.Item.Price) ₫</td>
+                            }
                         </tr>
                     </tbody>
                     totalItem += orderdetail.Quantity;

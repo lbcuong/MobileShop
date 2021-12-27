@@ -108,9 +108,17 @@
                                         @Html.DisplayFor(modelItem => item.Name)
                                     </p>
                                     <p class="card-text m-0 p-0 text-secondary" style="font-size: 0.8rem;">Color: @Html.DisplayFor(modelItem => item.Name)</p>
-                                    <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Price) ₫</p>
                                     @if (item.Quantity < 10 && item.Quantity >= 1)
                                     {
+                                        @if (item.Price != item.PromotionPrice)
+                                        {
+                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0 fs-6">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.PromotionPrice) ₫ &ensp; <span class="text-secondary fs-6">-@Html.DisplayFor(modelItem => item.PromotionPercentageConvert)%</span></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                        }
                                         <p class="card-text text-danger m-0 p-0 fs-6">Only @Html.DisplayFor(modelItem => item.Quantity) item(s) in stock</p>
                                     }
                                     else if (item.Quantity == 0)
@@ -119,6 +127,15 @@
                                     }
                                     else
                                     {
+                                        @if (item.Price != item.PromotionPrice)
+                                        {
+                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0 fs-6">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.PromotionPrice) ₫ &ensp; <span class="text-secondary fs-6">-@Html.DisplayFor(modelItem => item.PromotionPercentageConvert)%</span></p>
+                                        }
+                                        else
+                                        {
+                                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => item.Price) ₫</p>
+                                        }
                                         <p></p>
                                     }
                                 </a>

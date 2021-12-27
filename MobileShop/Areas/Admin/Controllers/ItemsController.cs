@@ -34,7 +34,9 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewData["CategorySortParm"] = sortOrder == "CategoryAsc" ? "CategoryDesc" : "CategoryAsc";
             ViewData["GroupSortParm"] = sortOrder == "GroupAsc" ? "GroupDesc" : "GroupAsc";
             ViewData["NameSortParm"] = sortOrder == "NameAsc" ? "NameDesc" : "NameAsc";
+            ViewData["[PromotionBannerSortParm"] = sortOrder == "PromotionBannerAsc" ? "PromotionBannerDesc" : "PromotionBannerAsc";
             ViewData["PriceSortParm"] = sortOrder == "PriceAsc" ? "PriceDesc" : "PriceAsc";
+            ViewData["PromotionPercentageSortParm"] = sortOrder == "PromotionPercentageAsc" ? "PromotionPercentageDesc" : "PromotionPercentageAsc";
             ViewData["QuantitySortParm"] = sortOrder == "QuantityAsc" ? "QuantityDesc" : "QuantityAsc";
             ViewData["CreatedDateSortParm"] = sortOrder == "CreatedDateAsc" ? "CreatedDateDesc" : "CreatedDateAsc";
             ViewData["UpdatedDateSortParm"] = sortOrder == "UpdatedDateAsc" ? "UpdatedDateDesc" : "UpdatedDateAsc";
@@ -59,7 +61,9 @@ namespace MobileShop.Areas.Admin.Controllers
                                                               || s.ItemGroup.Name.Contains(searchString)
                                                               || s.Name.Contains(searchString)
                                                               || s.Quantity.ToString().Contains(searchString)
+                                                              || s.PromotionBanner.Name.ToString().Contains(searchString)
                                                               || s.Price.ToString().Contains(searchString)
+                                                              || s.PromotionPercentage.ToString().Contains(searchString)
                                                               || s.CreatedDate.ToString().Contains(searchString)
                                                               || s.UpdatedDate.ToString().Contains(searchString));
             }
@@ -84,11 +88,23 @@ namespace MobileShop.Areas.Admin.Controllers
                 case "NameDesc":
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Name);
                     break;
+                case "PromotionBannerAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.PromotionBanner.Name);
+                    break;
+                case "PromotionBannerDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.PromotionBanner.Name);
+                    break;
                 case "PriceAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.Price);
                     break;
                 case "PriceDesc":
                     mobileShopContext = mobileShopContext.OrderByDescending(s => s.Price);
+                    break;
+                case "PromotionPercentageAsc":
+                    mobileShopContext = mobileShopContext.OrderBy(s => s.PromotionPercentage);
+                    break;
+                case "PromotionPercentageDesc":
+                    mobileShopContext = mobileShopContext.OrderByDescending(s => s.PromotionPercentage);
                     break;
                 case "QuantityAsc":
                     mobileShopContext = mobileShopContext.OrderBy(s => s.Quantity);
@@ -125,6 +141,7 @@ namespace MobileShop.Areas.Admin.Controllers
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
                 .Include(i => i.ItemImage)
+                .Include(i => i.PromotionBanner)
                 .FirstOrDefaultAsync(m => m.ItemId == id);
             if (items == null)
             {
@@ -140,6 +157,7 @@ namespace MobileShop.Areas.Admin.Controllers
         {
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategory, "ItemCategoryId", "Name");
             ViewData["ItemGroupId"] = new SelectList(_context.ItemGroup, "ItemGroupId", "Name");
+            ViewData["PromotionBannerId"] = new SelectList(_context.PromotionBanner, "PromotionBannerId", "Name");
             return View();
         }
 
@@ -153,9 +171,16 @@ namespace MobileShop.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                string mainImageFile = null;
                 string folderPath = "/lib/images/";
-                string mainImageFile = await UploadImage(folderPath, item.MainImage);
-
+                if (item.MainImage != null)
+                { 
+                    mainImageFile = await UploadImage(folderPath, item.MainImage);
+                }
+                else
+                {
+                    mainImageFile = null;
+                }
                 Item newItem = new Item
                 {
                     ItemCategoryId = item.ItemCategoryId,
@@ -164,7 +189,9 @@ namespace MobileShop.Areas.Admin.Controllers
                     Quantity = item.Quantity,
                     Detail = item.Detail,
                     Image = mainImageFile,
+                    PromotionBannerId = item.PromotionBannerId,
                     Price = item.Price,
+                    PromotionPercentage = item.PromotionPercentage,
                     CreatedDate = DateTime.Now
                 };
                 _context.Add(newItem);
@@ -190,6 +217,7 @@ namespace MobileShop.Areas.Admin.Controllers
             }
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategory, "ItemCategoryId", "Name", item.ItemCategoryId);
             ViewData["ItemGroupId"] = new SelectList(_context.ItemGroup, "ItemGroupId", "Name", item.ItemGroupId);
+            ViewData["PromotionBannerId"] = new SelectList(_context.PromotionBanner, "PromotionBannerId", "Name");
             return View(item);
         }
 
@@ -205,13 +233,16 @@ namespace MobileShop.Areas.Admin.Controllers
             var item = await _context.Item
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
-                .Include(i => i.ItemImage).FirstOrDefaultAsync(s => s.ItemId == id);
+                .Include(i => i.ItemImage)
+                .Include(i => i.PromotionBanner)
+                .FirstOrDefaultAsync(s => s.ItemId == id);
             if (item == null)
             {
                 return NotFound();
             }
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategory, "ItemCategoryId", "Name", item.ItemCategoryId);
             ViewData["ItemGroupId"] = new SelectList(_context.ItemGroup, "ItemGroupId", "Name", item.ItemGroupId);
+            ViewData["PromotionBannerId"] = new SelectList(_context.PromotionBanner, "PromotionBannerId", "Name");
             return View(item);
         }
 
@@ -247,7 +278,9 @@ namespace MobileShop.Areas.Admin.Controllers
                             Quantity = item.Quantity,
                             Detail = item.Detail,
                             Image = existingMainImage,
+                            PromotionBannerId = item.PromotionBannerId,
                             Price = item.Price,
+                            PromotionPercentage = item.PromotionPercentage,
                             CreatedDate = item.CreatedDate,
                             UpdatedDate = DateTime.Now
                         };
@@ -304,7 +337,9 @@ namespace MobileShop.Areas.Admin.Controllers
                             Quantity = item.Quantity,
                             Detail = item.Detail,
                             Image = mainImageFile,
+                            PromotionBannerId = item.PromotionBannerId,
                             Price = item.Price,
+                            PromotionPercentage = item.PromotionPercentage,
                             CreatedDate = item.CreatedDate,
                             UpdatedDate = DateTime.Now
                         };
@@ -358,6 +393,7 @@ namespace MobileShop.Areas.Admin.Controllers
             }
             ViewData["ItemCategoryId"] = new SelectList(_context.ItemCategory, "ItemCategoryId", "Name", item.ItemCategoryId);
             ViewData["ItemGroupId"] = new SelectList(_context.ItemGroup, "ItemGroupId", "Name", item.ItemGroupId);
+            ViewData["PromotionBannerId"] = new SelectList(_context.PromotionBanner, "PromotionBannerId", "Name");
             return View(item);
         }
 
@@ -373,6 +409,7 @@ namespace MobileShop.Areas.Admin.Controllers
             var item = await _context.Item
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
+                .Include(i => i.PromotionBanner)
                 .FirstOrDefaultAsync(m => m.ItemId == id);
             if (item == null)
             {

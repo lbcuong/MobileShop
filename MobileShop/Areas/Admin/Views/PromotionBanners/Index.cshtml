@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MobileShop.Areas.Admin.Models.Banner>
+﻿@model IEnumerable<MobileShop.Areas.Admin.Models.PromotionBanner>
 
 @using Microsoft.AspNetCore.Identity
 @using MobileShop.Areas.Identity.Data
@@ -42,6 +42,21 @@
                     </a>
                 </th>
                 <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PromotionPercentageLimitSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PromotionPercentageLimit)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PromotionStartDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PromotionStartDate)
+                    </a>
+                </th>
+                <th>
+                    <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["PromotionEndDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                        @Html.DisplayNameFor(model => model.PromotionEndDate)
+                    </a>
+                </th>
+                <th>
                     <a class="text-dark text-decoration-none" asp-action="Index" asp-route-sortOrder="@ViewData["CreatedDateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">
                         @Html.DisplayNameFor(model => model.CreatedDate)
                     </a>
@@ -62,28 +77,37 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <img class="main-image" src="@("~/lib/images/banners/" + item.Image)" asp-append-version="true" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromotionPercentageLimit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromotionStartDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PromotionEndDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
+                </td>
+                @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
+                {
+                    <td style="white-space: nowrap;">
+                        <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.PromotionBannerId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                        <br />
+                        <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.PromotionBannerId"><i class="fa-solid fa-trash-can"></i> Delete</a>
                     </td>
-                    <td>
-                        <img class="main-image" src="@("~/lib/images/banners/" + item.Image)" asp-append-version="true" />
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UpdatedDate, "{0:MMMM dd, yyyy H:mm:ss}")
-                    </td>
-                    @if (SignInManager.IsSignedIn(User) && (Context.User.IsInRole("Admin")))
-                    {
-                        <td style="white-space: nowrap;">
-                            <a class="managing text-decoration-none" asp-action="Edit" asp-route-id="@item.BannerId"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                            <br />
-                            <a class="managing text-decoration-none" asp-action="Delete" asp-route-id="@item.BannerId"><i class="fa-solid fa-trash-can"></i> Delete</a>
-                        </td>
-                    }
-                </tr>
+                }
+            </tr>
             }
         </tbody>
     </table>

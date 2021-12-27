@@ -1,4 +1,4 @@
-﻿@model MobileShop.Areas.Admin.Models.Banner
+﻿@model MobileShop.Areas.Admin.Models.PromotionBanner
 
 @{
     ViewData["Title"] = "Edit";
@@ -18,7 +18,7 @@
             </div>
             <form asp-action="Edit" enctype="multipart/form-data">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="BannerId" />
+                <input type="hidden" asp-for="PromotionBannerId" />
                 <div class="form-group mb-2">
                     <label asp-for="Name" class="control-label"></label>
                     <input asp-for="Name" class="form-control" />
@@ -31,9 +31,24 @@
                     <div id="imagePreview"></div>
                     <span asp-validation-for="ImageFile" class="text-danger"></span>
                 </div>
+                <div class="form-group mb-2">
+                    <label asp-for="PromotionPercentageLimit" class="control-label"></label>
+                    <input asp-for="PromotionPercentageLimit" class="form-control" />
+                    <span asp-validation-for="PromotionPercentageLimit" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="PromotionStartDate" class="control-label"></label>
+                    <input asp-for="PromotionStartDate" class="form-control" />
+                    <span asp-validation-for="PromotionStartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-2">
+                    <label asp-for="PromotionEndDate" class="control-label"></label>
+                    <input asp-for="PromotionEndDate" class="form-control" />
+                    <span asp-validation-for="PromotionEndDate" class="text-danger"></span>
+                </div>
                 <br>
                 <div class="form-group d-flex justify-content-between">
-                    <input asp-for="CreatedDate" class="form-control" hidden/>
+                    <input asp-for="CreatedDate" class="form-control" hidden />
                     <input type="submit" value="Save" class="btn btn-info w-50 text-white me-5" />
                 </div>
             </form>

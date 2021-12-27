@@ -12,8 +12,5 @@ namespace MobileShop.Models
     {
         public int Quantity { set; get; }
         public Item Item { set; get; }
-
-        public decimal SubTotal => Item.Price * Quantity;
-
     }
 }

@@ -40,6 +40,27 @@ namespace MobileShop.Controllers
             if (ModelState.IsValid)
             {
                 var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                decimal total = 0;
+                int totalItem = 0;
+
+                foreach (var cartItem in GetCartItems())
+                {
+                    if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
+                    {
+                        var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
+                        total += totalPrice;
+                        totalItem += cartItem.Quantity;
+                    }
+                    else
+                    {
+                        var totalPrice = cartItem.Quantity * cartItem.Item.Price;
+                        total += totalPrice;
+                        totalItem += cartItem.Quantity;
+                    }
+                }
+
+                ViewBag.Total = total;
+                ViewBag.TotalItem = totalItem;
 
                 var checkOut = new CheckOut
                 {
@@ -60,7 +81,7 @@ namespace MobileShop.Controllers
             }
             return RedirectToAction("Index", "Cart");
         }
-
+        /*
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> PaypalCheckOut()
         {
@@ -159,7 +180,7 @@ namespace MobileShop.Controllers
             }
 
         }
-
+        */
         public IActionResult PaymentFailed()
         {
             return View();
@@ -167,7 +188,18 @@ namespace MobileShop.Controllers
         public async Task<IActionResult> CheckoutSuccess()
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
-            var orderTotal = Math.Round(GetCartItems().Sum(s => s.SubTotal), 2);
+            decimal orderTotal = 0;
+            foreach (var item in GetCartItems())
+            {
+                if (item.Item.Price != item.Item.PromotionPrice)
+                {
+                    orderTotal += item.Item.PromotionPrice * item.Quantity;
+                }
+                else
+                {
+                    orderTotal += item.Item.Price * item.Quantity;
+                }
+            }
 
             var salesOrder = new Areas.Admin.Models.SalesOrder
             {
@@ -182,15 +214,24 @@ namespace MobileShop.Controllers
 
             _context.Add(salesOrder);
             await _context.SaveChangesAsync();
-
+            
             foreach (var item in GetCartItems())
             {
+                decimal salesPrice = 0;
+                if (item.Item.Price != item.Item.PromotionPrice)
+                {
+                    salesPrice = item.Item.PromotionPrice;
+                }
+                else
+                {
+                    salesPrice = item.Item.Price;
+                }
                 var salesOrderdetail = new SalesOrderDetail
                 {
                     SalesOrderId = salesOrder.SalesOrderId,
                     ItemId = item.Item.ItemId,
-                    Quantity = item.Quantity
-
+                    Quantity = item.Quantity,
+                    SalesPrice = salesPrice
                 };
                 _context.Add(salesOrderdetail);
             }

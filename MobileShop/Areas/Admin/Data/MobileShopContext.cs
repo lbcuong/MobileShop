@@ -22,7 +22,7 @@ namespace MobileShop.Data
         public DbSet<SalesOrderDetail> SalesOrderDetail { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
-        public DbSet<Banner> Banner { get; set; }
-        public DbSet<MobileShop.Areas.Admin.Models.Supplier> Supplier { get; set; }
+        public DbSet<PromotionBanner> PromotionBanner { get; set; }
+        public DbSet<Supplier> Supplier { get; set; }
     }
 }

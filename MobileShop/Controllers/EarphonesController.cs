@@ -91,6 +91,7 @@ namespace MobileShop.Controllers
             var mobilePhoneDetail = await _context.Item
                                 .Include(i => i.ItemCategory)
                                 .Include(i => i.ItemGroup)
+                                .Include(i => i.PromotionBanner)
                                 .FirstOrDefaultAsync(m => m.ItemId == id);
 
             if (mobilePhoneDetail == null)
