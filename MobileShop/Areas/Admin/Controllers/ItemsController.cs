@@ -51,9 +51,12 @@ namespace MobileShop.Areas.Admin.Controllers
             var mobileShopContext = from m in _context.Item
                 .Include(i => i.ItemCategory)
                 .Include(i => i.ItemGroup)
+                .Include(i => i.PromotionBanner)
                                     select m;
 
             var sum = _context.Item.Sum(s => s.Price);
+
+
 
             if (!String.IsNullOrEmpty(searchString))
             {

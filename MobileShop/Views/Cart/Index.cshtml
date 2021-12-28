@@ -17,7 +17,30 @@
                 {
                     <tr class="row">
                         <td class="d-flex justify-content-start col-7" style="font-size: 0.9rem;">
-                            <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
+                            @if (cartItem.Item.ItemCategory.ItemCategoryId == 4)
+                            {
+                                <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@cartItem.Item.ItemId">
+                                    <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
+                                </a>
+                            }
+                            @if (cartItem.Item.ItemCategory.ItemCategoryId == 5)
+                            {
+                                <a asp-area="" asp-controller="PhoneCases" asp-action="Detail" asp-route-id="@cartItem.Item.ItemId">
+                                    <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
+                                </a>
+                            }
+                            @if (cartItem.Item.ItemCategory.ItemCategoryId == 6)
+                            {
+                                <a asp-area="" asp-controller="Earphones" asp-action="Detail" asp-route-id="@cartItem.Item.ItemId">
+                                    <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
+                                </a>
+                            }
+                            @if (cartItem.Item.ItemCategory.ItemCategoryId == 8)
+                            {
+                                <a asp-area="" asp-controller="BackupChargers" asp-action="Detail" asp-route-id="@cartItem.Item.ItemId">
+                                    <img class="me-2" style="width: 7rem;" src="~/lib/images/@Html.DisplayFor(modelItem => cartItem.Item.Image)">
+                                </a>
+                            }
                             <text>
                                 <p class="mb-2">
                                     @Html.DisplayFor(modelItem => cartItem.Item.Name)
@@ -36,14 +59,21 @@
                         <td class="col-2">
                             <div class="input-group">
                                 <input class="btn btn-secondary btn-sm minus-cart updatecartitem" data-itemId="@cartItem.Item.ItemId" type='button' data-min="1" value='–' />
-                                <input class="text-center w-50 form-quantity border border-secondary bg-light" type="number" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")" data-max="@cartItem.Item.Quantity" readonly="readonly"/>
+                                <input class="text-center w-50 form-quantity border border-secondary bg-light" type="number" asp-for="@cartItem.Quantity" id="@($"quantity-{cartItem.Item.ItemId}")" data-max="@cartItem.Item.Quantity" readonly="readonly" />
                                 <input class="btn btn-secondary btn-sm plus-cart updatecartitem" data-itemId="@cartItem.Item.ItemId" type='button' data-max="@cartItem.Item.Quantity" value='+' />
                             </div>
                         </td>
                         <td class="d-flex flex-column justify-content-between text-end col-3">
                             @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
                             {
-                                <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                                @if (cartItem.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && cartItem.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                {
+                                    <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                                }
+                                else
+                                {
+                                    <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                                }
                             }
                             else
                             {
@@ -69,16 +99,32 @@
                 {
                     @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
                     {
-                        var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
-                        subtotal += totalPrice;
-                        <tr>
-                            <td class="text-secondary" style="font-size: 0.9rem;">
-                                @Html.DisplayFor(modelItem => cartItem.Item.Name)
-                                <br />
-                                @cartItem.Quantity item(s)
-                            </td>
-                            <td>@(totalPrice.ToString("n0")) ₫</td>
-                        </tr>
+                        @if (cartItem.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && cartItem.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                        {
+                            var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
+                            subtotal += totalPrice;
+                            <tr>
+                                <td class="text-secondary" style="font-size: 0.9rem;">
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Name)
+                                    <br />
+                                    @cartItem.Quantity item(s)
+                                </td>
+                                <td>@(totalPrice.ToString("n0")) ₫</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            var totalPrice = cartItem.Quantity * cartItem.Item.Price;
+                            subtotal += totalPrice;
+                            <tr>
+                                <td class="text-secondary" style="font-size: 0.9rem;">
+                                    @Html.DisplayFor(modelItem => cartItem.Item.Name)
+                                    <br />
+                                    @cartItem.Quantity item(s)
+                                </td>
+                                <td>@(totalPrice.ToString("n0")) ₫</td>
+                            </tr>
+                        }
                     }
                     else
                     {

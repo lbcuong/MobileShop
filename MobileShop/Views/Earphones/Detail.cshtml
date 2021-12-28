@@ -49,9 +49,16 @@
                     {
                         @if (Model.Price != Model.PromotionPrice)
                         {
-                            <img class="promotion-banner my-2" src="@("~/lib/images/banners/" + Model.PromotionBanner.Image)" asp-append-version="true" />
-                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0 fs-6">@Html.DisplayFor(modelItem => Model.Price) ₫</p>
-                            <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => Model.PromotionPrice) ₫ &ensp; <span class="text-secondary fs-6">-@Html.DisplayFor(modelItem => Model.PromotionPercentageConvert)%</span></p>
+                            @if (Model.PromotionBanner.PromotionStartDate <= DateTime.Now && Model.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                            {
+                                <img class="promotion-banner my-2" src="@("~/lib/images/banners/" + Model.PromotionBanner.Image)" asp-append-version="true" />
+                                <p class="card-text text-decoration-line-through text-secondary m-0 p-0 fs-6">@Html.DisplayFor(modelItem => Model.Price) ₫</p>
+                                <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => Model.PromotionPrice) ₫ &ensp; <span class="text-secondary fs-6">-@Html.DisplayFor(modelItem => Model.PromotionPercentageConvert)%</span></p>
+                            }
+                            else
+                            {
+                                <p class="card-text m-0 p-0 fs-5">@Html.DisplayFor(modelItem => Model.Price) ₫</p>
+                            }
                         }
                         else
                         {

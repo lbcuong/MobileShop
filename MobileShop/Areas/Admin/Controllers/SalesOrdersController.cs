@@ -184,7 +184,9 @@ namespace MobileShop.Areas.Admin.Controllers
                         CreatedDate = item.Item.CreatedDate,
                         UpdatedDate = DateTime.Now,
                         Detail = item.Item.Detail,
+                        PromotionBannerId = item.Item.PromotionBannerId,
                         Price = item.Item.Price,
+                        PromotionPercentage = item.Item.PromotionPercentage,
                         Quantity = item.Item.Quantity - item.Quantity,
                         Image = item.Item.Image
                     };

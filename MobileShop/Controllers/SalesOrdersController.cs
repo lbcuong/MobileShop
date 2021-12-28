@@ -40,6 +40,15 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                 .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
                         .ThenInclude(s => s.ItemImage)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.ItemCategory)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.ItemGroup)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.PromotionBanner)
                 .Where(u => u.UserName == currentUser.UserName)
                 .OrderByDescending(o => o.OrderDate);
 
@@ -81,6 +90,15 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                 .Include(s => s.SalesOrderDetail)
                     .ThenInclude(s => s.Item)
                         .ThenInclude(s => s.ItemImage)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.ItemCategory)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.ItemGroup)
+                .Include(s => s.SalesOrderDetail)
+                    .ThenInclude(s => s.Item)
+                        .ThenInclude(s => s.PromotionBanner)
                 .Where(u => u.UserName == currentUser.UserName && u.SalesOrderId == id);
 
             if (salesOrder == null)
@@ -107,6 +125,15 @@ namespace MobileShop.Areas.Identity.Pages.Account.Manage
                     .Include(s => s.SalesOrderDetail)
                         .ThenInclude(s => s.Item)
                             .ThenInclude(s => s.ItemImage)
+                    .Include(s => s.SalesOrderDetail)
+                        .ThenInclude(s => s.Item)
+                            .ThenInclude(s => s.ItemCategory)
+                    .Include(s => s.SalesOrderDetail)
+                        .ThenInclude(s => s.Item)
+                            .ThenInclude(s => s.ItemGroup)
+                    .Include(s => s.SalesOrderDetail)
+                        .ThenInclude(s => s.Item)
+                            .ThenInclude(s => s.PromotionBanner)
                     .Where(u => u.UserName == currentUser.UserName && u.SalesOrderId == id);
                 ViewBag.SalesOrderDetail = salesOrderDetails;
 

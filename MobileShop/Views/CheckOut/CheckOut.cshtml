@@ -40,7 +40,14 @@
                     <td class="d-flex flex-column justify-content-between text-end col-3">
                         @if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
                         {
-                            <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                            @if (cartItem.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && cartItem.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                            {
+                                <span>@Html.DisplayFor(modelItem => cartItem.Item.PromotionPrice) ₫</span>
+                            }
+                            else
+                            {
+                                <span>@Html.DisplayFor(modelItem => cartItem.Item.Price) ₫</span>
+                            }
                         }
                         else
                         {

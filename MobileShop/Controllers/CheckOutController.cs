@@ -47,9 +47,18 @@ namespace MobileShop.Controllers
                 {
                     if (cartItem.Item.Price != cartItem.Item.PromotionPrice)
                     {
-                        var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
-                        total += totalPrice;
-                        totalItem += cartItem.Quantity;
+                        if (cartItem.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && cartItem.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                        {
+                            var totalPrice = cartItem.Quantity * cartItem.Item.PromotionPrice;
+                            total += totalPrice;
+                            totalItem += cartItem.Quantity;
+                        }
+                        else
+                        {
+                            var totalPrice = cartItem.Quantity * cartItem.Item.Price;
+                            total += totalPrice;
+                            totalItem += cartItem.Quantity;
+                        }
                     }
                     else
                     {
@@ -193,7 +202,14 @@ namespace MobileShop.Controllers
             {
                 if (item.Item.Price != item.Item.PromotionPrice)
                 {
-                    orderTotal += item.Item.PromotionPrice * item.Quantity;
+                    if (item.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && item.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                    {
+                        orderTotal += item.Item.PromotionPrice * item.Quantity;
+                    }
+                    else
+                    {
+                        orderTotal += item.Item.Price * item.Quantity;
+                    }
                 }
                 else
                 {
@@ -214,13 +230,20 @@ namespace MobileShop.Controllers
 
             _context.Add(salesOrder);
             await _context.SaveChangesAsync();
-            
+
             foreach (var item in GetCartItems())
             {
                 decimal salesPrice = 0;
                 if (item.Item.Price != item.Item.PromotionPrice)
                 {
-                    salesPrice = item.Item.PromotionPrice;
+                    if (item.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && item.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                    {
+                        salesPrice = item.Item.PromotionPrice;
+                    }
+                    else
+                    {
+                        salesPrice = item.Item.Price;
+                    }
                 }
                 else
                 {

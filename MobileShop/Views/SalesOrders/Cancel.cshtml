@@ -32,9 +32,30 @@
                             <tbody>
                                 <tr style="font-size: 0.9rem;">
                                     <td class="col-md-2" style="width: 15rem;">
-                                        <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
-                                            <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
-                                        </a>
+                                        @if (orderDetail.Item.ItemCategory.ItemCategoryId == 4)
+                                        {
+                                            <a asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
+                                                <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
+                                            </a>
+                                        }
+                                        @if (orderDetail.Item.ItemCategory.ItemCategoryId == 5)
+                                        {
+                                            <a asp-area="" asp-controller="PhoneCases" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
+                                                <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
+                                            </a>
+                                        }
+                                        @if (orderDetail.Item.ItemCategory.ItemCategoryId == 6)
+                                        {
+                                            <a asp-area="" asp-controller="Earphones" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
+                                                <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
+                                            </a>
+                                        }
+                                        @if (orderDetail.Item.ItemCategory.ItemCategoryId == 8)
+                                        {
+                                            <a asp-area="" asp-controller="BackupChargers" asp-action="Detail" asp-route-id="@orderDetail.ItemId">
+                                                <img src="~/lib/images/@Html.DisplayFor(model => orderDetail.Item.Image)" class="img-fluid rounded-start">
+                                            </a>
+                                        }
                                     </td>
                                     <td class="col-md-4">
                                         <p class="m-0">
@@ -44,7 +65,14 @@
                                     <td class="col-md-2">Qty: @Html.DisplayFor(model => orderDetail.Quantity)</td>
                                     @if (orderDetail.Item.Price != orderDetail.Item.PromotionPrice)
                                     {
-                                        <td class="col-md-4"> @Html.DisplayFor(model => orderDetail.Item.PromotionPrice) ₫</td>
+                                        @if (orderDetail.Item.PromotionBanner.PromotionStartDate <= DateTime.Now && orderDetail.Item.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                        {
+                                            <td class="col-md-4"> @Html.DisplayFor(model => orderDetail.Item.PromotionPrice) ₫</td>
+                                        }
+                                        else
+                                        {
+                                            <td class="col-md-2"> @Html.DisplayFor(modelItem => orderDetail.Item.Price) ₫</td>
+                                        }
                                     }
                                     else
                                     {

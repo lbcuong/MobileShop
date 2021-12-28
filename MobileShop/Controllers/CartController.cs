@@ -69,6 +69,9 @@ namespace MobileShop.Controllers
         {
 
             var item = await _context.Item
+                       .Include(i => i.ItemCategory)
+                       .Include(i => i.ItemGroup)
+                       .Include(i => i.PromotionBanner)
                        .Where(s => s.ItemId == itemId)
                        .FirstOrDefaultAsync();
 

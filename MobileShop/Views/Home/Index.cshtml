@@ -134,14 +134,23 @@
                                         }
                                         @foreach (var subbestSalesMobile1 in subbestSalesMobiles1)
                                         {
-                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <div class="item-carousel col @(indexSlide1 < ViewBag.SubbestSalesMobiles1.Count - 1 ? "border-end" : "") @(indexSlide1 == 0 ? "item-carousel-margin" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile1.ItemId">
-                                                    <img src="@("~/lib/images/" + subbestSalesMobile1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile1.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile1.Name)</h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <img src="@("~/lib/images/" + subbestSalesMobile1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile1.Name" />
+                                                    </div>
+                                                    <h6 class="text-secondary mt-1" title="@subbestSalesMobile1.Name">@Html.DisplayFor(model => subbestSalesMobile1.Name)</h6>
                                                     @if (subbestSalesMobile1.Price != subbestSalesMobile1.PromotionPrice)
                                                     {
-                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile1.Price) ₫</p>
-                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPercentageConvert)%</span></p>
+                                                        @if (subbestSalesMobile1.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesMobile1.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                                        {
+                                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile1.Price) ₫</p>
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile1.PromotionPercentageConvert)%</span></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile1.Price) ₫</p>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -163,14 +172,23 @@
                                         }
                                         @foreach (var subbestSalesMobile2 in subbestSalesMobiles2)
                                         {
-                                            <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
+                                            <div class="item-carousel col @(indexSlide2 < ViewBag.SubbestSalesMobiles2.Count - 1 ? "border-end" : "") @(indexSlide2 == 0 ? "item-carousel-margin" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile2.ItemId">
-                                                    <img src="@("~/lib/images/" + subbestSalesMobile2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile2.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile2.Name)</h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <img src="@("~/lib/images/" + subbestSalesMobile2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile2.Name" />
+                                                    </div>
+                                                    <h6 class="text-secondary mt-1" title="@subbestSalesMobile2.Name">@Html.DisplayFor(model => subbestSalesMobile2.Name)</h6>
                                                     @if (subbestSalesMobile2.Price != subbestSalesMobile2.PromotionPrice)
                                                     {
-                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile2.Price) ₫</p>
-                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPercentageConvert)%</span></p>
+                                                        @if (subbestSalesMobile2.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesMobile2.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                                        {
+                                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile2.Price) ₫</p>
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile2.PromotionPercentageConvert)%</span></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile2.Price) ₫</p>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -192,14 +210,23 @@
                                         }
                                         @foreach (var subbestSalesMobile3 in subbestSalesMobiles3)
                                         {
-                                            <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
+                                            <div class="item-carousel col @(indexSlide3 < ViewBag.SubbestSalesMobiles3.Count - 1 ? "border-end" : "") @(indexSlide3 == 0 ? "item-carousel-margin" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile3.ItemId">
-                                                    <img src="@("~/lib/images/" + subbestSalesMobile3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile3.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile3.Name)</h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <img src="@("~/lib/images/" + subbestSalesMobile3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile3.Name" />
+                                                    </div>
+                                                    <h6 class="text-secondary mt-1" title="@subbestSalesMobile3.Name">@Html.DisplayFor(model => subbestSalesMobile3.Name)</h6>
                                                     @if (subbestSalesMobile3.Price != subbestSalesMobile3.PromotionPrice)
                                                     {
-                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile3.Price) ₫</p>
-                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPercentageConvert)%</span></p>
+                                                        @if (subbestSalesMobile3.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesMobile3.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                                        {
+                                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile3.Price) ₫</p>
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile3.PromotionPercentageConvert)%</span></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile3.Price) ₫</p>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -221,14 +248,23 @@
                                         }
                                         @foreach (var subbestSalesMobile4 in subbestSalesMobiles4)
                                         {
-                                            <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
+                                            <div class="item-carousel col @(indexSlide4 < ViewBag.SubbestSalesMobiles4.Count - 1 ? "border-end" : "") @(indexSlide4 == 0 ? "item-carousel-margin" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesMobile4.ItemId">
-                                                    <img src="@("~/lib/images/" + subbestSalesMobile4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile4.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesMobile4.Name)</h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <img src="@("~/lib/images/" + subbestSalesMobile4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesMobile4.Name" />
+                                                    </div>
+                                                    <h6 class="text-secondary mt-1" title="@subbestSalesMobile4.Name">@Html.DisplayFor(model => subbestSalesMobile4.Name)</h6>
                                                     @if (subbestSalesMobile4.Price != subbestSalesMobile4.PromotionPrice)
                                                     {
-                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile4.Price) ₫</p>
-                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPercentageConvert)%</span></p>
+                                                        @if (subbestSalesMobile4.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesMobile4.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                                        {
+                                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesMobile4.Price) ₫</p>
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesMobile4.PromotionPercentageConvert)%</span></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesMobile4.Price) ₫</p>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -277,14 +313,23 @@
                                         }
                                         @foreach (var subbestSalesAccessory1 in subbestSalesAccessories1)
                                         {
-                                            <div class="col @(indexSlide1 == 0 ? "ms-4" : "")">
+                                            <div class="item-carousel col @(indexSlide1 < ViewBag.SubbestSalesAccessories1.Count - 1 ? "border-end" : "") @(indexSlide1 == 0 ? "item-carousel-margin" : "")">
                                                 <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory1.ItemId">
-                                                    <img src="@("~/lib/images/" + subbestSalesAccessory1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory1.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory1.Name)</h6>
+                                                    <div class="d-flex justify-content-center">
+                                                        <img src="@("~/lib/images/" + subbestSalesAccessory1.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory1.Name" />
+                                                    </div>
+                                                    <h6 class="text-secondary mt-1" title="@subbestSalesAccessory1.Name">@Html.DisplayFor(model => subbestSalesAccessory1.Name)</h6>
                                                     @if (subbestSalesAccessory1.Price != subbestSalesAccessory1.PromotionPrice)
                                                     {
-                                                        <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory1.Price) ₫</p>
-                                                        <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPercentageConvert)%</span></p>
+                                                        @if (subbestSalesAccessory1.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesAccessory1.PromotionBanner.PromotionEndDate >= DateTime.Now)
+                                                        {
+                                                            <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory1.Price) ₫</p>
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory1.PromotionPercentageConvert)%</span></p>
+                                                        }
+                                                        else
+                                                        {
+                                                            <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory1.Price) ₫</p>
+                                                        }
                                                     }
                                                     else
                                                     {
@@ -306,11 +351,15 @@
                                         }
                                         @foreach (var subbestSalesAccessory2 in subbestSalesAccessories2)
                                         {
-                                            <div class="col @(indexSlide2 == 0 ? "ms-4" : "")">
-                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory2.ItemId">
+                                        <div class="item-carousel col @(indexSlide2 < ViewBag.SubbestSalesAccessories2.Count - 1 ? "border-end" : "") @(indexSlide2 == 0 ? "item-carousel-margin" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory2.ItemId">
+                                                <div class="d-flex justify-content-center">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory2.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory2.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory2.Name)</h6>
-                                                    @if (subbestSalesAccessory2.Price != subbestSalesAccessory2.PromotionPrice)
+                                                </div>
+                                                <h6 class="text-secondary mt-1" title="@subbestSalesAccessory2.Name">@Html.DisplayFor(model => subbestSalesAccessory2.Name)</h6>
+                                                @if (subbestSalesAccessory2.Price != subbestSalesAccessory2.PromotionPrice)
+                                                {
+                                                    @if (subbestSalesAccessory2.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesAccessory2.PromotionBanner.PromotionEndDate >= DateTime.Now)
                                                     {
                                                         <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory2.Price) ₫</p>
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory2.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory2.PromotionPercentageConvert)%</span></p>
@@ -319,8 +368,13 @@
                                                     {
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory2.Price) ₫</p>
                                                     }
-                                                </a>
-                                            </div>
+                                                }
+                                                else
+                                                {
+                                                    <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory2.Price) ₫</p>
+                                                }
+                                            </a>
+                                        </div>
                                             indexSlide2++;
                                         }
                                     </div>
@@ -335,11 +389,15 @@
                                         }
                                         @foreach (var subbestSalesAccessory3 in subbestSalesAccessories3)
                                         {
-                                            <div class="col @(indexSlide3 == 0 ? "ms-4" : "")">
-                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory3.ItemId">
+                                        <div class="item-carousel col @(indexSlide3 < ViewBag.SubbestSalesAccessories3.Count - 1 ? "border-end" : "") @(indexSlide3 == 0 ? "item-carousel-margin" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory3.ItemId">
+                                                <div class="d-flex justify-content-center">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory3.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory3.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory3.Name)</h6>
-                                                    @if (subbestSalesAccessory3.Price != subbestSalesAccessory3.PromotionPrice)
+                                                </div>
+                                                <h6 class="text-secondary mt-1" title="@subbestSalesAccessory3.Name">@Html.DisplayFor(model => subbestSalesAccessory3.Name)</h6>
+                                                @if (subbestSalesAccessory3.Price != subbestSalesAccessory3.PromotionPrice)
+                                                {
+                                                    @if (subbestSalesAccessory3.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesAccessory3.PromotionBanner.PromotionEndDate >= DateTime.Now)
                                                     {
                                                         <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory3.Price) ₫</p>
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory3.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory3.PromotionPercentageConvert)%</span></p>
@@ -348,8 +406,13 @@
                                                     {
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory3.Price) ₫</p>
                                                     }
-                                                </a>
-                                            </div>
+                                                }
+                                                else
+                                                {
+                                                    <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory3.Price) ₫</p>
+                                                }
+                                            </a>
+                                        </div>
                                             indexSlide3++;
                                         }
                                     </div>
@@ -364,11 +427,15 @@
                                         }
                                         @foreach (var subbestSalesAccessory4 in subbestSalesAccessories4)
                                         {
-                                            <div class="col @(indexSlide4 == 0 ? "ms-4" : "")">
-                                                <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory4.ItemId">
+                                        <div class="item-carousel col @(indexSlide4 < ViewBag.SubbestSalesAccessories4.Count - 1 ? "border-end" : "") @(indexSlide4 == 0 ? "item-carousel-margin" : "")">
+                                            <a class="text-decoration-none" asp-area="" asp-controller="MobilePhones" asp-action="Detail" asp-route-id="@subbestSalesAccessory4.ItemId">
+                                                <div class="d-flex justify-content-center">
                                                     <img src="@("~/lib/images/" + subbestSalesAccessory4.Image)" asp-append-version="true" class="img-fluid" alt="@subbestSalesAccessory4.Name" />
-                                                    <h6 class="text-secondary">@Html.DisplayFor(model => subbestSalesAccessory4.Name)</h6>
-                                                    @if (subbestSalesAccessory4.Price != subbestSalesAccessory4.PromotionPrice)
+                                                </div>
+                                                <h6 class="text-secondary mt-1" title="@subbestSalesAccessory4.Name">@Html.DisplayFor(model => subbestSalesAccessory4.Name)</h6>
+                                                @if (subbestSalesAccessory4.Price != subbestSalesAccessory4.PromotionPrice)
+                                                {
+                                                    @if (subbestSalesAccessory4.PromotionBanner.PromotionStartDate <= DateTime.Now && subbestSalesAccessory4.PromotionBanner.PromotionEndDate >= DateTime.Now)
                                                     {
                                                         <p class="card-text text-decoration-line-through text-secondary m-0 p-0" style="font-size: 0.85rem;">@Html.DisplayFor(modelItem => subbestSalesAccessory4.Price) ₫</p>
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory4.PromotionPrice) ₫ &ensp; <span class="text-secondary" style="font-size: 0.9rem;">-@Html.DisplayFor(modelItem => subbestSalesAccessory4.PromotionPercentageConvert)%</span></p>
@@ -377,8 +444,13 @@
                                                     {
                                                         <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory4.Price) ₫</p>
                                                     }
-                                                </a>
-                                            </div>
+                                                }
+                                                else
+                                                {
+                                                    <p class="card-text m-0 p-0 fs-6">@Html.DisplayFor(modelItem => subbestSalesAccessory4.Price) ₫</p>
+                                                }
+                                            </a>
+                                        </div>
                                             indexSlide4++;
                                         }
                                     </div>

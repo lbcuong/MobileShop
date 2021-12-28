@@ -105,6 +105,22 @@ h3 {
     background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14' fill='%23aaa'><path d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/></svg>");
 }
 
+.item-carousel {
+    max-width: 15rem;
+}
+
+.item-carousel-margin {
+    margin-left: 2.5rem;
+}
+
+.item-carousel h6 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
 /*
  * Mobile Phone Page
  */
@@ -212,18 +228,18 @@ input[type=number] {
     border-width: 0.1rem;
 }
 
-    .product-option .options label i {
-        visibility: hidden;
-        font-size: x-small;
-        position: absolute;
-        top: 1.7rem;
-        right: 0.1rem;
-        color: rgb(18, 165, 214);
-    }
+.product-option .options label i {
+    visibility: hidden;
+    font-size: x-small;
+    position: absolute;
+    top: 1.7rem;
+    right: 0.1rem;
+    color: rgb(18, 165, 214);
+}
 
-    .product-option .options label:hover {
-        border-color: rgb(18, 165, 214);
-    }
+.product-option .options label:hover {
+    border-color: rgb(18, 165, 214);
+}
 
 .product-option input[type=radio]:checked + label {
     border-color: rgb(18, 165, 214);
@@ -360,11 +376,11 @@ select {
     color: white;
 }
 
-    .product-option .options button:hover, .form-LSR button:hover {
-        color: white;
-        background-color: rgb(18, 165, 214);
-        border-color: rgb(18, 165, 214);
-    }
+.product-option .options button:hover, .form-LSR button:hover {
+    color: white;
+    background-color: rgb(18, 165, 214);
+    border-color: rgb(18, 165, 214);
+}
 
 .form-LSR .text {
     color: rgb(50, 65, 70);

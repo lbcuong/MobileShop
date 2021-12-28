@@ -49,6 +49,7 @@ namespace MobileShop.Controllers
             IQueryable<Item> mobileShopContext =  _context.Item
                     .Include(i => i.ItemCategory)
                     .Include(i => i.ItemGroup)
+                    .Include(i => i.PromotionBanner)
                     .Where(s => s.ItemCategoryId == 4);
 
             var brands = _context.Item
