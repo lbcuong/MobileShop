@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MobileShop.Areas.Admin.Models;
 using MobileShop.Data;
 using MobileShop.Models;
 using System;
@@ -90,6 +91,32 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewBag.ItemsSoldYesterdayChart = itemsSoldYesterdayChart.AsEnumerable();
             ViewBag.ItemsSoldYesterday = string.Join(",", itemsSoldYesterdayChart.AsEnumerable().Select(r => r.Field<string>("Item")).ToArray());
             ViewBag.QuantityItemsSoldYesterday = string.Join(",", itemsSoldYesterdayChart.AsEnumerable().Select(r => r.Field<int>("Sold")).ToArray());
+
+
+            var thisYear = DateTime.Today.Year;
+            ViewBag.ThisYear = thisYear;
+            var salesYear = from s in _context.SalesOrder
+                            where s.Status == "Delivered" && s.OrderDate.Year == thisYear
+                            group s by new { date = new DateTime(s.OrderDate.Year, s.OrderDate.Month, 1) } into g
+                            select new
+                            {
+                                orderDate = g.Key.date.ToString("MMMM"),
+                                total = g.Sum(x => x.Total)
+                            };
+
+            DataTable salesYearChart = new DataTable();
+            salesYearChart.Columns.AddRange(new DataColumn[]
+            {
+            new DataColumn("Month", typeof(string)),
+            new DataColumn("Sales", typeof(int))
+            });
+
+            foreach (var item in salesYear)
+            {
+                salesYearChart.Rows.Add(item.orderDate, item.total);
+            }
+            ViewBag.MonthOfSalesYear = string.Join(",", salesYearChart.AsEnumerable().Select(r => r.Field<string>("Month")).ToArray());
+            ViewBag.SalesYear = string.Join(",", salesYearChart.AsEnumerable().Select(r => r.Field<int>("Sales")).ToArray());
 
             return View();
         }

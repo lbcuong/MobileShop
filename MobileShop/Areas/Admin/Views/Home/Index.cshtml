@@ -115,11 +115,9 @@
 </div>
 
 <div class="row mt-4 g-3">
-    <div class="col-12">
-        <div class="p-3 bg-light shadow">
-            <p class="text-secondary fs-5 p-3 border-bottom">Recent Movement</p>
-            <canvas class="my-4 w-100" id="YearSalesChart" width="900" height="300"></canvas>
-        </div>
+    <div class="p-3 bg-light shadow">
+        <p class="text-secondary fs-5 p-3 border-bottom">@ViewBag.ThisYear Movement</p>
+        <canvas class="my-4 w-100" id="salesYearChart" width="900" height="300"></canvas>
     </div>
 </div>
 
@@ -130,5 +128,8 @@
 
         var itemsSoldTotalChart_labels = '@ViewBag.ItemsSoldTotal';
         var itemsSoldTotalChart_datas = '@ViewBag.QuantityItemsSoldTotal';
+
+        var salesYearChart_labels = '@ViewBag.MonthOfSalesYear';
+        var salesYearChart_datas = '@ViewBag.SalesYear';
     </script>
 }

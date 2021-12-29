@@ -188,6 +188,55 @@ $(function () {
     });
 });
 
+// items Sold Yesterday Chart
+$(function () {
+    var labels = salesYearChart_labels;
+    var datas = salesYearChart_datas;
+    var labelsArray = new Array();
+    var dataArray = new Array();
+    var colorArray = new Array();
+    for (var i = 0; i < labels.split(',').length; i++) {
+        labelsArray.push(labels.split(',')[i]);
+        dataArray.push(datas.split(',')[i]);
+    }
+
+    new Chart(document.getElementById("salesYearChart").getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsArray,
+            datasets: [{
+                label: 'Sales',
+                backgroundColor: 'rgb(18, 165, 214)',
+                borderColor: 'rgb(18, 165, 214)',
+                data: dataArray,
+                pointBackgroundColor: 'lightgray',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 15,
+                        },
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            if (parseInt(value) >= 1000) {
+                                return '₫ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                            else {
+                                return '₫ ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
 function getRandomColor() {
     var letters = '0123456789ABCDEF';
     var color = '#';
@@ -196,64 +245,3 @@ function getRandomColor() {
     }
     return color;
 }
-
-
-
-const labels = [
-    'Jan',
-    'Fer',
-    'Mar',
-    'Apr',
-    'May',
-    'June',
-    'July',
-    'Aug',
-    'Sept',
-    'Oct',
-    'Nov',
-    'Dec'
-];
-
-const data = {
-    labels: labels,
-    datasets: [{
-        label: 'Sales',
-        backgroundColor: 'rgb(18, 165, 214)',
-        borderColor: 'rgb(18, 165, 214)',
-        data: [1000000000, 4000000000, 5000000000, 4000000000, 7000000000, 7000000000, 15000000000, 16000000000, 20000000000, 25000000000, 30000000000, 29000000000],
-        pointBackgroundColor: 'lightgray',
-        tension: 0.1
-    }]
-};
-
-const config = {
-    type: 'line',
-    data: data,
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                        font: {
-                            size: 15,
-                        },
-                    // Include a dollar sign in the ticks
-                    callback: function (value, index, values) {
-                        if (parseInt(value) >= 1000) {
-                            return '₫ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                        }
-                        else
-                        {
-                            return '₫ ' + value;
-                        }
-                    }
-                }
-            }
-        }
-    }
-};
-
-var EachMonthRevenueChart = new Chart(
-    document.getElementById('YearSalesChart'),
-    config
-);
