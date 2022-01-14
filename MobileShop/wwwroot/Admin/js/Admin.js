@@ -63,11 +63,11 @@ $(document).ready(function () {
 
 function CalculateTotal() {
     var importPrice = document.getElementsByClassName('import-price');
-    document.getElementsByClassName('import-price').value = importPrice.toLocaleString();
+    var importQuantity = document.getElementsByClassName('import-quantity');
     var total = 0;
     var i;
     for (i = 0; i < importPrice.length; i++) {
-        total = total + eval(importPrice[i].value);
+        total = total + eval(importPrice[i].value * importQuantity[i].value);
     }
 
     document.getElementById('total').value = total.toLocaleString();
@@ -76,7 +76,7 @@ function CalculateTotal() {
 }
 
 document.addEventListener('change', function (event) {
-    if (event.target.classList.contains('import-price')) {
+    if (event.target.classList.contains('import-price') || event.target.classList.contains('import-quantity')) {
         CalculateTotal();
     }
 }, false);
@@ -191,16 +191,17 @@ $(function () {
 // items Sold Yesterday Chart
 $(function () {
     var labels = salesYearChart_labels;
-    var datas = salesYearChart_datas;
+    var salesYeardatas = salesYearChart_datas;
+
     var labelsArray = new Array();
-    var dataArray = new Array();
-    var colorArray = new Array();
+    var salesYeardataArray = new Array();
+
     for (var i = 0; i < labels.split(',').length; i++) {
         labelsArray.push(labels.split(',')[i]);
-        dataArray.push(datas.split(',')[i]);
+        salesYeardataArray.push(salesYeardatas.split(',')[i]);
     }
 
-    new Chart(document.getElementById("salesYearChart").getContext('2d'), {
+    new Chart(document.getElementById("revenueYearChart").getContext('2d'), {
         type: 'line',
         data: {
             labels: labelsArray,
@@ -208,7 +209,56 @@ $(function () {
                 label: 'Sales',
                 backgroundColor: 'rgb(18, 165, 214)',
                 borderColor: 'rgb(18, 165, 214)',
-                data: dataArray,
+                data: salesYeardataArray,
+                pointBackgroundColor: 'lightgray',
+                tension: 0.1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 15,
+                        },
+                        // Include a dollar sign in the ticks
+                        callback: function (value, index, values) {
+                            if (parseInt(value) >= 1000) {
+                                return '₫ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                            }
+                            else {
+                                return '₫ ' + value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
+$(function () {
+    var labels = spendYearChart_labels;
+    var spendYeardatas = spendYearChart_datas;
+
+    var labelsArray = new Array();
+    var spendYeardataArray = new Array();
+
+    for (var i = 0; i < labels.split(',').length; i++) {
+        labelsArray.push(labels.split(',')[i]);
+        spendYeardataArray.push(spendYeardatas.split(',')[i]);
+    }
+
+    new Chart(document.getElementById("spendYearChart").getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: labelsArray,
+            datasets: [{
+                label: 'Spending',
+                backgroundColor: 'rgb(255, 165, 0)',
+                borderColor: 'rgb(255, 165, 0)',
+                data: spendYeardataArray,
                 pointBackgroundColor: 'lightgray',
                 tension: 0.1
             }]

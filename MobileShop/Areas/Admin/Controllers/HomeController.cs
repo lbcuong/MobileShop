@@ -118,6 +118,29 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewBag.MonthOfSalesYear = string.Join(",", salesYearChart.AsEnumerable().Select(r => r.Field<string>("Month")).ToArray());
             ViewBag.SalesYear = string.Join(",", salesYearChart.AsEnumerable().Select(r => r.Field<int>("Sales")).ToArray());
 
+            var spendYear = from s in _context.PurchaseOrder
+                            where s.Status == "Received" && s.OrderDate.Year == thisYear
+                            group s by new { date = new DateTime(s.OrderDate.Year, s.OrderDate.Month, 1) } into g
+                            select new
+                            {
+                                orderDate = g.Key.date.ToString("MMMM"),
+                                total = g.Sum(x => x.Total)
+                            };
+
+            DataTable spendYearChart = new DataTable();
+            spendYearChart.Columns.AddRange(new DataColumn[]
+            {
+            new DataColumn("Month", typeof(string)),
+            new DataColumn("Spending", typeof(int))
+            });
+
+            foreach (var item in spendYear)
+            {
+                spendYearChart.Rows.Add(item.orderDate, item.total);
+            }
+            ViewBag.MonthOfSpendYear = string.Join(",", spendYearChart.AsEnumerable().Select(r => r.Field<string>("Month")).ToArray());
+            ViewBag.SpendYear = string.Join(",", spendYearChart.AsEnumerable().Select(r => r.Field<int>("Spending")).ToArray());
+
             return View();
         }
 
