@@ -138,7 +138,7 @@ $(function () {
     }
 
     new Chart(document.getElementById("itemsSoldTotalChart").getContext('2d'), {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: labelsArray,
             datasets: [{
@@ -147,12 +147,17 @@ $(function () {
             }]
         },
         options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
             plugins: {
                 legend: {
                     display: false
                 }
             }
-        }
+        },
     });
 });
 
@@ -170,7 +175,7 @@ $(function () {
     }
 
     new Chart(document.getElementById("itemsSoldYesterdayChart").getContext('2d'), {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: labelsArray,
             datasets: [{
@@ -179,12 +184,17 @@ $(function () {
             }]
         },
         options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
             plugins: {
                 legend: {
                     display: false
                 }
             }
-        }
+        },
     });
 });
 
@@ -201,6 +211,17 @@ $(function () {
         salesYeardataArray.push(salesYeardatas.split(',')[i]);
     }
 
+    var labels1 = spendYearChart_labels;
+    var spendYeardatas1 = spendYearChart_datas;
+
+    var labelsArray1 = new Array();
+    var spendYeardataArray1 = new Array();
+
+    for (var i = 0; i < labels1.split(',').length; i++) {
+        labelsArray1.push(labels1.split(',')[i]);
+        spendYeardataArray1.push(spendYeardatas1.split(',')[i]);
+    }
+
     new Chart(document.getElementById("revenueYearChart").getContext('2d'), {
         type: 'line',
         data: {
@@ -212,53 +233,12 @@ $(function () {
                 data: salesYeardataArray,
                 pointBackgroundColor: 'lightgray',
                 tension: 0.1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        font: {
-                            size: 15,
-                        },
-                        // Include a dollar sign in the ticks
-                        callback: function (value, index, values) {
-                            if (parseInt(value) >= 1000) {
-                                return '₫ ' + value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                            }
-                            else {
-                                return '₫ ' + value;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    });
-});
-
-$(function () {
-    var labels = spendYearChart_labels;
-    var spendYeardatas = spendYearChart_datas;
-
-    var labelsArray = new Array();
-    var spendYeardataArray = new Array();
-
-    for (var i = 0; i < labels.split(',').length; i++) {
-        labelsArray.push(labels.split(',')[i]);
-        spendYeardataArray.push(spendYeardatas.split(',')[i]);
-    }
-
-    new Chart(document.getElementById("spendYearChart").getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: labelsArray,
-            datasets: [{
+            },
+            {
                 label: 'Spending',
                 backgroundColor: 'rgb(255, 165, 0)',
                 borderColor: 'rgb(255, 165, 0)',
-                data: spendYeardataArray,
+                data: spendYeardataArray1,
                 pointBackgroundColor: 'lightgray',
                 tension: 0.1
             }]

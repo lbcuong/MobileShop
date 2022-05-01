@@ -67,6 +67,10 @@ namespace MobileShop.Areas.Admin.Controllers
             ViewBag.TotalOrderYesterday = totalOrderYesterday.Count();
             var totalSalesYesterday = _context.SalesOrder.Where(s => s.Status == "Delivered" && s.OrderDate >= yesterday && s.OrderDate < DateTime.Today).Sum(s => s.Total);
             ViewBag.TotalSalesYesterday = totalSalesYesterday;
+            var totalPurchaseYesterday = _context.PurchaseOrder.Where(s => s.Status == "Received" && s.OrderDate >= yesterday && s.OrderDate < DateTime.Today).Sum(s => s.Total);
+            ViewBag.TotalPurchaseYesterday = totalPurchaseYesterday;
+            var revenueYesterday = totalSalesYesterday - totalPurchaseYesterday;
+            ViewBag.RevenueYesterday = revenueYesterday;
             var itemsSoldYesterday = from m in _context.SalesOrder
                                        .Include(s => s.SalesOrderDetail)
                                            .ThenInclude(s => s.Item)
